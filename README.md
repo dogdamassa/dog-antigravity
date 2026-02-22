@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# $DOG Aggregator | Dog of Bitcoin Community Hub
 
-## Getting Started
+O hub educativo oficial da comunidade $DOG (Dog of Bitcoin). Um portal focado em onboarding, soberania financeira e ecossistema nativo do Bitcoin (Ordinals e Runes).
 
-First, run the development server:
+## 🚀 Tecnologias
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js 14+ (App Router)](https://nextjs.org/)
+- **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
+- **Estilização**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Interação**: [sats-connect](https://www.leather.io/sats-connect) (Xverse Wallet)
+- **Ícones**: [Lucide React](https://lucide.dev/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Setup Local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clonar o repositório**:
+    ```bash
+    git clone <repositorio-url>
+    cd dog-aggregator
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Instalar dependências**:
+    ```bash
+    npm install
+    ```
 
-## Learn More
+3.  **Configurar variáveis de ambiente**:
+    Crie um arquivo `.env.local` na raiz com:
+    ```env
+    YOUTUBE_API_KEY=sua_chave_do_youtube_api_v3
+    ```
+    *Nota: Se a chave não for fornecida, o site usará um vídeo fallback.*
 
-To learn more about Next.js, take a look at the following resources:
+4.  **Rodar o servidor de desenvolvimento**:
+    ```bash
+    npm run dev
+    ```
+    Acesse: `http://localhost:3000`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📖 Estrutura do Projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/src/app`: Rotas e páginas (Home, Comunidade, Eventos, Educação, Apps, News).
+- `/src/components`: Componentes reutilizáveis (Sidebar, WalletConnect, ThemeProvider).
+- `/src/data`: Dados estáticos e mocks da comunidade.
+- `/src/app/api`: Rota para buscar o último vídeo do YouTube (API Route).
 
-## Deploy on Vercel
+## 🌍 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+O projeto está pronto para ser hospedado na **Vercel**:
+1. Conecte seu repositório GitHub.
+2. Adicione `YOUTUBE_API_KEY` nas Environment Variables (opcional).
+3. Deploy!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧡 Missão $DOG
+
+**Autocustódia é soberania.** Nunca compartilhe sua seed phrase. O $DOG Aggregator é uma ferramenta educativa para ajudar a comunidade a crescer com convicção e paciência. HODL!
