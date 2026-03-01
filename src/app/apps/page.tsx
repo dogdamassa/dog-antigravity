@@ -2,6 +2,20 @@ import { ArrowUpRight } from "lucide-react";
 
 const allApps = [
   {
+    id: "liquidium",
+    title: "Liquidium",
+    eyebrow: "DeFi · Lend & Borrow",
+    description:
+      "A principal plataforma de empréstimos P2P construída no Bitcoin. Use seus Ordinals e Runes como garantia para pegar BTC emprestado.",
+    url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz",
+    logo: "/logos/liquidium.jpg",
+    logoContain: true,
+    logoBg: "#111111",
+    xUrl: "https://x.com/LiquidiumWTF",
+    xLabel: "@LiquidiumWTF",
+    accentColor: "#F7931A",
+  },
+  {
     id: "satsterminal",
     title: "Sats Terminal",
     eyebrow: "Swap · Aggregator",

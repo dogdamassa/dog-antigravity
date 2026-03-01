@@ -47,6 +47,33 @@ const noKycPlatforms = [
   },
 ];
 
+const defiPlatforms = [
+  {
+    name: "Liquidium",
+    desc: "Principal plataforma de empréstimos de NFTs no Bitcoin.",
+    url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz",
+    xUrl: "https://x.com/LiquidiumWTF",
+    xLabel: "@LiquidiumWTF",
+    logo: "/logos/liquidium.jpg"
+  },
+  {
+    name: "Bitflow Finance",
+    desc: "DEX e Hub de Liquidez construído para Bitcoiners.",
+    url: "https://app.bitflow.finance/trade",
+    xUrl: "https://x.com/bitflow",
+    xLabel: "@bitflow",
+    logo: "/logos/bitflow.png"
+  },
+  {
+    name: "SatsTerminal",
+    desc: "Terminal profissional para analisar e negociar no Bitcoin.",
+    url: "https://borrow.satsterminal.com/",
+    xUrl: "https://x.com/SatsTerminal",
+    xLabel: "@SatsTerminal",
+    logo: "/logos/satsterminal.png"
+  }
+];
+
 const ordinalsExplorers = [
   { label: "ord.io", url: "https://www.ord.io/", xUrl: null },
   { label: "ordinals.com", url: "https://ordinals.com/", xUrl: null },
@@ -154,6 +181,23 @@ const bentoCards = [
     modalId: "no-kyc",
   },
   {
+    id: "defi",
+    eyebrow: "DeFi no Bitcoin",
+    headline: "Bitcoin\nDeFi.",
+    tagline: "Liquidação, Empréstimos e Trade com Liquidium, Bitflow e SatsTerminal.",
+    url: "#",
+    linkLabel: "Ver plataformas",
+    linkColor: "#F7931A",
+    bgStyle: { background: "#ffffff" },
+    headlineClass: "text-[#1D1D1F]",
+    taglineClass: "text-[#6E6E73]",
+    eyebrowClass: "text-[#F7931A]",
+    gridClass: "lg:col-span-2",
+    minH: "min-h-[300px]",
+    wide: false,
+    modalId: "bitcoin-defi",
+  },
+  {
     id: "runestone",
     eyebrow: "História",
     headline: "O maior\nairdrop.",
@@ -242,57 +286,46 @@ export default function Home() {
     <div>
 
       {/* ══════════════════════════════════════
-          HERO — Full viewport, Apple-style
+          HERO — Full viewport, cinematic
       ══════════════════════════════════════ */}
       <section
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-end text-center px-6 overflow-hidden pb-28"
         style={{ background: "#000000" }}
       >
-        {/* Radial orange glow */}
+        {/* Full-bleed background video */}
+        <video
+          src="/dogbox.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+          style={{ opacity: 0.85 }}
+        />
+
+        {/* Cinematic gradient — dark at bottom, transparent at top */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(247,147,26,0.18) 0%, transparent 65%)",
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.65) 70%, rgba(0,0,0,0.92) 100%)",
           }}
         />
 
-        {/*
-          ── IMAGE SLOT ──
-          Coloque um arquivo chamado  /public/hero-dog.png  para aparecer aqui.
-          Sugestão: arte do $DOG com fundo transparente, ~800px de largura.
-        */}
-        {/* <img
-          src="/hero-dog.png"
-          alt="$DOG"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] md:w-[640px] opacity-15 select-none pointer-events-none"
-        /> */}
+        {/* Orange vignette at bottom edges */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 100% 40% at 50% 100%, rgba(247,147,26,0.12) 0%, transparent 70%)",
+          }}
+        />
 
-        {/* Content */}
+        {/* Content — pinned to bottom */}
         <div className="relative z-10 flex flex-col items-center">
-
-          {/* DOG Logo */}
-          <div
-            className="w-28 h-28 md:w-40 md:h-40 rounded-[2.25rem] md:rounded-[2.75rem] shadow-2xl mb-10 border overflow-hidden"
-            style={{
-              borderColor: "rgba(255,255,255,0.08)",
-              boxShadow: "0 0 80px rgba(247,147,26,0.22), 0 20px 60px rgba(0,0,0,0.6)",
-            }}
-          >
-            <img src="/dog-logo.jpg" alt="$DOG" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Eyebrow */}
-          <p
-            className="text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.14em] mb-6"
-            style={{ color: "#F7931A" }}
-          >
-            Principal Meme do Bitcoin
-          </p>
 
           {/* Headline */}
           <h1
-            className="text-[52px] md:text-[80px] lg:text-[104px] font-bold text-white mb-6"
-            style={{ letterSpacing: "-0.03em", lineHeight: "1.02" }}
+            className="text-[52px] md:text-[80px] lg:text-[108px] font-bold text-white mb-5"
+            style={{ letterSpacing: "-0.03em", lineHeight: "1.02", textShadow: "0 2px 24px rgba(0,0,0,0.7)" }}
           >
             Preço muda,
             <br />
@@ -301,8 +334,8 @@ export default function Home() {
 
           {/* Subtitle */}
           <p
-            className="text-[18px] md:text-[21px] max-w-[560px] mb-12 leading-[1.5]"
-            style={{ color: "#86868B" }}
+            className="text-[18px] md:text-[21px] max-w-[560px] mb-10 leading-[1.5]"
+            style={{ color: "rgba(255,255,255,0.70)", textShadow: "0 1px 12px rgba(0,0,0,0.9)" }}
           >
             $DOG — o principal meme do Bitcoin. Construa sua soberania financeira com paciência e convicção.
           </p>
@@ -310,7 +343,7 @@ export default function Home() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <a
-              href="https://app.satsterminal.com/"
+              href="https://hodlmm.bitflow.finance/dlmm-pools"
               target="_blank"
               rel="noopener noreferrer"
               className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
@@ -320,8 +353,7 @@ export default function Home() {
             </a>
             <Link
               href="/educacao"
-              className="text-[17px] font-medium transition-all hover:underline underline-offset-2"
-              style={{ color: "#F7931A" }}
+              className="text-[17px] font-medium transition-all hover:underline underline-offset-2 text-white"
             >
               Saiba mais ›
             </Link>
@@ -330,7 +362,7 @@ export default function Home() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-          <ChevronDown className="w-5 h-5" style={{ color: "rgba(255,255,255,0.25)" }} />
+          <ChevronDown className="w-5 h-5" style={{ color: "rgba(255,255,255,0.4)" }} />
         </div>
       </section>
 
@@ -421,7 +453,7 @@ export default function Home() {
                   className={`apple-card ${(card as any).bgClass ?? ""} ${card.gridClass} ${card.minH} p-8 md:p-10 flex no-underline ${hasModal ? "cursor-pointer" : ""} ${card.wide
                     ? "flex-col md:flex-row md:items-center md:justify-between gap-6"
                     : "flex-col justify-between"
-                  }`}
+                    }`}
                   style={card.bgStyle}
                 >
                   <div className="flex-1 flex flex-col">
@@ -525,12 +557,28 @@ export default function Home() {
           Reversed layout
       ══════════════════════════════════════ */}
       <section
+        className="relative overflow-hidden"
         style={{
           background: "#111111",
           borderTop: "0.5px solid rgba(255,255,255,0.07)",
         }}
       >
-        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Background video */}
+        <video
+          src="/dogfire.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.18 }}
+        />
+        {/* Dark overlay to keep content legible */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "rgba(17,17,17,0.55)" }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Widget — left on desktop */}
           <div className="dark-iframe-card w-full h-[500px] lg:h-[560px] order-2 lg:order-1"
             style={{ border: "0.5px solid rgba(255,255,255,0.06)" }}
@@ -649,12 +697,23 @@ export default function Home() {
           FEATURE: DOG DATA
       ══════════════════════════════════════ */}
       <section
+        className="relative overflow-hidden"
         style={{
           background: "#0A0A0A",
           borderTop: "0.5px solid rgba(255,255,255,0.07)",
         }}
       >
-        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Background video */}
+        <video
+          src="/backgrounddogdata.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.20 }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Text */}
           <div>
             <p
@@ -687,13 +746,41 @@ export default function Home() {
               Abrir DOG DATA ›
             </a>
           </div>
-          {/* Widget */}
-          <div className="dark-iframe-card w-full h-[500px] lg:h-[560px]">
-            <iframe
-              src="https://www.dogdata.xyz/transactions"
-              width="100%"
-              height="100%"
-            />
+          {/* Widget + attribution */}
+          <div className="flex flex-col gap-0 w-full">
+            {/* iframe */}
+            <div
+              className="rounded-t-2xl overflow-hidden w-full"
+              style={{ border: "0.5px solid rgba(255,255,255,0.08)", borderBottom: "none", height: "480px" }}
+            >
+              <iframe
+                src="https://www.dogdata.xyz/"
+                width="100%"
+                height="100%"
+                title="DOG DATA Overview"
+              />
+            </div>
+
+            {/* Footer bar: attribution left, logo right */}
+            <div
+              className="rounded-b-2xl px-4 py-3 flex items-center justify-between gap-4"
+              style={{
+                border: "0.5px solid rgba(255,255,255,0.08)",
+                borderTop: "0.5px solid rgba(255,255,255,0.06)",
+                background: "#111111",
+              }}
+            >
+              <p className="text-[11px] leading-[1.5]" style={{ color: "#6E6E73" }}>
+                Made By{" "}
+                <span className="font-semibold" style={{ color: "#F7931A" }}>Bitmax</span>{" "}
+                for the Dog Community
+              </p>
+              <img
+                src="/dogdata1.png"
+                alt="DOG DATA"
+                className="h-7 w-auto object-contain shrink-0"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -907,6 +994,36 @@ export default function Home() {
                       <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
                         Abrir plataforma →
                       </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Bitcoin DeFi modal */}
+            {openModal === "bitcoin-defi" && (
+              <div>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>DeFi no Bitcoin</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Bitcoin DeFi</h2>
+                <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
+                  Plataformas de finanças descentralizadas (DeFi) no Bitcoin. Faça seu patrimônio render, pegue empréstimos e negocie com segurança.
+                </p>
+                <div className="space-y-4">
+                  {defiPlatforms.map((platform) => (
+                    <div key={platform.url} className="rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-start" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-2" style={{ background: "#ffffff", border: "0.5px solid #E5E5E7" }}>
+                        <img src={platform.logo} alt={platform.name} className="w-full max-h-full object-contain" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-2">
+                          <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
+                          <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                        </div>
+                        <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
+                        <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
+                          Abrir plataforma →
+                        </a>
+                      </div>
                     </div>
                   ))}
                 </div>
