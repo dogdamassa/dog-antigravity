@@ -1,20 +1,11 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { X as CloseIcon } from 'lucide-react';
+import { X as CloseIcon, ChevronDown } from 'lucide-react';
 
-/* ── Modal content ── */
-const MODALS: Record<string, { title: string; content: React.ReactNode }> = {
-  ordinals: {
-    title: "Ordinals — NFTs Nativos do Bitcoin",
-    content: null, // rendered inline
-  },
-  "swap-trade": {
-    title: "Swap e Trade — Bitcoin Assets",
-    content: null,
-  },
-};
-
+/* ─────────────────────────────────────────
+   DATA
+───────────────────────────────────────── */
 const swapPlatforms = [
   {
     name: "SatsTerminal",
@@ -63,7 +54,6 @@ const ordinalsExplorers = [
   { label: "Satflow — Ordinals", url: "https://www.satflow.com/ordinals", xUrl: "https://x.com/Satflow" },
 ];
 
-/* ── Bento cards ── */
 const bentoCards = [
   {
     id: "tokenomics",
@@ -215,73 +205,201 @@ const bentoCards = [
   },
 ];
 
+const footerLinks = {
+  "Ecossistema": [
+    { label: "DOG DATA", href: "https://www.dogdata.xyz/" },
+    { label: "DOG Swap", href: "https://swap.dogofbitcoin.com/" },
+    { label: "SatsTerminal", href: "https://app.satsterminal.com/" },
+    { label: "Satflow", href: "https://www.satflow.com/" },
+    { label: "Bitflow", href: "https://app.bitflow.finance/" },
+  ],
+  "Aprender": [
+    { label: "Ordinals", href: "/educacao" },
+    { label: "Runes", href: "https://docs.ordinals.com/" },
+    { label: "Runestone", href: "/runestone" },
+    { label: "Educação", href: "/educacao" },
+  ],
+  "Comunidade": [
+    { label: "X / Twitter", href: "https://x.com/DogOfBitcoinOG" },
+    { label: "DOG Summit", href: "https://www.dogsummit.club/" },
+    { label: "DOG NEWS", href: "/news" },
+    { label: "Comunidade", href: "/comunidade" },
+  ],
+  "Comprar": [
+    { label: "BTC no Pix", href: "https://www.btcnopix.com/compre" },
+    { label: "B2Pix", href: "https://b2pix.org/" },
+    { label: "Sem KYC ›", href: "#" },
+  ],
+};
+
+/* ─────────────────────────────────────────
+   PAGE
+───────────────────────────────────────── */
 export default function Home() {
   const [openModal, setOpenModal] = useState<string | null>(null);
 
   return (
     <div>
-      {/* ── Hero ── */}
+
+      {/* ══════════════════════════════════════
+          HERO — Full viewport, Apple-style
+      ══════════════════════════════════════ */}
       <section
-        className="text-center px-6 pt-20 md:pt-28 pb-24 md:pb-32 relative"
-        style={{ background: "#1D1D1F" }}
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        style={{ background: "#000000" }}
       >
-        <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-[2rem] shadow-2xl shadow-dog-orange/20 mb-8 border border-white/10 flex items-center justify-center overflow-hidden" style={{ background: "#2A2A2A" }}>
-          <img src="/dog-logo.jpg" alt="$DOG Logo" className="w-full h-full object-cover" />
-        </div>
+        {/* Radial orange glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(247,147,26,0.18) 0%, transparent 65%)",
+          }}
+        />
 
-        <p
-          className="text-[14px] font-semibold uppercase tracking-[0.09em] mb-5"
-          style={{ color: "#F7931A" }}
-        >
-          Principal Meme do Bitcoin
-        </p>
+        {/*
+          ── IMAGE SLOT ──
+          Coloque um arquivo chamado  /public/hero-dog.png  para aparecer aqui.
+          Sugestão: arte do $DOG com fundo transparente, ~800px de largura.
+        */}
+        {/* <img
+          src="/hero-dog.png"
+          alt="$DOG"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] md:w-[640px] opacity-15 select-none pointer-events-none"
+        /> */}
 
-        <h1
-          className="text-[52px] md:text-[80px] lg:text-[96px] font-bold leading-[1.04] text-white mb-6"
-          style={{ letterSpacing: "-0.025em" }}
-        >
-          Preço muda,
-          <br />
-          <span style={{ color: "#F7931A" }}>visão não.</span>
-        </h1>
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center">
 
-        <p
-          className="text-[18px] md:text-[21px] max-w-[540px] mx-auto mb-10 leading-[1.45]"
-          style={{ color: "#86868B" }}
-        >
-          $DOG – o principal meme do Bitcoin. Construa sua soberania financeira
-          com paciência, convicção e os olhos no longo prazo.
-        </p>
+          {/* DOG Logo */}
+          <div
+            className="w-28 h-28 md:w-40 md:h-40 rounded-[2.25rem] md:rounded-[2.75rem] shadow-2xl mb-10 border overflow-hidden"
+            style={{
+              borderColor: "rgba(255,255,255,0.08)",
+              boxShadow: "0 0 80px rgba(247,147,26,0.22), 0 20px 60px rgba(0,0,0,0.6)",
+            }}
+          >
+            <img src="/dog-logo.jpg" alt="$DOG" className="w-full h-full object-cover" />
+          </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-          <Link
-            href="/educacao"
-            className="text-[17px] font-medium hover:underline underline-offset-2 transition-all"
+          {/* Eyebrow */}
+          <p
+            className="text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.14em] mb-6"
             style={{ color: "#F7931A" }}
           >
-            Saiba mais ›
-          </Link>
+            Principal Meme do Bitcoin
+          </p>
+
+          {/* Headline */}
+          <h1
+            className="text-[52px] md:text-[80px] lg:text-[104px] font-bold text-white mb-6"
+            style={{ letterSpacing: "-0.03em", lineHeight: "1.02" }}
+          >
+            Preço muda,
+            <br />
+            <span style={{ color: "#F7931A" }}>visão não.</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className="text-[18px] md:text-[21px] max-w-[560px] mb-12 leading-[1.5]"
+            style={{ color: "#86868B" }}
+          >
+            $DOG — o principal meme do Bitcoin. Construa sua soberania financeira com paciência e convicção.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <a
+              href="https://app.satsterminal.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
+              style={{ background: "#F7931A", color: "#000000" }}
+            >
+              Comprar $DOG
+            </a>
+            <Link
+              href="/educacao"
+              className="text-[17px] font-medium transition-all hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              Saiba mais ›
+            </Link>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+          <ChevronDown className="w-5 h-5" style={{ color: "rgba(255,255,255,0.25)" }} />
         </div>
       </section>
 
-      {/* ── Ecosystem Bento Grid ── */}
-      <section className="py-16 md:py-24 px-4 md:px-6">
+      {/* ══════════════════════════════════════
+          STATS STRIP — Apple spec bar style
+      ══════════════════════════════════════ */}
+      <section
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+          borderBottom: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="max-w-[980px] mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {[
+              { value: "100B", label: "Supply total" },
+              { value: "Bitcoin", label: "Blockchain nativa" },
+              { value: "Zero", label: "Pré-venda / VCs" },
+              { value: "100%", label: "Descentralizado" },
+            ].map((stat, i) => (
+              <div
+                key={stat.label}
+                className="text-center py-7 px-4"
+                style={{
+                  borderRight: i < 3 ? "0.5px solid rgba(255,255,255,0.07)" : "none",
+                }}
+              >
+                <div
+                  className="text-[28px] md:text-[32px] font-bold text-white"
+                  style={{ letterSpacing: "-0.025em" }}
+                >
+                  {stat.value}
+                </div>
+                <div
+                  className="text-[11px] uppercase tracking-[0.08em] mt-1.5"
+                  style={{ color: "#6E6E73" }}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          ECOSYSTEM BENTO GRID
+      ══════════════════════════════════════ */}
+      <section className="py-20 md:py-28 px-4 md:px-6" style={{ background: "#000000" }}>
         <div className="max-w-[980px] mx-auto">
-          <div className="text-center mb-12 md:mb-16">
+
+          {/* Apple-style two-column section header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 md:mb-16">
             <h2
-              className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-4"
-              style={{ letterSpacing: "-0.022em" }}
+              className="text-[44px] md:text-[56px] font-bold leading-[1.05]"
+              style={{ letterSpacing: "-0.025em" }}
             >
-              DOG Ecosystem.
+              DOG<br />Ecossistema.
             </h2>
             <p
-              className="text-[19px] md:text-[21px]"
-              style={{ color: "var(--apple-text-secondary)" }}
+              className="text-[17px] md:text-[19px] max-w-[300px] leading-[1.45]"
+              style={{ color: "#6E6E73" }}
             >
               Ferramentas construídas para a Dog Army.
             </p>
           </div>
 
+          {/* Bento grid */}
           <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
             {bentoCards.map((card) => {
               const hasModal = !!(card as any).modalId;
@@ -348,20 +466,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Integrations Section (Iframes) ── */}
-      <section className="py-12 px-4 md:px-6 max-w-[1200px] mx-auto space-y-16">
-
-        {/* TradingView Chart */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-3xl font-bold">
-              Trading<span style={{ color: "#F7931A" }}>View</span>
-            </h2>
-            <p style={{ color: "var(--apple-text-secondary)" }} className="text-[15px]">
-              Acompanhe $DOG em tempo real (DOG/USDT)
+      {/* ══════════════════════════════════════
+          FEATURE: TRADINGVIEW
+          Apple-style 50/50 section
+      ══════════════════════════════════════ */}
+      <section
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Text */}
+          <div>
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              Mercado em tempo real
             </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              Trading
+              <span style={{ color: "#F7931A" }}>View.</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              Acompanhe o par DOG/USDT em tempo real com gráficos profissionais. Analise tendências, volume e suportes antes de cada decisão.
+            </p>
+            <a
+              href="https://www.tradingview.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              Abrir TradingView ›
+            </a>
           </div>
-          <div className="dark-iframe-card w-full h-[500px]">
+          {/* Widget */}
+          <div className="dark-iframe-card w-full h-[420px] lg:h-[480px]">
             <iframe
               src="https://s.tradingview.com/widgetembed/?symbol=MEXC%3ADOGUSDT&interval=D&theme=dark"
               width="100%"
@@ -370,38 +518,177 @@ export default function Home() {
             />
           </div>
         </div>
+      </section>
 
-        {/* DOG Swap */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-black" style={{ background: "#F7931A" }}>
-              ↔
-            </span>
-            <h2 className="text-3xl font-bold">DOG Swap</h2>
-            <p style={{ color: "var(--apple-text-secondary)" }} className="text-[15px]">
-              Troca descentralizada de Runes
-            </p>
-          </div>
-          <div className="dark-iframe-card w-full h-[600px]">
+      {/* ══════════════════════════════════════
+          FEATURE: DOG SWAP
+          Reversed layout
+      ══════════════════════════════════════ */}
+      <section
+        style={{
+          background: "#111111",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Widget — left on desktop */}
+          <div className="dark-iframe-card w-full h-[500px] lg:h-[560px] order-2 lg:order-1"
+            style={{ border: "0.5px solid rgba(255,255,255,0.06)" }}
+          >
             <iframe
               src="https://swap.dogofbitcoin.com/"
               width="100%"
               height="100%"
             />
           </div>
-        </div>
-
-        {/* DOG DATA Transactions */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-3xl font-bold">
-              DOG <span style={{ color: "#F7931A" }}>DATA</span>
-            </h2>
-            <p style={{ color: "var(--apple-text-secondary)" }} className="text-[15px]">
-              Atividade On-Chain e Transações
+          {/* Text — right on desktop */}
+          <div className="order-1 lg:order-2">
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              Swap descentralizado
             </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              DOG
+              <br />
+              <span style={{ color: "#F7931A" }}>Swap.</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              Swap nativo e descentralizado da comunidade $DOG. Troque Runes diretamente no Bitcoin, sem intermediários, sem custódia.
+            </p>
+            <a
+              href="https://swap.dogofbitcoin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              Abrir DOG Swap ›
+            </a>
           </div>
-          <div className="dark-iframe-card w-full h-[600px]">
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: RUNESTONE — Full-bleed with image
+          Apple "product hero" style
+      ══════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{ background: "#000000", borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
+      >
+        {/*
+          ── IMAGE SLOT ──
+          Coloque  /public/runestone-airdrop.jpg  ou  /public/summit-photo.jpg
+          para preencher o fundo desta seção.
+          A foto deve ter pelo menos 1400×800px.
+        */}
+        <img
+          src="/runestone-airdrop.jpg"
+          alt="Runestone Airdrop"
+          className="absolute inset-0 w-full h-full object-cover opacity-25 select-none"
+        />
+
+        {/* Orange gradient overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-[980px] mx-auto px-6 py-24 md:py-36 text-center">
+          <p
+            className="text-[12px] font-semibold uppercase tracking-[0.14em] mb-6"
+            style={{ color: "#F7931A" }}
+          >
+            História · Airdrop
+          </p>
+          <h2
+            className="text-[48px] md:text-[72px] lg:text-[88px] font-bold text-white leading-[1.02] mb-6"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            O maior airdrop<br />
+            <span style={{ color: "#F7931A" }}>do Bitcoin.</span>
+          </h2>
+          <p
+            className="text-[19px] md:text-[21px] max-w-[520px] mx-auto mb-10 leading-[1.5]"
+            style={{ color: "rgba(255,255,255,0.65)" }}
+          >
+            Runestone — a pedra fundamental da cultura Ordinals. Distribuído gratuitamente para os holders mais leais do Bitcoin.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/runestone"
+              className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
+              style={{ background: "#F7931A", color: "#000000" }}
+            >
+              Saiba mais
+            </Link>
+            <a
+              href="https://www.dogsummit.club/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium transition-all hover:underline underline-offset-2 text-white"
+            >
+              DOG Summit ›
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: DOG DATA
+      ══════════════════════════════════════ */}
+      <section
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Text */}
+          <div>
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              Analytics on-chain
+            </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              DOG
+              <br />
+              <span style={{ color: "#F7931A" }}>DATA.</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              Holders, volume e métricas reais do $DOG em tempo real. Dados on-chain que revelam a força e a convicção da Dog Army.
+            </p>
+            <a
+              href="https://www.dogdata.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              Abrir DOG DATA ›
+            </a>
+          </div>
+          {/* Widget */}
+          <div className="dark-iframe-card w-full h-[500px] lg:h-[560px]">
             <iframe
               src="https://www.dogdata.xyz/transactions"
               width="100%"
@@ -409,53 +696,86 @@ export default function Home() {
             />
           </div>
         </div>
-
       </section>
 
-      {/* ── Footer ── */}
+      {/* ══════════════════════════════════════
+          FOOTER — Apple multi-column style
+      ══════════════════════════════════════ */}
       <footer
-        className="py-8 px-6"
-        style={{ borderTop: "0.5px solid var(--apple-separator)" }}
+        style={{
+          background: "#111111",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
       >
-        <div className="max-w-[980px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[12px]" style={{ color: "var(--apple-text-tertiary)" }}>
-            Copyright © 2024 $DOG Aggregator. Todos os direitos reservados.
-          </p>
-          <div className="flex items-center gap-6">
-            {[
-              { label: "Comunidade", href: "/comunidade" },
-              { label: "Educação", href: "/educacao" },
-              { label: "Apps", href: "/apps" },
-            ].map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-[12px] hover:underline underline-offset-2"
-                style={{ color: "var(--apple-text-tertiary)" }}
-              >
-                {l.label}
-              </Link>
+        <div className="max-w-[980px] mx-auto px-6 pt-12 pb-8">
+
+          {/* Columns */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10"
+            style={{ borderBottom: "0.5px solid rgba(255,255,255,0.07)" }}
+          >
+            {Object.entries(footerLinks).map(([section, links]) => (
+              <div key={section}>
+                <h4
+                  className="text-[12px] font-semibold mb-4 uppercase tracking-[0.06em]"
+                  style={{ color: "#6E6E73" }}
+                >
+                  {section}
+                </h4>
+                <ul className="space-y-2.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      {link.href.startsWith("http") ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[13px] transition-colors hover:text-white"
+                          style={{ color: "#A1A1A6" }}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-[13px] transition-colors hover:text-white"
+                          style={{ color: "#A1A1A6" }}
+                        >
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+            <p className="text-[12px]" style={{ color: "#6E6E73" }}>
+              Copyright © 2025 $DOG Aggregator. Todos os direitos reservados.
+            </p>
+            <p className="text-[12px]" style={{ color: "#6E6E73" }}>
+              Bitcoin Nativo · 100% Descentralizado
+            </p>
           </div>
         </div>
       </footer>
 
-      {/* ── Modals ── */}
+      {/* ══════════════════════════════════════
+          MODALS
+      ══════════════════════════════════════ */}
       {openModal && (
         <div
           className="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-16 overflow-y-auto"
           onClick={() => setOpenModal(null)}
         >
-          {/* Backdrop */}
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm" />
-
-          {/* Panel */}
           <div
             className="relative w-full max-w-[640px] rounded-3xl p-8 md:p-10 mb-8"
             style={{ background: "#ffffff" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close */}
             <button
               onClick={() => setOpenModal(null)}
               className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-black/5"
@@ -464,23 +784,18 @@ export default function Home() {
               <CloseIcon className="w-4 h-4" style={{ color: "#1D1D1F" }} />
             </button>
 
-            {/* ── Ordinals modal ── */}
+            {/* Ordinals modal */}
             {openModal === "ordinals" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>
-                  Educação
-                </p>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Educação</p>
                 <h2 className="text-[32px] font-bold leading-[1.1] mb-6" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>
                   Ordinals — NFTs Nativos do Bitcoin
                 </h2>
-
-                {/* Video thumbnail */}
                 <a
                   href="https://www.youtube.com/watch?v=rSS0O2KQpsI"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full aspect-video rounded-2xl overflow-hidden mb-6 relative group"
-                  aria-label="Casey Rodarmor apresenta Ordinals — assistir no YouTube"
                 >
                   <img
                     src="https://img.youtube.com/vi/rSS0O2KQpsI/hqdefault.jpg"
@@ -489,33 +804,24 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 group-hover:bg-black/55 transition-all gap-2">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#FF0000" }}>
-                      <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
-                        <polygon points="6,4 20,12 6,20" />
-                      </svg>
+                      <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1"><polygon points="6,4 20,12 6,20" /></svg>
                     </div>
                     <span className="text-white text-[13px] font-semibold drop-shadow">Casey Rodarmor apresenta Ordinals ao mundo</span>
                   </div>
                 </a>
-
-                {/* Lesson */}
                 <div className="space-y-4 text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>
                   <div>
                     <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>O que são Ordinals?</h3>
-                    <p>Ordinals é um protocolo criado por Casey Rodarmor em janeiro de 2023. Ele permite inscrever qualquer dado — imagem, texto, código, vídeo — diretamente nos menores pedaços de Bitcoin: os <strong>satoshis</strong>.</p>
+                    <p>Ordinals é um protocolo criado por Casey Rodarmor em janeiro de 2023. Ele permite inscrever qualquer dado — imagem, texto, código — diretamente nos menores pedaços de Bitcoin: os <strong>satoshis</strong>.</p>
                   </div>
                   <div>
                     <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>Como funciona?</h3>
-                    <p>O protocolo atribui um número de série único a cada satoshi, tornando possível rastreá-los individualmente. O conteúdo inscrito fica gravado <strong>permanentemente</strong> na blockchain do Bitcoin — sem servidores externos, sem IPFS, sem depender de terceiros.</p>
+                    <p>O protocolo atribui um número de série único a cada satoshi. O conteúdo inscrito fica gravado <strong>permanentemente</strong> na blockchain do Bitcoin — sem servidores externos, sem IPFS.</p>
                   </div>
                   <div>
                     <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>Por que é revolucionário?</h3>
-                    <ul className="space-y-1 list-none">
-                      {[
-                        "100% on-chain: os dados ficam dentro da blockchain do Bitcoin",
-                        "Imutável: uma vez inscrito, não pode ser alterado ou deletado",
-                        "Sem smart contracts: usa apenas o protocolo nativo do Bitcoin",
-                        "Proof-of-Work: segurança garantida pela maior rede do mundo",
-                      ].map((item) => (
+                    <ul className="space-y-1">
+                      {["100% on-chain: os dados ficam dentro da blockchain", "Imutável: uma vez inscrito, não pode ser alterado", "Sem smart contracts: usa apenas o protocolo nativo", "Proof-of-Work: segurança da maior rede do mundo"].map((item) => (
                         <li key={item} className="flex items-start gap-2">
                           <span style={{ color: "#F7931A" }} className="mt-0.5 shrink-0">✦</span>
                           <span>{item}</span>
@@ -523,13 +829,7 @@ export default function Home() {
                       ))}
                     </ul>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>A primeira Inscrição</h3>
-                    <p>Em 20 de janeiro de 2023, as primeiras inscrições chegaram à rede principal do Bitcoin. Nascia ali a cultura Ordinals — e com ela, o caminho para os Runes e para o <strong>$DOG</strong>, o principal meme do Bitcoin.</p>
-                  </div>
                 </div>
-
-                {/* Docs link */}
                 <a
                   href="https://docs.ordinals.com/introduction.html"
                   target="_blank"
@@ -539,12 +839,8 @@ export default function Home() {
                 >
                   Ler documentação oficial →
                 </a>
-
-                {/* Explorer links */}
                 <div style={{ borderTop: "0.5px solid #E5E5E7" }} className="mt-6 pt-6">
-                  <p className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-3" style={{ color: "#86868B" }}>
-                    Explorar Ordinals
-                  </p>
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-3" style={{ color: "#86868B" }}>Explorar Ordinals</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {ordinalsExplorers.map((exp) => (
                       <a
@@ -556,21 +852,10 @@ export default function Home() {
                         style={{ border: "0.5px solid #E5E5E7" }}
                       >
                         <span className="font-semibold text-[15px]" style={{ color: "#1D1D1F" }}>{exp.label}</span>
-                        {exp.xUrl && (
-                          <a
-                            href={exp.xUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-[12px] font-medium px-2 py-0.5 rounded-full hover:bg-black/10 transition-colors"
-                            style={{ color: "#6E6E73" }}
-                          >
-                            @Satflow
-                          </a>
-                        )}
-                        {!exp.xUrl && (
-                          <span style={{ color: "#F7931A" }} className="text-[15px]">→</span>
-                        )}
+                        {exp.xUrl
+                          ? <a href={exp.xUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[12px] font-medium px-2 py-0.5 rounded-full hover:bg-black/10" style={{ color: "#6E6E73" }}>@Satflow</a>
+                          : <span style={{ color: "#F7931A" }} className="text-[15px]">→</span>
+                        }
                       </a>
                     ))}
                   </div>
@@ -578,48 +863,23 @@ export default function Home() {
               </div>
             )}
 
-            {/* ── No-KYC modal ── */}
+            {/* No-KYC modal */}
             {openModal === "no-kyc" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>
-                  Soberania Financeira
-                </p>
-                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>
-                  Compre Cripto sem KYC
-                </h2>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Soberania Financeira</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Compre Cripto sem KYC</h2>
                 <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
-                  Plataformas brasileiras que permitem adquirir Bitcoin via Pix sem exigir cadastro, documentos ou verificação de identidade. Privacidade e soberania desde o primeiro satoshi.
+                  Plataformas brasileiras que permitem adquirir Bitcoin via Pix sem exigir cadastro ou verificação de identidade.
                 </p>
-
                 <div className="space-y-4">
                   {noKycPlatforms.map((platform) => (
-                    <div
-                      key={platform.url}
-                      className="rounded-2xl p-5"
-                      style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}
-                    >
+                    <div key={platform.url} className="rounded-2xl p-5" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
                       <div className="flex items-start justify-between gap-4 mb-2">
                         <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
-                        <a
-                          href={platform.xUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[12px] font-medium shrink-0 hover:underline"
-                          style={{ color: "#6E6E73" }}
-                        >
-                          {platform.xLabel}
-                        </a>
+                        <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
                       </div>
-                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>
-                        {platform.desc}
-                      </p>
-                      <a
-                        href={platform.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80"
-                        style={{ background: "#F7931A", color: "#ffffff" }}
-                      >
+                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
+                      <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
                         Abrir plataforma →
                       </a>
                     </div>
@@ -628,48 +888,23 @@ export default function Home() {
               </div>
             )}
 
-            {/* ── Swap & Trade modal ── */}
+            {/* Swap & Trade modal */}
             {openModal === "swap-trade" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>
-                  Bitcoin Assets
-                </p>
-                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>
-                  Swap e Trade
-                </h2>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Bitcoin Assets</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Swap e Trade</h2>
                 <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
-                  Plataformas descentralizadas para trocar e negociar Runes e ativos do Bitcoin. Cada uma com liquidez e experiência diferente — escolha a que melhor se encaixa na sua estratégia.
+                  Plataformas descentralizadas para trocar e negociar Runes e ativos do Bitcoin.
                 </p>
-
                 <div className="space-y-4">
                   {swapPlatforms.map((platform) => (
-                    <div
-                      key={platform.url}
-                      className="rounded-2xl p-5"
-                      style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}
-                    >
+                    <div key={platform.url} className="rounded-2xl p-5" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
                       <div className="flex items-start justify-between gap-4 mb-2">
                         <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
-                        <a
-                          href={platform.xUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[12px] font-medium shrink-0 hover:underline"
-                          style={{ color: "#6E6E73" }}
-                        >
-                          {platform.xLabel}
-                        </a>
+                        <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
                       </div>
-                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>
-                        {platform.desc}
-                      </p>
-                      <a
-                        href={platform.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80"
-                        style={{ background: "#F7931A", color: "#ffffff" }}
-                      >
+                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
+                      <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
                         Abrir plataforma →
                       </a>
                     </div>

@@ -7,6 +7,8 @@ export interface VideoItem {
     publishedAt: string;
 }
 
+const CHANNEL_ID = 'UCyocm7zOzWBpk6Awpa2vzUw';
+
 const FALLBACK_VIDEOS: VideoItem[] = [
     {
         videoId: 'Hm_z_a1pRw8',
@@ -40,41 +42,51 @@ const FALLBACK_VIDEOS: VideoItem[] = [
     },
 ];
 
-export async function GET() {
-    const channelId = 'UCyocm7zOzWBpk6Awpa2vzUw';
-    const apiKey = process.env.YOUTUBE_API_KEY;
+/**
+ * Parse YouTube RSS/Atom XML feed to extract video entries.
+ * This approach does NOT require a YouTube API key.
+ */
+function parseVideosFromXml(xml: string): VideoItem[] {
+    const videos: VideoItem[] = [];
+    // Match each <entry> block
+    const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+    let entryMatch;
+    while ((entryMatch = entryRegex.exec(xml)) !== null) {
+        const entry = entryMatch[1];
+        const videoId = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1] ?? '';
+        const title = entry.match(/<title>(.*?)<\/title>/)?.[1] ?? '';
+        const publishedAt = entry.match(/<published>(.*?)<\/published>/)?.[1] ?? '';
+        const thumbnail =
+            entry.match(/<media:thumbnail url="(.*?)"/)?.[1] ??
+            `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 
-    if (!apiKey) {
-        return NextResponse.json({
-            videos: FALLBACK_VIDEOS,
-            source: 'fallback',
-        });
+        if (videoId) {
+            videos.push({ videoId, title, thumbnail, publishedAt });
+        }
     }
+    return videos;
+}
 
+export async function GET() {
     try {
-        // 1. Get the uploads playlist ID
-        const channelResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`
-        );
-        const channelData = await channelResponse.json();
-        const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+        // Use YouTube RSS/Atom feed — free, no API key required
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+        const response = await fetch(rssUrl, { next: { revalidate: 600 } }); // cache for 10 min
 
-        // 2. Get the latest 6 videos from that playlist
-        const playlistResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=6&key=${apiKey}`
-        );
-        const playlistData = await playlistResponse.json();
+        if (!response.ok) {
+            throw new Error(`RSS feed returned ${response.status}`);
+        }
 
-        const videos: VideoItem[] = playlistData.items.map((item: any) => ({
-            videoId: item.snippet.resourceId.videoId,
-            title: item.snippet.title,
-            thumbnail:
-                item.snippet.thumbnails?.medium?.url ||
-                `https://img.youtube.com/vi/${item.snippet.resourceId.videoId}/mqdefault.jpg`,
-            publishedAt: item.snippet.publishedAt,
-        }));
+        const xml = await response.text();
+        const allVideos = parseVideosFromXml(xml);
 
-        return NextResponse.json({ videos, source: 'api' });
+        if (allVideos.length === 0) {
+            throw new Error('No videos parsed from feed');
+        }
+
+        // Return the 6 most recent
+        const videos = allVideos.slice(0, 6);
+        return NextResponse.json({ videos, source: 'rss' });
     } catch {
         return NextResponse.json({
             videos: FALLBACK_VIDEOS,
