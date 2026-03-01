@@ -124,6 +124,11 @@ const translations = {
         description: 'Holders, volume e métricas reais do $DOG em tempo real. Dados on-chain que revelam a força e a convicção da Dog Army.',
         cta: 'Abrir DOG DATA ›',
       },
+      dogNews: {
+        eyebrow: 'DOG NEWS',
+        title: 'Últimas do Cryptolution.',
+        cta: 'Ver todos os vídeos →',
+      },
       footer: {
         copyright: 'Copyright © 2025 $DOG Aggregator. Todos os direitos reservados.',
         tagline: 'Bitcoin Nativo · 100% Descentralizado',
@@ -519,6 +524,11 @@ const translations = {
         headline2: 'DATA.',
         description: 'Real-time $DOG holders, volume and metrics. On-chain data that reveals the strength and conviction of the Dog Army.',
         cta: 'Open DOG DATA ›',
+      },
+      dogNews: {
+        eyebrow: 'DOG NEWS',
+        title: 'Latest from Cryptolution.',
+        cta: 'See all videos →',
       },
       footer: {
         copyright: 'Copyright © 2025 $DOG Aggregator. All rights reserved.',

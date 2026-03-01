@@ -1,9 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { X as CloseIcon, ChevronDown } from 'lucide-react';
+import { X as CloseIcon, ChevronDown, Youtube } from 'lucide-react';
 import { useLanguage } from '@/components/Providers';
 import { getTranslations } from '@/lib/translations';
+import type { VideoItem } from './api/youtube-latest/route';
 
 /* ─────────────────────────────────────────
    STATIC DATA (non-translated)
@@ -64,9 +65,17 @@ const footerLinksMeta = {
 ───────────────────────────────────────── */
 export default function Home() {
   const [openModal, setOpenModal] = useState<string | null>(null);
+  const [latestVideo, setLatestVideo] = useState<VideoItem | null>(null);
   const { language } = useLanguage();
   const tr = getTranslations(language);
   const t = tr.home;
+
+  useEffect(() => {
+    fetch('/api/youtube-latest')
+      .then(res => res.json())
+      .then(data => { if (data.videos?.[0]) setLatestVideo(data.videos[0]); })
+      .catch(() => {});
+  }, []);
 
   const bentoCards = [
     {
@@ -100,8 +109,8 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[380px] lg:min-h-[420px]",
       wide: false,
-      image: "/bitflow.png",
-      imageClass: "object-contain p-2 md:p-4 mix-blend-multiply opacity-90 transition-opacity hover:opacity-100",
+      image: "/bitflowpfp.jpg",
+      imageClass: "w-24 h-24 md:w-32 md:h-32 object-cover rounded-3xl md:rounded-[2rem] shadow-[0_12px_24px_-8px_rgba(0,0,0,0.15)] mx-auto mt-4 md:mt-8 rotate-[-2deg] transition-transform hover:rotate-0 hover:scale-105 duration-500",
     },
     {
       id: "data",
@@ -118,8 +127,8 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[380px] lg:min-h-[420px]",
       wide: false,
-      image: "/dogdata1.png",
-      imageClass: "object-cover object-top scale-[1.05] md:scale-110 translate-y-2 md:translate-y-4 shadow-xl rounded-t-xl transition-transform hover:scale-[1.15]",
+      image: "/dogdata.png",
+      imageClass: "w-24 h-24 md:w-32 md:h-32 object-cover rounded-3xl md:rounded-[2rem] shadow-[0_12px_24px_-8px_rgba(0,0,0,0.15)] mx-auto mt-4 md:mt-8 rotate-[2deg] transition-transform hover:rotate-0 hover:scale-105 duration-500",
     },
     {
       id: "summit",
@@ -756,6 +765,134 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: DOG NEWS
+      ══════════════════════════════════════ */}
+      <section
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="max-w-[980px] mx-auto px-6 py-20 md:py-28">
+
+          {/* Header */}
+          <div className="mb-10 md:mb-12">
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              {t.dogNews.eyebrow}
+            </p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <h2
+                className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06]"
+                style={{ letterSpacing: "-0.025em" }}
+              >
+                {t.dogNews.title}
+              </h2>
+              <Link
+                href="/news"
+                className="text-[15px] font-medium hover:underline underline-offset-2 shrink-0"
+                style={{ color: "#F7931A" }}
+              >
+                {t.dogNews.cta}
+              </Link>
+            </div>
+          </div>
+
+          {/* Latest video */}
+          <div
+            className="apple-card overflow-hidden mb-6"
+            style={{ border: "0.5px solid rgba(255,255,255,0.08)" }}
+          >
+            <div className="aspect-video w-full relative">
+              {latestVideo ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${latestVideo.videoId}`}
+                  title={latestVideo.title || "DOG NEWS — Cryptolution"}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              ) : (
+                <div
+                  className="absolute inset-0 flex items-center justify-center animate-pulse"
+                  style={{ background: "#1D1D1F" }}
+                >
+                  <Youtube className="w-12 h-12" style={{ color: "rgba(255,255,255,0.2)" }} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Reporter card */}
+          <div
+            className="apple-card p-6 md:p-8 flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden"
+            style={{ background: "linear-gradient(135deg, rgba(29,29,31,0.4) 0%, rgba(17,17,17,0.8) 100%)", border: "0.5px solid rgba(255,255,255,0.08)" }}
+          >
+            <div
+              className="absolute top-0 left-0 w-full h-full pointer-events-none"
+              style={{ background: "radial-gradient(circle at 0% 0%, rgba(247,147,26,0.06) 0%, transparent 50%)" }}
+            />
+            {/* Avatar */}
+            <div
+              className="w-24 h-24 rounded-full shrink-0 overflow-hidden relative z-10 shadow-2xl"
+              style={{ border: "2px solid rgba(247,147,26,0.3)" }}
+            >
+              <img src="/vincentpfp.jpg" alt="Vincent Cryptolution" className="w-full h-full object-cover" />
+            </div>
+            {/* Info */}
+            <div className="flex-1 min-w-0 text-center sm:text-left relative z-10">
+              <span
+                className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-1.5 block"
+                style={{ color: "#F7931A" }}
+              >
+                {tr.news.reporter.role}
+              </span>
+              <h3
+                className="text-[22px] font-bold leading-tight mb-2 text-white"
+                style={{ letterSpacing: "-0.018em" }}
+              >
+                Vincent (Cryptolution)
+              </h3>
+              <p className="text-[15px] leading-[1.6]" style={{ color: "#A1A1A6" }}>
+                {tr.news.reporter.bio}
+              </p>
+            </div>
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto">
+              <a
+                href="https://www.youtube.com/@cryptolution"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-semibold hover:opacity-85 transition-opacity"
+                style={{ background: "#DC2626", color: "#ffffff" }}
+              >
+                <Youtube className="w-4 h-4" />
+                {tr.news.reporter.subscribe}
+              </a>
+              <a
+                href="https://x.com/Cryptolution"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-semibold hover:opacity-85 transition-opacity"
+                style={{ background: "#ffffff", color: "#000000" }}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.734-8.835L1.254 2.25H8.08l4.264 5.633L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
+                </svg>
+                {tr.news.reporter.follow}
+              </a>
+            </div>
+          </div>
+
         </div>
       </section>
 

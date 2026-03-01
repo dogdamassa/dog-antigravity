@@ -57,12 +57,6 @@ export default function NewsPage() {
                 className="py-12 md:py-16 px-6 text-center border-b"
                 style={{ borderColor: "var(--apple-separator)" }}
             >
-                <p
-                    className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3"
-                    style={{ color: "#F7931A" }}
-                >
-                    {t.eyebrow}
-                </p>
                 <h1
                     className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-3"
                     style={{ letterSpacing: "-0.022em" }}
