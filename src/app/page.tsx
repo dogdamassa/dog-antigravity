@@ -114,7 +114,7 @@ const bentoCards = [
     minH: "min-h-[380px] lg:min-h-[420px]",
     wide: false,
     image: "/bitflow.png",
-    imageClass: "object-contain p-2 md:p-4 opacity-90 transition-opacity hover:opacity-100",
+    imageClass: "object-contain p-2 md:p-4 mix-blend-multiply opacity-90 transition-opacity hover:opacity-100",
   },
   {
     id: "data",
@@ -131,7 +131,7 @@ const bentoCards = [
     gridClass: "lg:col-span-3",
     minH: "min-h-[380px] lg:min-h-[420px]",
     wide: false,
-    image: "/dogdata.png",
+    image: "/dogdata1.png",
     imageClass: "object-cover object-top scale-[1.05] md:scale-110 translate-y-2 md:translate-y-4 shadow-xl rounded-t-xl transition-transform hover:scale-[1.15]",
   },
   {
