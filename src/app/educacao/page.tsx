@@ -2,29 +2,31 @@ import { Layers, Cpu, ShieldCheck, ExternalLink, ChevronRight, Code } from "luci
 
 const eduSections = [
     {
-        title: "Ordinals",
+        title: "Ordinals (NFTs no Bitcoin)",
         eyebrow: "Inscrições permanentes no Bitcoin.",
         content:
-            "Ordinals permitem que dados (como imagens, texto ou código) sejam inscritos diretamente em unidades individuais de Bitcoin chamadas satoshis. Diferente de NFTs em outras redes, os Ordinals vivem inteiramente na blockchain do Bitcoin, via Proof-of-Work.",
+            "A teoria dos Ordinals atribui números de série aos satoshis, permitindo rastrear e transferir sats individuais. Ordinals permitem que dados (como imagens, texto ou código) sejam inscritos diretamente em unidades individuais de Bitcoin. Diferente de NFTs em outras redes, os Ordinals vivem inteiramente na blockchain do Bitcoin, via Proof-of-Work.",
+        videoId: "rSS0O2KQpsI",
         icon: Layers,
         iconBg: "#EFF6FF",
         iconColor: "#3B82F6",
         darkIconBg: "#1E3A5F",
         accentColor: "#3B82F6",
-        link: "https://docs.ordinals.com/",
+        link: "https://docs.ordinals.com/introduction.html",
         githubLink: "https://github.com/ordinals/ord",
     },
     {
         title: "Runes",
         eyebrow: "Tokens fungíveis nativos do Bitcoin.",
         content:
-            "$DOG é um Rune. O protocolo Runes foi criado para ser mais eficiente e simples que o padrão BRC-20, permitindo a criação de ativos fungíveis sem \"inchar\" a rede de forma desnecessária. É segurança Bitcoin com flexibilidade moderna.",
+            "Runes são tokens no Bitcoin. $DOG é um Rune. O protocolo Runes foi criado para ser mais eficiente e simples que o padrão BRC-20, permitindo a criação de ativos fungíveis sem \"inchar\" a rede de forma desnecessária. É segurança Bitcoin com flexibilidade moderna.",
+        videoId: null,
         icon: Cpu,
         iconBg: "#FFF7ED",
         iconColor: "#F7931A",
         darkIconBg: "#4A2C0A",
         accentColor: "#F7931A",
-        link: "https://docs.ordinals.com/runes.html",
+        link: "https://docs.ordinals.com/introduction.html",
         githubLink: null,
     },
     {
@@ -32,6 +34,7 @@ const eduSections = [
         eyebrow: "O espírito da comunidade em código.",
         content:
             "$DOG não é apenas um meme; é um experimento de distribuição justa e soberania comunitária no ecossistema Ordinals/Runes. Sem pré-venda, sem investidores, apenas a comunidade construindo sobre a rede mais segura do mundo.",
+        videoId: null,
         icon: ShieldCheck,
         iconBg: "#FEFCE8",
         iconColor: "#EAB308",
@@ -115,6 +118,19 @@ export default function EducacaoPage() {
                                     >
                                         {section.content}
                                     </p>
+
+                                    {section.videoId && (
+                                        <div className="w-full aspect-video rounded-xl overflow-hidden border my-6" style={{ borderColor: "var(--apple-separator)" }}>
+                                            <iframe
+                                                src={`https://www.youtube.com/embed/${section.videoId}`}
+                                                title={`Video sobre ${section.title}`}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                                className="w-full h-full"
+                                            />
+                                        </div>
+                                    )}
 
                                     {(section.link || section.githubLink) && (
                                         <div className="flex flex-wrap gap-5 pt-2">
