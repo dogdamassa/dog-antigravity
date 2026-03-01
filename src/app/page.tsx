@@ -100,11 +100,11 @@ const bentoCards = [
   },
   {
     id: "dca",
-    eyebrow: "Bitflow Finance",
+    eyebrow: "Estratégia",
     headline: "Acumule com\nestratégia.",
-    tagline: "Compre $DOG aos poucos e vença a volatilidade com DCA.",
+    tagline: "Automatize suas compras de $DOG, vença a volatilidade e construa sua posição no longo prazo.",
     url: "https://app.bitflow.finance/trade?tab=dca",
-    linkLabel: "Abrir Bitflow",
+    linkLabel: "Configurar DCA",
     linkColor: "#F7931A",
     bgStyle: { background: "#ffffff" },
     headlineClass: "text-[#1D1D1F]",
@@ -113,12 +113,14 @@ const bentoCards = [
     gridClass: "lg:col-span-3",
     minH: "min-h-[380px] lg:min-h-[420px]",
     wide: false,
+    image: "/bitflow.png",
+    imageClass: "object-contain p-2 md:p-4 opacity-90 transition-opacity hover:opacity-100",
   },
   {
     id: "data",
     eyebrow: "Analytics On-Chain",
-    headline: "Números que\nrevela tudo.",
-    tagline: "Holders, volume e métricas reais do $DOG em tempo real.",
+    headline: "Números que\nrevelam tudo.",
+    tagline: "Holders, volume e métricas do $DOG on-chain, direto da fonte e em tempo real.",
     url: "https://www.dogdata.xyz/",
     linkLabel: "Abrir DOG DATA",
     linkColor: "#F7931A",
@@ -129,6 +131,8 @@ const bentoCards = [
     gridClass: "lg:col-span-3",
     minH: "min-h-[380px] lg:min-h-[420px]",
     wide: false,
+    image: "/dogdata.png",
+    imageClass: "object-cover object-top scale-[1.05] md:scale-110 translate-y-2 md:translate-y-4 shadow-xl rounded-t-xl transition-transform hover:scale-[1.15]",
   },
   {
     id: "summit",
@@ -150,7 +154,7 @@ const bentoCards = [
     id: "swap-trade",
     eyebrow: "Bitcoin Assets",
     headline: "Swap e\nTrade.",
-    tagline: "SatsTerminal, DOG Swap e Satflow. Troque Runes com liquidez real no Bitcoin.",
+    tagline: "Plataformas nativas para trocar Runes com liquidez profunda diretamente no Bitcoin, sem fricção.",
     url: "#",
     linkLabel: "Ver plataformas",
     linkColor: "#F7931A",
@@ -184,7 +188,7 @@ const bentoCards = [
     id: "defi",
     eyebrow: "DeFi no Bitcoin",
     headline: "Bitcoin\nDeFi.",
-    tagline: "Liquidação, Empréstimos e Trade com Liquidium, Bitflow e SatsTerminal.",
+    tagline: "Acesse infraestrutura financeira de ponta: empréstimos, rendimentos e trade descentralizado.",
     url: "#",
     linkLabel: "Ver plataformas",
     linkColor: "#F7931A",
@@ -206,7 +210,8 @@ const bentoCards = [
     linkLabel: "Saiba mais",
     linkColor: "#1D1D1F",
     bgStyle: { background: "#F7931A" },
-    image: "/runestone.png",
+    image: "/parent-runestone-inscription.jpg",
+    imageClass: "object-cover object-center scale-[1.20] hover:scale-[1.30] transition-transform duration-700 opacity-90",
     headlineClass: "text-[#1D1D1F]",
     taglineClass: "text-[#1D1D1F]/70",
     eyebrowClass: "text-[#1D1D1F]/60",
@@ -475,8 +480,12 @@ export default function Home() {
 
                   <div className={card.wide ? "shrink-0" : "mt-auto pt-6"}>
                     {(card as any).image && (
-                      <div className="w-full h-40 mb-6 rounded-xl overflow-hidden bg-black/10 flex items-center justify-center">
-                        <img src={(card as any).image} alt={card.headline} className="w-full h-full object-cover mix-blend-multiply" />
+                      <div className="w-full h-40 md:h-48 mb-6 rounded-xl overflow-hidden bg-black/5 flex items-center justify-center relative">
+                        <img
+                          src={(card as any).image}
+                          alt={card.headline}
+                          className={`w-full h-full absolute inset-0 ${(card as any).imageClass || 'object-cover mix-blend-multiply'}`}
+                        />
                       </div>
                     )}
                     {card.wide && (
@@ -503,12 +512,23 @@ export default function Home() {
           Apple-style 50/50 section
       ══════════════════════════════════════ */}
       <section
+        className="relative overflow-hidden"
         style={{
           background: "#0A0A0A",
           borderTop: "0.5px solid rgba(255,255,255,0.07)",
         }}
       >
-        <div className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Background video */}
+        <video
+          src="/graficos.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.25 }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Text */}
           <div>
             <p
