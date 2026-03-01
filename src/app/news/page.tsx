@@ -3,20 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import { Play, Youtube, Clock, ArrowUpRight } from "lucide-react";
 import type { VideoItem } from '../api/youtube-latest/route';
+import { useLanguage } from '@/components/Providers';
+import { getTranslations } from '@/lib/translations';
 
-function timeAgo(isoDate: string): string {
+function timeAgo(isoDate: string, tAgo: ReturnType<typeof getTranslations>['news']['timeAgo']): string {
     if (!isoDate) return '';
     const diff = Date.now() - new Date(isoDate).getTime();
     const days = Math.floor(diff / 86400000);
-    if (days === 0) return 'hoje';
-    if (days === 1) return '1 dia atrás';
-    if (days < 7) return `${days} dias atrás`;
+    if (days === 0) return tAgo.today;
+    if (days === 1) return tAgo.oneDay;
+    if (days < 7) return tAgo.days(days);
     const weeks = Math.floor(days / 7);
-    if (weeks === 1) return '1 semana atrás';
-    if (weeks < 5) return `${weeks} semanas atrás`;
+    if (weeks === 1) return tAgo.oneWeek;
+    if (weeks < 5) return tAgo.weeks(weeks);
     const months = Math.floor(days / 30);
-    if (months === 1) return '1 mês atrás';
-    return `${months} meses atrás`;
+    if (months === 1) return tAgo.oneMonth;
+    return tAgo.months(months);
 }
 
 // X (Twitter) icon as SVG
@@ -31,6 +33,9 @@ function XIcon({ className }: { className?: string }) {
 export default function NewsPage() {
     const [videos, setVideos] = useState<VideoItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const { language } = useLanguage();
+    const tr = getTranslations(language);
+    const t = tr.news;
 
     useEffect(() => {
         fetch('/api/youtube-latest')
@@ -56,19 +61,19 @@ export default function NewsPage() {
                     className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3"
                     style={{ color: "#F7931A" }}
                 >
-                    Ecossistema $DOG
+                    {t.eyebrow}
                 </p>
                 <h1
                     className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-3"
                     style={{ letterSpacing: "-0.022em" }}
                 >
-                    DOG NEWS.
+                    {t.title}
                 </h1>
                 <p
                     className="text-[19px]"
                     style={{ color: "var(--apple-text-secondary)" }}
                 >
-                    Acompanhe as últimas atualizações do ecossistema.
+                    {t.subtitle}
                 </p>
             </div>
 
@@ -77,60 +82,70 @@ export default function NewsPage() {
                 {/* Reporter Profile Card */}
                 <section>
                     <div
-                        className="apple-card p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6"
-                        style={{ border: "0.5px solid var(--apple-separator)" }}
+                        className="apple-card p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-center gap-6 relative overflow-hidden"
+                        style={{ background: "linear-gradient(135deg, rgba(29,29,31,0.4) 0%, rgba(17,17,17,0.8) 100%)", border: "0.5px solid rgba(255,255,255,0.08)" }}
                     >
+                        {/* Decorative glow */}
+                        <div
+                            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                            style={{ background: "radial-gradient(circle at 0% 0%, rgba(247,147,26,0.06) 0%, transparent 50%)" }}
+                        />
+
                         {/* Avatar */}
                         <div
-                            className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 text-white text-[20px] font-bold"
-                            style={{ background: "#F7931A" }}
+                            className="w-24 h-24 rounded-full flex items-center justify-center shrink-0 overflow-hidden relative z-10 shadow-2xl transition-transform hover:scale-105"
+                            style={{ border: "2px solid rgba(247,147,26,0.3)" }}
                         >
-                            CR
+                            <img
+                                src="/vincentpfp.jpg"
+                                alt="Vincent Cryptolution"
+                                className="w-full h-full object-cover"
+                            />
                         </div>
 
                         {/* Info */}
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 text-center sm:text-left relative z-10">
                             <span
-                                className="text-[11px] font-semibold uppercase tracking-[0.08em] mb-1 block"
+                                className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-1.5 block"
                                 style={{ color: "#F7931A" }}
                             >
-                                Reporter · Data Analyst
+                                {t.reporter.role}
                             </span>
                             <h2
-                                className="text-[22px] font-bold leading-tight mb-1"
-                                style={{ letterSpacing: "-0.018em", color: "#1D1D1F" }}
+                                className="text-[26px] font-bold leading-tight mb-2 text-white"
+                                style={{ letterSpacing: "-0.018em" }}
                             >
-                                Cryptolution
+                                Vincent (Cryptolution)
                             </h2>
                             <p
-                                className="text-[14px] leading-[1.5]"
-                                style={{ color: "#6E6E73" }}
+                                className="text-[15px] leading-[1.6]"
+                                style={{ color: "#A1A1A6" }}
                             >
-                                Análise diária do ecossistema $DOG — dados on-chain, preço e narrativa. Vídeos todo dia.
+                                {t.reporter.bio}
                             </p>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto">
                             <a
                                 href="https://www.youtube.com/@cryptolution"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold hover:opacity-80 transition-opacity"
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-semibold hover:opacity-85 transition-opacity shadow-lg"
                                 style={{ background: "#DC2626", color: "#ffffff" }}
                             >
-                                <Youtube className="w-3.5 h-3.5" />
-                                Inscrever
+                                <Youtube className="w-4 h-4" />
+                                {t.reporter.subscribe}
                             </a>
                             <a
                                 href="https://x.com/Cryptolution"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold hover:opacity-80 transition-opacity"
-                                style={{ background: "#000000", color: "#ffffff" }}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-semibold hover:opacity-85 transition-opacity shadow-lg"
+                                style={{ background: "#ffffff", color: "#000000" }}
                             >
-                                <XIcon className="w-3 h-3" />
-                                Seguir
+                                <XIcon className="w-3.5 h-3.5" />
+                                {t.reporter.follow}
                             </a>
                         </div>
                     </div>
@@ -147,7 +162,7 @@ export default function NewsPage() {
                             className="text-[12px] font-semibold uppercase tracking-[0.08em]"
                             style={{ color: "var(--apple-text-secondary)" }}
                         >
-                            Destaque · Último Vídeo @cryptolution
+                            {t.featured.label}
                         </span>
                     </div>
 
@@ -186,7 +201,7 @@ export default function NewsPage() {
                             className="text-[28px] md:text-[34px] font-bold mb-8"
                             style={{ letterSpacing: "-0.018em" }}
                         >
-                            Vídeos Recentes.
+                            {t.recent.title}
                         </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -240,7 +255,7 @@ export default function NewsPage() {
                                                 style={{ color: "var(--apple-text-tertiary)" }}
                                             >
                                                 <Clock className="w-3 h-3" />
-                                                {timeAgo(video.publishedAt)}
+                                                {timeAgo(video.publishedAt, t.timeAgo)}
                                             </div>
                                         )}
                                     </a>
@@ -261,7 +276,7 @@ export default function NewsPage() {
                                 className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-2"
                                 style={{ color: "#F7931A" }}
                             >
-                                Não perca nenhum vídeo
+                                {t.cta.eyebrow}
                             </p>
                             <h3
                                 className="text-[22px] font-bold mb-1 text-white"
@@ -273,7 +288,7 @@ export default function NewsPage() {
                                 className="text-[14px]"
                                 style={{ color: "#6E6E73" }}
                             >
-                                Conteúdo diário sobre $DOG, Bitcoin e economia.
+                                {t.cta.description}
                             </p>
                         </div>
 
@@ -286,7 +301,7 @@ export default function NewsPage() {
                                 style={{ background: "#DC2626", color: "#ffffff" }}
                             >
                                 <Youtube className="w-4 h-4" />
-                                Inscrever-se
+                                {t.cta.subscribeYt}
                             </a>
                             <a
                                 href="https://x.com/Cryptolution"
@@ -296,7 +311,7 @@ export default function NewsPage() {
                                 style={{ background: "#ffffff", color: "#000000" }}
                             >
                                 <XIcon className="w-3.5 h-3.5" />
-                                Seguir no X
+                                {t.cta.followX}
                             </a>
                         </div>
                     </div>

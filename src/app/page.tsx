@@ -2,76 +2,27 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { X as CloseIcon, ChevronDown } from 'lucide-react';
+import { useLanguage } from '@/components/Providers';
+import { getTranslations } from '@/lib/translations';
 
 /* ─────────────────────────────────────────
-   DATA
+   STATIC DATA (non-translated)
 ───────────────────────────────────────── */
-const swapPlatforms = [
-  {
-    name: "SatsTerminal",
-    desc: "Aggregator de liquidez para Runes e Ordinals. Encontra o melhor preço entre múltiplas plataformas automaticamente.",
-    url: "https://app.satsterminal.com/",
-    xUrl: "https://x.com/SatsTerminal",
-    xLabel: "@SatsTerminal",
-  },
-  {
-    name: "DOG Swap",
-    desc: "Swap nativo e descentralizado da comunidade $DOG. Troque Runes diretamente no Bitcoin sem intermediários.",
-    url: "https://swap.dogofbitcoin.com/",
-    xUrl: "https://x.com/DogOfBitcoinOG",
-    xLabel: "@DogOfBitcoinOG",
-  },
-  {
-    name: "Satflow — Runes",
-    desc: "Marketplace e swap de Runes com interface profissional. Alta liquidez e dados de mercado em tempo real.",
-    url: "https://www.satflow.com/runes",
-    xUrl: "https://x.com/Satflow",
-    xLabel: "@Satflow",
-  },
+const swapPlatformsMeta = [
+  { url: "https://app.satsterminal.com/", xUrl: "https://x.com/SatsTerminal", xLabel: "@SatsTerminal", logo: "/satsterminalpfp.jpg" },
+  { url: "https://swap.dogofbitcoin.com/", xUrl: "https://x.com/DogOfBitcoinOG", xLabel: "@DogOfBitcoinOG", logo: "/dog-logo.jpg" },
+  { url: "https://www.satflow.com/runes", xUrl: "https://x.com/Satflow", xLabel: "@Satflow", logo: "/satflow.png" },
 ];
 
-const noKycPlatforms = [
-  {
-    name: "BTC no Pix",
-    desc: "Compre Bitcoin diretamente via Pix, sem cadastro, sem KYC. Rápido, privado e simples.",
-    url: "https://www.btcnopix.com/compre",
-    xUrl: "https://x.com/btcnopix",
-    xLabel: "@btcnopix",
-  },
-  {
-    name: "B2Pix",
-    desc: "Plataforma peer-to-peer para comprar e vender Bitcoin com Pix sem burocracia e sem verificação de identidade.",
-    url: "https://b2pix.org/",
-    xUrl: "https://x.com/b2pixorg",
-    xLabel: "@b2pixorg",
-  },
+const noKycPlatformsMeta = [
+  { url: "https://www.btcnopix.com/compre", xUrl: "https://x.com/btcnopix", xLabel: "@btcnopix", logo: "/btcnopix.png" },
+  { url: "https://b2pix.org/", xUrl: "https://x.com/b2pixorg", xLabel: "@b2pixorg", logo: "/b2pix.png" },
 ];
 
-const defiPlatforms = [
-  {
-    name: "Liquidium",
-    desc: "Principal plataforma de empréstimos de NFTs no Bitcoin.",
-    url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz",
-    xUrl: "https://x.com/LiquidiumWTF",
-    xLabel: "@LiquidiumWTF",
-    logo: "/logos/liquidium.jpg"
-  },
-  {
-    name: "Bitflow Finance",
-    desc: "DEX e Hub de Liquidez construído para Bitcoiners.",
-    url: "https://app.bitflow.finance/trade",
-    xUrl: "https://x.com/bitflow",
-    xLabel: "@bitflow",
-    logo: "/logos/bitflow.png"
-  },
-  {
-    name: "SatsTerminal",
-    desc: "Terminal profissional para analisar e negociar no Bitcoin.",
-    url: "https://borrow.satsterminal.com/",
-    xUrl: "https://x.com/SatsTerminal",
-    xLabel: "@SatsTerminal",
-    logo: "/logos/satsterminal.png"
-  }
+const defiPlatformsMeta = [
+  { url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz", xUrl: "https://x.com/LiquidiumWTF", xLabel: "@LiquidiumWTF", logo: "/liquidiumpfp.jpg" },
+  { url: "https://app.bitflow.finance/trade", xUrl: "https://x.com/bitflow", xLabel: "@bitflow", logo: "/bitflowpfp.jpg" },
+  { url: "https://borrow.satsterminal.com/", xUrl: "https://x.com/SatsTerminal", xLabel: "@SatsTerminal", logo: "/satsterminalpfp.jpg" },
 ];
 
 const ordinalsExplorers = [
@@ -81,203 +32,30 @@ const ordinalsExplorers = [
   { label: "Satflow — Ordinals", url: "https://www.satflow.com/ordinals", xUrl: "https://x.com/Satflow" },
 ];
 
-const bentoCards = [
-  {
-    id: "tokenomics",
-    eyebrow: "$DOG TOKENOMICS",
-    headline: "100 Billion",
-    tagline: "Supply total em circulação. Sem pré-venda, sem investidores.",
-    url: "#",
-    linkLabel: "100% Descentralizado",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#111111" },
-    headlineClass: "text-white text-3xl md:text-5xl",
-    taglineClass: "text-white/50 font-medium",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-6",
-    minH: "min-h-[220px]",
-    wide: true,
-  },
-  {
-    id: "dca",
-    eyebrow: "Estratégia",
-    headline: "Acumule com\nestratégia.",
-    tagline: "Automatize suas compras de $DOG, vença a volatilidade e construa sua posição no longo prazo.",
-    url: "https://app.bitflow.finance/trade?tab=dca",
-    linkLabel: "Configurar DCA",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-3",
-    minH: "min-h-[380px] lg:min-h-[420px]",
-    wide: false,
-    image: "/bitflow.png",
-    imageClass: "object-contain p-2 md:p-4 mix-blend-multiply opacity-90 transition-opacity hover:opacity-100",
-  },
-  {
-    id: "data",
-    eyebrow: "Analytics On-Chain",
-    headline: "Números que\nrevelam tudo.",
-    tagline: "Holders, volume e métricas do $DOG on-chain, direto da fonte e em tempo real.",
-    url: "https://www.dogdata.xyz/",
-    linkLabel: "Abrir DOG DATA",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-3",
-    minH: "min-h-[380px] lg:min-h-[420px]",
-    wide: false,
-    image: "/dogdata1.png",
-    imageClass: "object-cover object-top scale-[1.05] md:scale-110 translate-y-2 md:translate-y-4 shadow-xl rounded-t-xl transition-transform hover:scale-[1.15]",
-  },
-  {
-    id: "summit",
-    eyebrow: "Evento Global",
-    headline: "O encontro da elite $DOG.",
-    tagline: "Bitcoin City, El Salvador · 2024",
-    url: "https://www.dogsummit.club/",
-    linkLabel: "Ver detalhes",
-    linkColor: "#1D1D1F",
-    bgStyle: { background: "linear-gradient(135deg, #F7931A 0%, #FFD700 100%)" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#1D1D1F]/70",
-    eyebrowClass: "text-[#1D1D1F]/60",
-    gridClass: "lg:col-span-6",
-    minH: "min-h-[220px]",
-    wide: true,
-  },
-  {
-    id: "swap-trade",
-    eyebrow: "Bitcoin Assets",
-    headline: "Swap e\nTrade.",
-    tagline: "Plataformas nativas para trocar Runes com liquidez profunda diretamente no Bitcoin, sem fricção.",
-    url: "#",
-    linkLabel: "Ver plataformas",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-2",
-    minH: "min-h-[300px]",
-    wide: false,
-    modalId: "swap-trade",
-  },
-  {
-    id: "no-kyc",
-    eyebrow: "Soberania Financeira",
-    headline: "Compre sem\nKYC.",
-    tagline: "Adquira Bitcoin e cripto com Pix, sem cadastro e sem burocracia.",
-    url: "#",
-    linkLabel: "Ver plataformas",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-2",
-    minH: "min-h-[300px]",
-    wide: false,
-    modalId: "no-kyc",
-  },
-  {
-    id: "defi",
-    eyebrow: "DeFi no Bitcoin",
-    headline: "Bitcoin\nDeFi.",
-    tagline: "Acesse infraestrutura financeira de ponta: empréstimos, rendimentos e trade descentralizado.",
-    url: "#",
-    linkLabel: "Ver plataformas",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-2",
-    minH: "min-h-[300px]",
-    wide: false,
-    modalId: "bitcoin-defi",
-  },
-  {
-    id: "runestone",
-    eyebrow: "História",
-    headline: "O maior\nairdrop.",
-    tagline: "A pedra fundamental da cultura Ordinals.",
-    url: "/runestone",
-    linkLabel: "Saiba mais",
-    linkColor: "#1D1D1F",
-    bgStyle: { background: "#F7931A" },
-    image: "/parent-runestone-inscription.jpg",
-    imageClass: "object-cover object-center scale-[1.20] hover:scale-[1.30] transition-transform duration-700 opacity-90",
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#1D1D1F]/70",
-    eyebrowClass: "text-[#1D1D1F]/60",
-    gridClass: "lg:col-span-2",
-    minH: "min-h-[300px]",
-    wide: false,
-  },
-  {
-    id: "ordinals",
-    eyebrow: "Educação",
-    headline: "Ordinals",
-    tagline: "NFTs nativos do Bitcoin. Clique para aprender tudo sobre o protocolo criado por Casey Rodarmor.",
-    url: "#",
-    linkLabel: "Aprender Ordinals",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-3",
-    minH: "min-h-[300px]",
-    wide: false,
-    modalId: "ordinals",
-  },
-  {
-    id: "runes",
-    eyebrow: "Educação",
-    headline: "Runes",
-    tagline: "Runes são tokens no Bitcoin. Mais eficientes e simples que BRC-20.",
-    url: "https://docs.ordinals.com/introduction.html",
-    linkLabel: "Aprenda sobre Runes",
-    linkColor: "#F7931A",
-    bgStyle: { background: "#ffffff" },
-    headlineClass: "text-[#1D1D1F]",
-    taglineClass: "text-[#6E6E73]",
-    eyebrowClass: "text-[#F7931A]",
-    gridClass: "lg:col-span-3",
-    minH: "min-h-[300px]",
-    wide: false,
-  },
-];
-
-const footerLinks = {
-  "Ecossistema": [
+const footerLinksMeta = {
+  ecosystem: [
     { label: "DOG DATA", href: "https://www.dogdata.xyz/" },
     { label: "DOG Swap", href: "https://swap.dogofbitcoin.com/" },
     { label: "SatsTerminal", href: "https://app.satsterminal.com/" },
     { label: "Satflow", href: "https://www.satflow.com/" },
     { label: "Bitflow", href: "https://app.bitflow.finance/" },
   ],
-  "Aprender": [
+  learn: [
     { label: "Ordinals", href: "/educacao" },
     { label: "Runes", href: "https://docs.ordinals.com/" },
     { label: "Runestone", href: "/runestone" },
-    { label: "Educação", href: "/educacao" },
+    { label: "Education", href: "/educacao" },
   ],
-  "Comunidade": [
+  community: [
     { label: "X / Twitter", href: "https://x.com/DogOfBitcoinOG" },
     { label: "DOG Summit", href: "https://www.dogsummit.club/" },
     { label: "DOG NEWS", href: "/news" },
-    { label: "Comunidade", href: "/comunidade" },
+    { label: "Community", href: "/comunidade" },
   ],
-  "Comprar": [
+  buy: [
     { label: "BTC no Pix", href: "https://www.btcnopix.com/compre" },
     { label: "B2Pix", href: "https://b2pix.org/" },
-    { label: "Sem KYC ›", href: "#" },
+    { label: "No KYC ›", href: "#" },
   ],
 };
 
@@ -286,6 +64,260 @@ const footerLinks = {
 ───────────────────────────────────────── */
 export default function Home() {
   const [openModal, setOpenModal] = useState<string | null>(null);
+  const { language } = useLanguage();
+  const tr = getTranslations(language);
+  const t = tr.home;
+
+  const bentoCards = [
+    {
+      id: "tokenomics",
+      eyebrow: t.bentoCards.tokenomics.eyebrow,
+      headline: t.bentoCards.tokenomics.headline,
+      tagline: t.bentoCards.tokenomics.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.tokenomics.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#111111" },
+      headlineClass: "text-white text-3xl md:text-5xl",
+      taglineClass: "text-white/50 font-medium",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-6",
+      minH: "min-h-[220px]",
+      wide: true,
+    },
+    {
+      id: "dca",
+      eyebrow: t.bentoCards.dca.eyebrow,
+      headline: t.bentoCards.dca.headline,
+      tagline: t.bentoCards.dca.tagline,
+      url: "https://app.bitflow.finance/trade?tab=dca",
+      linkLabel: t.bentoCards.dca.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-3",
+      minH: "min-h-[380px] lg:min-h-[420px]",
+      wide: false,
+      image: "/bitflow.png",
+      imageClass: "object-contain p-2 md:p-4 mix-blend-multiply opacity-90 transition-opacity hover:opacity-100",
+    },
+    {
+      id: "data",
+      eyebrow: t.bentoCards.data.eyebrow,
+      headline: t.bentoCards.data.headline,
+      tagline: t.bentoCards.data.tagline,
+      url: "https://www.dogdata.xyz/",
+      linkLabel: t.bentoCards.data.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-3",
+      minH: "min-h-[380px] lg:min-h-[420px]",
+      wide: false,
+      image: "/dogdata1.png",
+      imageClass: "object-cover object-top scale-[1.05] md:scale-110 translate-y-2 md:translate-y-4 shadow-xl rounded-t-xl transition-transform hover:scale-[1.15]",
+    },
+    {
+      id: "summit",
+      eyebrow: t.bentoCards.summit.eyebrow,
+      headline: t.bentoCards.summit.headline,
+      tagline: t.bentoCards.summit.tagline,
+      url: "https://www.dogsummit.club/",
+      linkLabel: t.bentoCards.summit.linkLabel,
+      linkColor: "#1D1D1F",
+      bgStyle: { background: "linear-gradient(135deg, #F7931A 0%, #FFD700 100%)" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#1D1D1F]/70",
+      eyebrowClass: "text-[#1D1D1F]/60",
+      gridClass: "lg:col-span-6",
+      minH: "min-h-[220px]",
+      wide: true,
+    },
+    {
+      id: "swap-trade",
+      eyebrow: t.bentoCards.swapTrade.eyebrow,
+      headline: t.bentoCards.swapTrade.headline,
+      tagline: t.bentoCards.swapTrade.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.swapTrade.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-2",
+      minH: "min-h-[300px]",
+      wide: false,
+      modalId: "swap-trade",
+    },
+    {
+      id: "no-kyc",
+      eyebrow: t.bentoCards.noKyc.eyebrow,
+      headline: t.bentoCards.noKyc.headline,
+      tagline: t.bentoCards.noKyc.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.noKyc.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-2",
+      minH: "min-h-[300px]",
+      wide: false,
+      modalId: "no-kyc",
+    },
+    {
+      id: "defi",
+      eyebrow: t.bentoCards.defi.eyebrow,
+      headline: t.bentoCards.defi.headline,
+      tagline: t.bentoCards.defi.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.defi.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-2",
+      minH: "min-h-[300px]",
+      wide: false,
+      modalId: "bitcoin-defi",
+    },
+    {
+      id: "runestone",
+      eyebrow: t.bentoCards.runestone.eyebrow,
+      headline: t.bentoCards.runestone.headline,
+      tagline: t.bentoCards.runestone.tagline,
+      url: "/runestone",
+      linkLabel: t.bentoCards.runestone.linkLabel,
+      linkColor: "#1D1D1F",
+      bgStyle: { background: "#F7931A" },
+      image: "/parent-runestone-inscription.jpg",
+      imageClass: "object-cover object-center scale-[1.20] hover:scale-[1.30] transition-transform duration-700 opacity-90",
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#1D1D1F]/70",
+      eyebrowClass: "text-[#1D1D1F]/60",
+      gridClass: "lg:col-span-2",
+      minH: "min-h-[300px]",
+      wide: false,
+    },
+    {
+      id: "ordinals",
+      eyebrow: t.bentoCards.ordinals.eyebrow,
+      headline: t.bentoCards.ordinals.headline,
+      tagline: t.bentoCards.ordinals.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.ordinals.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-3",
+      minH: "min-h-[300px]",
+      wide: false,
+      modalId: "ordinals",
+    },
+    {
+      id: "runes",
+      eyebrow: t.bentoCards.runes.eyebrow,
+      headline: t.bentoCards.runes.headline,
+      tagline: t.bentoCards.runes.tagline,
+      url: "https://docs.ordinals.com/introduction.html",
+      linkLabel: t.bentoCards.runes.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-3",
+      minH: "min-h-[300px]",
+      wide: false,
+    },
+  ];
+
+  const swapPlatforms = t.platforms.swap.map((p, i) => ({ ...p, ...swapPlatformsMeta[i] }));
+  const noKycPlatforms = t.platforms.noKyc.map((p, i) => ({ ...p, ...noKycPlatformsMeta[i] }));
+  const defiPlatforms = t.platforms.defi.map((p, i) => ({ ...p, ...defiPlatformsMeta[i] }));
+
+  const footerLinks = {
+    [t.footer.columns.ecosystem]: footerLinksMeta.ecosystem,
+    [t.footer.columns.learn]: footerLinksMeta.learn,
+    [t.footer.columns.community]: footerLinksMeta.community,
+    [t.footer.columns.buy]: footerLinksMeta.buy,
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderCard = (card: any) => {
+    const hasModal = !!card.modalId;
+    const LinkComponent = card.url.startsWith("http") ? "a" : Link;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Wrapper: any = hasModal ? "div" : LinkComponent;
+
+    const baseProps = hasModal ? {} : {
+      href: card.url,
+      target: card.url.startsWith("http") ? "_blank" : undefined,
+      rel: card.url.startsWith("http") ? "noopener noreferrer" : undefined,
+    };
+
+    return (
+      <Wrapper
+        key={card.id}
+        {...baseProps}
+        onClick={hasModal ? () => setOpenModal(card.modalId) : undefined}
+        className={`apple-card ${card.bgClass ?? ""} ${card.gridClass} ${card.minH} p-8 md:p-10 flex no-underline ${hasModal ? "cursor-pointer" : ""} ${card.wide
+          ? "flex-col md:flex-row md:items-center md:justify-between gap-6"
+          : "flex-col justify-between"
+          }`}
+        style={card.bgStyle}
+      >
+        <div className="flex-1 flex flex-col">
+          <p className={`text-[12px] font-semibold uppercase tracking-[0.06em] mb-2 ${card.eyebrowClass}`}>
+            {card.eyebrow}
+          </p>
+          <h3
+            className={`text-[34px] md:text-[40px] font-bold leading-[1.06] ${card.headlineClass} whitespace-pre-line`}
+            style={{ letterSpacing: "-0.016em" }}
+          >
+            {card.headline}
+          </h3>
+          {!card.wide && (
+            <p className={`text-[15px] mt-3 leading-[1.45] ${card.taglineClass}`}>
+              {card.tagline}
+            </p>
+          )}
+        </div>
+
+        <div className={card.wide ? "shrink-0" : "mt-auto pt-6"}>
+          {card.image && (
+            <div className="w-full h-40 md:h-48 mb-6 rounded-xl overflow-hidden bg-black/5 flex items-center justify-center relative">
+              <img
+                src={card.image}
+                alt={card.headline}
+                className={`w-full h-full absolute inset-0 ${card.imageClass || 'object-cover mix-blend-multiply'}`}
+              />
+            </div>
+          )}
+          {card.wide && (
+            <p className={`text-[15px] mb-4 leading-[1.45] ${card.taglineClass}`}>
+              {card.tagline}
+            </p>
+          )}
+          <span
+            className="text-[17px] font-medium hover:underline underline-offset-2"
+            style={{ color: card.linkColor }}
+          >
+            {card.linkLabel} {card.url !== "#" || hasModal ? "›" : ""}
+          </span>
+        </div>
+      </Wrapper>
+    );
+  };
 
   return (
     <div>
@@ -332,9 +364,9 @@ export default function Home() {
             className="text-[52px] md:text-[80px] lg:text-[108px] font-bold text-white mb-5"
             style={{ letterSpacing: "-0.03em", lineHeight: "1.02", textShadow: "0 2px 24px rgba(0,0,0,0.7)" }}
           >
-            Preço muda,
+            {t.hero.headline1}
             <br />
-            <span style={{ color: "#F7931A" }}>visão não.</span>
+            <span style={{ color: "#F7931A" }}>{t.hero.headline2}</span>
           </h1>
 
           {/* Subtitle */}
@@ -342,7 +374,7 @@ export default function Home() {
             className="text-[18px] md:text-[21px] max-w-[560px] mb-10 leading-[1.5]"
             style={{ color: "rgba(255,255,255,0.70)", textShadow: "0 1px 12px rgba(0,0,0,0.9)" }}
           >
-            $DOG — o principal meme do Bitcoin. Construa sua soberania financeira com paciência e convicção.
+            {t.hero.subtitle}
           </p>
 
           {/* CTAs */}
@@ -354,13 +386,13 @@ export default function Home() {
               className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
               style={{ background: "#F7931A", color: "#000000" }}
             >
-              Comprar $DOG
+              {t.hero.cta_buy}
             </a>
             <Link
               href="/educacao"
               className="text-[17px] font-medium transition-all hover:underline underline-offset-2 text-white"
             >
-              Saiba mais ›
+              {t.hero.cta_learn}
             </Link>
           </div>
         </div>
@@ -383,12 +415,7 @@ export default function Home() {
       >
         <div className="max-w-[980px] mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4">
-            {[
-              { value: "100B", label: "Supply total" },
-              { value: "Bitcoin", label: "Blockchain nativa" },
-              { value: "Zero", label: "Pré-venda / VCs" },
-              { value: "100%", label: "Descentralizado" },
-            ].map((stat, i) => (
+            {t.stats.map((stat, i) => (
               <div
                 key={stat.label}
                 className="text-center py-7 px-4"
@@ -420,89 +447,30 @@ export default function Home() {
       <section className="py-20 md:py-28 px-4 md:px-6" style={{ background: "#000000" }}>
         <div className="max-w-[980px] mx-auto">
 
+          {/* Tokenomics Bento Grid (Moved before header) */}
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-3 mb-16 md:mb-24">
+            {bentoCards.filter(c => c.id === "tokenomics").map(renderCard)}
+          </div>
+
           {/* Apple-style two-column section header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 md:mb-16">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10 md:mb-12">
             <h2
-              className="text-[44px] md:text-[56px] font-bold leading-[1.05]"
+              className="text-[44px] md:text-[56px] font-bold leading-[1.05] whitespace-pre-line"
               style={{ letterSpacing: "-0.025em" }}
             >
-              DOG<br />Ecossistema.
+              {t.ecosystem.headline}
             </h2>
             <p
-              className="text-[17px] md:text-[19px] max-w-[300px] leading-[1.45]"
-              style={{ color: "#6E6E73" }}
+              className="text-[15px] md:text-[17px] max-w-[460px] leading-[1.5]"
+              style={{ color: "#86868B" }}
             >
-              Ferramentas construídas para a Dog Army.
+              {t.ecosystem.description}
             </p>
           </div>
 
-          {/* Bento grid */}
+          {/* Bento grid rest */}
           <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
-            {bentoCards.map((card) => {
-              const hasModal = !!(card as any).modalId;
-              const LinkComponent = card.url.startsWith("http") ? "a" : Link;
-              const Wrapper = hasModal ? "div" : LinkComponent;
-
-              const baseProps = hasModal ? {} : {
-                href: card.url,
-                target: card.url.startsWith("http") ? "_blank" : undefined,
-                rel: card.url.startsWith("http") ? "noopener noreferrer" : undefined,
-              };
-
-              return (
-                <Wrapper
-                  key={card.id}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  {...(baseProps as any)}
-                  onClick={hasModal ? () => setOpenModal((card as any).modalId) : undefined}
-                  className={`apple-card ${(card as any).bgClass ?? ""} ${card.gridClass} ${card.minH} p-8 md:p-10 flex no-underline ${hasModal ? "cursor-pointer" : ""} ${card.wide
-                    ? "flex-col md:flex-row md:items-center md:justify-between gap-6"
-                    : "flex-col justify-between"
-                    }`}
-                  style={card.bgStyle}
-                >
-                  <div className="flex-1 flex flex-col">
-                    <p className={`text-[12px] font-semibold uppercase tracking-[0.06em] mb-2 ${card.eyebrowClass}`}>
-                      {card.eyebrow}
-                    </p>
-                    <h3
-                      className={`text-[34px] md:text-[40px] font-bold leading-[1.06] ${card.headlineClass} whitespace-pre-line`}
-                      style={{ letterSpacing: "-0.016em" }}
-                    >
-                      {card.headline}
-                    </h3>
-                    {!card.wide && (
-                      <p className={`text-[15px] mt-3 leading-[1.45] ${card.taglineClass}`}>
-                        {card.tagline}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className={card.wide ? "shrink-0" : "mt-auto pt-6"}>
-                    {(card as any).image && (
-                      <div className="w-full h-40 md:h-48 mb-6 rounded-xl overflow-hidden bg-black/5 flex items-center justify-center relative">
-                        <img
-                          src={(card as any).image}
-                          alt={card.headline}
-                          className={`w-full h-full absolute inset-0 ${(card as any).imageClass || 'object-cover mix-blend-multiply'}`}
-                        />
-                      </div>
-                    )}
-                    {card.wide && (
-                      <p className={`text-[15px] mb-4 leading-[1.45] ${card.taglineClass}`}>
-                        {card.tagline}
-                      </p>
-                    )}
-                    <span
-                      className="text-[17px] font-medium hover:underline underline-offset-2"
-                      style={{ color: card.linkColor }}
-                    >
-                      {card.linkLabel} {card.url !== "#" || hasModal ? "›" : ""}
-                    </span>
-                  </div>
-                </Wrapper>
-              );
-            })}
+            {bentoCards.filter(c => c.id !== "tokenomics").map(renderCard)}
           </div>
         </div>
       </section>
@@ -535,20 +503,20 @@ export default function Home() {
               className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
               style={{ color: "#F7931A" }}
             >
-              Mercado em tempo real
+              {t.tradingview.eyebrow}
             </p>
             <h2
               className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
               style={{ letterSpacing: "-0.025em" }}
             >
-              Trading
-              <span style={{ color: "#F7931A" }}>View.</span>
+              {t.tradingview.headline1}
+              <span style={{ color: "#F7931A" }}>{t.tradingview.headline2}</span>
             </h2>
             <p
               className="text-[17px] leading-[1.6] mb-8"
               style={{ color: "#86868B" }}
             >
-              Acompanhe o par DOG/USDT em tempo real com gráficos profissionais. Analise tendências, volume e suportes antes de cada decisão.
+              {t.tradingview.description}
             </p>
             <a
               href="https://www.tradingview.com/"
@@ -557,7 +525,7 @@ export default function Home() {
               className="text-[17px] font-medium hover:underline underline-offset-2"
               style={{ color: "#F7931A" }}
             >
-              Abrir TradingView ›
+              {t.tradingview.cta}
             </a>
           </div>
           {/* Widget */}
@@ -615,21 +583,21 @@ export default function Home() {
               className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
               style={{ color: "#F7931A" }}
             >
-              Swap descentralizado
+              {t.dogswap.eyebrow}
             </p>
             <h2
               className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
               style={{ letterSpacing: "-0.025em" }}
             >
-              DOG
+              {t.dogswap.headline1}
               <br />
-              <span style={{ color: "#F7931A" }}>Swap.</span>
+              <span style={{ color: "#F7931A" }}>{t.dogswap.headline2}</span>
             </h2>
             <p
               className="text-[17px] leading-[1.6] mb-8"
               style={{ color: "#86868B" }}
             >
-              Swap nativo e descentralizado da comunidade $DOG. Troque Runes diretamente no Bitcoin, sem intermediários, sem custódia.
+              {t.dogswap.description}
             </p>
             <a
               href="https://swap.dogofbitcoin.com/"
@@ -638,7 +606,7 @@ export default function Home() {
               className="text-[17px] font-medium hover:underline underline-offset-2"
               style={{ color: "#F7931A" }}
             >
-              Abrir DOG Swap ›
+              {t.dogswap.cta}
             </a>
           </div>
         </div>
@@ -652,12 +620,6 @@ export default function Home() {
         className="relative overflow-hidden"
         style={{ background: "#000000", borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
       >
-        {/*
-          ── IMAGE SLOT ──
-          Coloque  /public/runestone-airdrop.jpg  ou  /public/summit-photo.jpg
-          para preencher o fundo desta seção.
-          A foto deve ter pelo menos 1400×800px.
-        */}
         <img
           src="/runestone-airdrop.jpg"
           alt="Runestone Airdrop"
@@ -678,20 +640,20 @@ export default function Home() {
             className="text-[12px] font-semibold uppercase tracking-[0.14em] mb-6"
             style={{ color: "#F7931A" }}
           >
-            História · Airdrop
+            {t.runestone_section.eyebrow}
           </p>
           <h2
             className="text-[48px] md:text-[72px] lg:text-[88px] font-bold text-white leading-[1.02] mb-6"
             style={{ letterSpacing: "-0.03em" }}
           >
-            O maior airdrop<br />
-            <span style={{ color: "#F7931A" }}>do Bitcoin.</span>
+            {t.runestone_section.headline1}<br />
+            <span style={{ color: "#F7931A" }}>{t.runestone_section.headline2}</span>
           </h2>
           <p
             className="text-[19px] md:text-[21px] max-w-[520px] mx-auto mb-10 leading-[1.5]"
             style={{ color: "rgba(255,255,255,0.65)" }}
           >
-            Runestone — a pedra fundamental da cultura Ordinals. Distribuído gratuitamente para os holders mais leais do Bitcoin.
+            {t.runestone_section.description}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -699,16 +661,8 @@ export default function Home() {
               className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
               style={{ background: "#F7931A", color: "#000000" }}
             >
-              Saiba mais
+              {t.runestone_section.cta_main}
             </Link>
-            <a
-              href="https://www.dogsummit.club/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[17px] font-medium transition-all hover:underline underline-offset-2 text-white"
-            >
-              DOG Summit ›
-            </a>
           </div>
         </div>
       </section>
@@ -740,21 +694,21 @@ export default function Home() {
               className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
               style={{ color: "#F7931A" }}
             >
-              Analytics on-chain
+              {t.dogdata.eyebrow}
             </p>
             <h2
               className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
               style={{ letterSpacing: "-0.025em" }}
             >
-              DOG
+              {t.dogdata.headline1}
               <br />
-              <span style={{ color: "#F7931A" }}>DATA.</span>
+              <span style={{ color: "#F7931A" }}>{t.dogdata.headline2}</span>
             </h2>
             <p
               className="text-[17px] leading-[1.6] mb-8"
               style={{ color: "#86868B" }}
             >
-              Holders, volume e métricas reais do $DOG em tempo real. Dados on-chain que revelam a força e a convicção da Dog Army.
+              {t.dogdata.description}
             </p>
             <a
               href="https://www.dogdata.xyz/"
@@ -763,7 +717,7 @@ export default function Home() {
               className="text-[17px] font-medium hover:underline underline-offset-2"
               style={{ color: "#F7931A" }}
             >
-              Abrir DOG DATA ›
+              {t.dogdata.cta}
             </a>
           </div>
           {/* Widget + attribution */}
@@ -860,10 +814,10 @@ export default function Home() {
           {/* Bottom bar */}
           <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
             <p className="text-[12px]" style={{ color: "#6E6E73" }}>
-              Copyright © 2025 $DOG Aggregator. Todos os direitos reservados.
+              {t.footer.copyright}
             </p>
             <p className="text-[12px]" style={{ color: "#6E6E73" }}>
-              Bitcoin Nativo · 100% Descentralizado
+              {t.footer.tagline}
             </p>
           </div>
         </div>
@@ -886,7 +840,7 @@ export default function Home() {
             <button
               onClick={() => setOpenModal(null)}
               className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-black/5"
-              aria-label="Fechar"
+              aria-label={t.modals.close}
             >
               <CloseIcon className="w-4 h-4" style={{ color: "#1D1D1F" }} />
             </button>
@@ -894,9 +848,9 @@ export default function Home() {
             {/* Ordinals modal */}
             {openModal === "ordinals" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Educação</p>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.ordinals.eyebrow}</p>
                 <h2 className="text-[32px] font-bold leading-[1.1] mb-6" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>
-                  Ordinals — NFTs Nativos do Bitcoin
+                  {t.modals.ordinals.title}
                 </h2>
                 <a
                   href="https://www.youtube.com/watch?v=rSS0O2KQpsI"
@@ -906,29 +860,29 @@ export default function Home() {
                 >
                   <img
                     src="https://img.youtube.com/vi/rSS0O2KQpsI/hqdefault.jpg"
-                    alt="Casey Rodarmor apresenta Ordinals"
+                    alt={t.modals.ordinals.videoCaption}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 group-hover:bg-black/55 transition-all gap-2">
                     <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#FF0000" }}>
                       <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1"><polygon points="6,4 20,12 6,20" /></svg>
                     </div>
-                    <span className="text-white text-[13px] font-semibold drop-shadow">Casey Rodarmor apresenta Ordinals ao mundo</span>
+                    <span className="text-white text-[13px] font-semibold drop-shadow">{t.modals.ordinals.videoCaption}</span>
                   </div>
                 </a>
                 <div className="space-y-4 text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>
                   <div>
-                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>O que são Ordinals?</h3>
-                    <p>Ordinals é um protocolo criado por Casey Rodarmor em janeiro de 2023. Ele permite inscrever qualquer dado — imagem, texto, código — diretamente nos menores pedaços de Bitcoin: os <strong>satoshis</strong>.</p>
+                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>{t.modals.ordinals.whatAre.title}</h3>
+                    <p>{t.modals.ordinals.whatAre.content}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>Como funciona?</h3>
-                    <p>O protocolo atribui um número de série único a cada satoshi. O conteúdo inscrito fica gravado <strong>permanentemente</strong> na blockchain do Bitcoin — sem servidores externos, sem IPFS.</p>
+                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>{t.modals.ordinals.howWorks.title}</h3>
+                    <p>{t.modals.ordinals.howWorks.content}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>Por que é revolucionário?</h3>
+                    <h3 className="font-bold text-[17px] mb-1" style={{ color: "#1D1D1F" }}>{t.modals.ordinals.why.title}</h3>
                     <ul className="space-y-1">
-                      {["100% on-chain: os dados ficam dentro da blockchain", "Imutável: uma vez inscrito, não pode ser alterado", "Sem smart contracts: usa apenas o protocolo nativo", "Proof-of-Work: segurança da maior rede do mundo"].map((item) => (
+                      {t.modals.ordinals.why.points.map((item) => (
                         <li key={item} className="flex items-start gap-2">
                           <span style={{ color: "#F7931A" }} className="mt-0.5 shrink-0">✦</span>
                           <span>{item}</span>
@@ -944,10 +898,10 @@ export default function Home() {
                   className="inline-flex items-center gap-1.5 text-[14px] font-semibold mt-6 hover:underline underline-offset-2"
                   style={{ color: "#F7931A" }}
                 >
-                  Ler documentação oficial →
+                  {t.modals.ordinals.docLink}
                 </a>
                 <div style={{ borderTop: "0.5px solid #E5E5E7" }} className="mt-6 pt-6">
-                  <p className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-3" style={{ color: "#86868B" }}>Explorar Ordinals</p>
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-3" style={{ color: "#86868B" }}>{t.modals.ordinals.exploreLabel}</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {ordinalsExplorers.map((exp) => (
                       <a
@@ -973,22 +927,29 @@ export default function Home() {
             {/* No-KYC modal */}
             {openModal === "no-kyc" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Soberania Financeira</p>
-                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Compre Cripto sem KYC</h2>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.noKyc.eyebrow}</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>{t.modals.noKyc.title}</h2>
                 <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
-                  Plataformas brasileiras que permitem adquirir Bitcoin via Pix sem exigir cadastro ou verificação de identidade.
+                  {t.modals.noKyc.description}
                 </p>
                 <div className="space-y-4">
                   {noKycPlatforms.map((platform) => (
-                    <div key={platform.url} className="rounded-2xl p-5" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
-                        <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                    <div key={platform.url} className="rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-start" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-2 bg-white shadow-sm" style={{ border: "0.5px solid #E5E5E7" }}>
+                        <img src={platform.logo} alt={platform.name} className="w-full h-full object-contain rounded-lg" />
                       </div>
-                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
-                      <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
-                        Abrir plataforma →
-                      </a>
+                      <div className="flex-1 w-full">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-2">
+                          <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
+                          {platform.xUrl && (
+                            <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                          )}
+                        </div>
+                        <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
+                        <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-85 shadow-sm" style={{ background: "#1D1D1F", color: "#ffffff" }}>
+                          {t.modals.openPlatform}
+                        </a>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -998,22 +959,29 @@ export default function Home() {
             {/* Swap & Trade modal */}
             {openModal === "swap-trade" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>Bitcoin Assets</p>
-                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Swap e Trade</h2>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.swapTrade.eyebrow}</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>{t.modals.swapTrade.title}</h2>
                 <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
-                  Plataformas descentralizadas para trocar e negociar Runes e ativos do Bitcoin.
+                  {t.modals.swapTrade.description}
                 </p>
                 <div className="space-y-4">
                   {swapPlatforms.map((platform) => (
-                    <div key={platform.url} className="rounded-2xl p-5" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
-                        <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                    <div key={platform.url} className="rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-start" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-2 bg-white shadow-sm" style={{ border: "0.5px solid #E5E5E7" }}>
+                        <img src={platform.logo} alt={platform.name} className="w-full h-full object-contain rounded-lg" />
                       </div>
-                      <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
-                      <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
-                        Abrir plataforma →
-                      </a>
+                      <div className="flex-1 w-full">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-2">
+                          <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
+                          {platform.xUrl && (
+                            <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                          )}
+                        </div>
+                        <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
+                        <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-85 shadow-sm" style={{ background: "#1D1D1F", color: "#ffffff" }}>
+                          {t.modals.openPlatform}
+                        </a>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1023,25 +991,27 @@ export default function Home() {
             {/* Bitcoin DeFi modal */}
             {openModal === "bitcoin-defi" && (
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>DeFi no Bitcoin</p>
-                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>Bitcoin DeFi</h2>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.defi.eyebrow}</p>
+                <h2 className="text-[32px] font-bold leading-[1.1] mb-2" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>{t.modals.defi.title}</h2>
                 <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
-                  Plataformas de finanças descentralizadas (DeFi) no Bitcoin. Faça seu patrimônio render, pegue empréstimos e negocie com segurança.
+                  {t.modals.defi.description}
                 </p>
                 <div className="space-y-4">
                   {defiPlatforms.map((platform) => (
                     <div key={platform.url} className="rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-start" style={{ background: "#F5F5F7", border: "0.5px solid #E5E5E7" }}>
-                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-2" style={{ background: "#ffffff", border: "0.5px solid #E5E5E7" }}>
-                        <img src={platform.logo} alt={platform.name} className="w-full max-h-full object-contain" />
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-2 bg-white shadow-sm" style={{ border: "0.5px solid #E5E5E7" }}>
+                        <img src={platform.logo} alt={platform.name} className="w-full h-full object-contain rounded-lg" />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 w-full">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-2">
                           <h3 className="font-bold text-[17px]" style={{ color: "#1D1D1F" }}>{platform.name}</h3>
-                          <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                          {platform.xUrl && (
+                            <a href={platform.xUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium shrink-0 hover:underline" style={{ color: "#6E6E73" }}>{platform.xLabel}</a>
+                          )}
                         </div>
                         <p className="text-[14px] leading-[1.55] mb-4" style={{ color: "#3A3A3C" }}>{platform.desc}</p>
-                        <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-80" style={{ background: "#F7931A", color: "#ffffff" }}>
-                          Abrir plataforma →
+                        <a href={platform.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-opacity hover:opacity-85 shadow-sm" style={{ background: "#1D1D1F", color: "#ffffff" }}>
+                          {t.modals.openPlatform}
                         </a>
                       </div>
                     </div>

@@ -1,7 +1,15 @@
+'use client';
+
 import { dogEvents } from "@/data";
+import { useLanguage } from "@/components/Providers";
+import { getTranslations } from "@/lib/translations";
 import { Calendar, MapPin, ExternalLink, ArrowUpRight } from "lucide-react";
 
 export default function EventosPage() {
+    const { language } = useLanguage();
+    const tr = getTranslations(language);
+    const t = tr.eventos;
+
     const upcomingEvents = dogEvents.filter((e) => e.status === "upcoming");
     const pastEvents = dogEvents.filter((e) => e.status === "past");
 
@@ -16,19 +24,19 @@ export default function EventosPage() {
                     className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3"
                     style={{ color: "#F7931A" }}
                 >
-                    Comunidade Global
+                    {t.eyebrow}
                 </p>
                 <h1
                     className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-3"
                     style={{ letterSpacing: "-0.022em" }}
                 >
-                    Eventos.
+                    {t.title}
                 </h1>
                 <p
                     className="text-[19px]"
                     style={{ color: "var(--apple-text-secondary)" }}
                 >
-                    Onde o mundo físico e o digital se encontram.
+                    {t.subtitle}
                 </p>
             </div>
 
@@ -51,13 +59,13 @@ export default function EventosPage() {
                                     className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-[0.08em] mb-5"
                                     style={{ background: "rgba(29,29,31,0.12)", color: "#1D1D1F" }}
                                 >
-                                    Featured Event
+                                    {t.featured.badge}
                                 </div>
                                 <h2
                                     className="text-[42px] md:text-[56px] font-bold leading-[1.04] mb-4"
                                     style={{ letterSpacing: "-0.022em", color: "#1D1D1F" }}
                                 >
-                                    DOG SUMMIT 2025.
+                                    {t.featured.title}
                                 </h2>
                                 <div className="flex flex-wrap gap-5 text-[15px] font-medium" style={{ color: "rgba(29,29,31,0.7)" }}>
                                     <span className="flex items-center gap-2">
@@ -73,7 +81,7 @@ export default function EventosPage() {
                                     className="text-[17px] mt-5 max-w-[500px] leading-[1.47]"
                                     style={{ color: "rgba(29,29,31,0.75)" }}
                                 >
-                                    O encontro definitivo da comunidade $DOG focado na adoção regional e cultura Bitcoin. Estratégia, networking e soberania financeira no Brasil.
+                                    {t.featured.description}
                                 </p>
                             </div>
                             <div className="shrink-0">
@@ -81,7 +89,7 @@ export default function EventosPage() {
                                     className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-[15px] font-semibold transition-opacity hover:opacity-80"
                                     style={{ background: "#1D1D1F", color: "#ffffff" }}
                                 >
-                                    Ver Detalhes
+                                    {t.featured.cta}
                                     <ArrowUpRight className="w-4 h-4" />
                                 </span>
                             </div>
@@ -105,14 +113,14 @@ export default function EventosPage() {
                                 className="text-[19px] font-semibold"
                                 style={{ letterSpacing: "-0.016em" }}
                             >
-                                Próximos Encontros
+                                {t.upcoming.title}
                             </h3>
                         </div>
 
                         <div className="space-y-3">
                             {upcomingEvents.length === 0 && (
                                 <p className="text-[15px]" style={{ color: "var(--apple-text-secondary)" }}>
-                                    Nenhum evento agendado.
+                                    {t.upcoming.empty}
                                 </p>
                             )}
                             {upcomingEvents.map((event) => (
@@ -158,7 +166,7 @@ export default function EventosPage() {
                                 className="text-[19px] font-semibold"
                                 style={{ letterSpacing: "-0.016em", color: "var(--apple-text-secondary)" }}
                             >
-                                Histórico
+                                {t.past.title}
                             </h3>
                         </div>
 

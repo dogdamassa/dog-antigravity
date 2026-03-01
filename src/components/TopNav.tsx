@@ -3,23 +3,27 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from './Providers';
+import { useTheme, useLanguage } from './Providers';
 import { Sun, Moon, Menu, X } from 'lucide-react';
-
-const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Comunidade', href: '/comunidade' },
-    { name: 'Eventos', href: '/eventos' },
-    { name: 'Educação', href: '/educacao' },
-    { name: 'Apps', href: '/apps' },
-    { name: 'DOG NEWS', href: '/news' },
-];
+import { getTranslations } from '@/lib/translations';
 
 export function TopNav() {
     const pathname = usePathname();
     const { theme, toggleTheme } = useTheme();
+    const { language, toggleLanguage } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    const t = getTranslations(language);
+
+    const navItems = [
+        { name: t.nav.home, href: '/' },
+        { name: t.nav.comunidade, href: '/comunidade' },
+        { name: t.nav.eventos, href: '/eventos' },
+        { name: t.nav.educacao, href: '/educacao' },
+        { name: t.nav.apps, href: '/apps' },
+        { name: t.nav.news, href: '/news' },
+    ];
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 2);
@@ -75,9 +79,21 @@ export function TopNav() {
 
                     {/* Right actions */}
                     <div className="flex items-center gap-0.5 shrink-0">
+                        {/* Language toggle */}
+                        <button
+                            onClick={toggleLanguage}
+                            aria-label={t.nav.toggleLanguage}
+                            className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all duration-150"
+                        >
+                            <span className="text-[10px] font-bold tracking-wide uppercase">
+                                {language === 'pt' ? 'EN' : 'PT'}
+                            </span>
+                        </button>
+
+                        {/* Theme toggle */}
                         <button
                             onClick={toggleTheme}
-                            aria-label="Alternar tema"
+                            aria-label={t.nav.toggleTheme}
                             className="w-8 h-8 flex items-center justify-center rounded-full text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all duration-150"
                         >
                             {theme === 'dark'
@@ -89,7 +105,7 @@ export function TopNav() {
                         {/* Mobile hamburger */}
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+                            aria-label={isOpen ? t.nav.closeMenu : t.nav.openMenu}
                             className="md:hidden w-8 h-8 flex items-center justify-center rounded-full text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all duration-150"
                         >
                             {isOpen
@@ -125,7 +141,7 @@ export function TopNav() {
                         ))}
                     </nav>
 
-                    <div className="mt-10">
+                    <div className="mt-10 flex flex-col gap-4">
                         <button
                             onClick={() => { toggleTheme(); setIsOpen(false); }}
                             className="flex items-center gap-3 text-[17px] text-foreground/50 font-medium"
@@ -134,7 +150,17 @@ export function TopNav() {
                                 ? <Sun className="w-5 h-5 text-dog-gold" />
                                 : <Moon className="w-5 h-5" />
                             }
-                            {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+                            {theme === 'dark' ? t.nav.lightMode : t.nav.darkMode}
+                        </button>
+
+                        <button
+                            onClick={() => { toggleLanguage(); setIsOpen(false); }}
+                            className="flex items-center gap-3 text-[17px] text-foreground/50 font-medium"
+                        >
+                            <span className="text-[14px] font-bold w-5">
+                                {language === 'pt' ? 'EN' : 'PT'}
+                            </span>
+                            {language === 'pt' ? 'English' : 'Português'}
                         </button>
                     </div>
                 </div>

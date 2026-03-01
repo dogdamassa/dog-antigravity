@@ -17,7 +17,7 @@
   --dog-accent: #F7931A;
 }
 
-/* Keep dark class identical — site is always dark */
+/* Keep dark class identical — site defaults to dark */
 .dark {
   --background: #000000;
   --foreground: #F5F5F7;
@@ -28,6 +28,19 @@
   --apple-text-tertiary: #86868B;
   --apple-border: #3A3A3C;
   --apple-separator: rgba(255, 255, 255, 0.10);
+}
+
+/* Apple-style light mode */
+.light {
+  --background: #F5F5F7;
+  --foreground: #1D1D1F;
+  --apple-nav-bg: rgba(245, 245, 247, 0.88);
+  --apple-card-bg: #ffffff;
+  --apple-section-alt: #EFEFEF;
+  --apple-text-secondary: #6E6E73;
+  --apple-text-tertiary: #86868B;
+  --apple-border: #D5D5D7;
+  --apple-separator: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {

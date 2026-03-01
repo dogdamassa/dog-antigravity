@@ -1,44 +1,33 @@
+'use client';
+
+import { useLanguage } from "@/components/Providers";
+import { getTranslations } from "@/lib/translations";
 import { Layers, Cpu, ShieldCheck, ExternalLink, ChevronRight, Code } from "lucide-react";
 
-const eduSections = [
+const sectionMeta = [
     {
-        title: "Ordinals (NFTs no Bitcoin)",
-        eyebrow: "Inscrições permanentes no Bitcoin.",
-        content:
-            "A teoria dos Ordinals atribui números de série aos satoshis, permitindo rastrear e transferir sats individuais. Ordinals permitem que dados (como imagens, texto ou código) sejam inscritos diretamente em unidades individuais de Bitcoin. Diferente de NFTs em outras redes, os Ordinals vivem inteiramente na blockchain do Bitcoin, via Proof-of-Work.",
         videoId: "rSS0O2KQpsI",
         icon: Layers,
         iconBg: "#EFF6FF",
         iconColor: "#3B82F6",
-        darkIconBg: "#1E3A5F",
         accentColor: "#3B82F6",
         link: "https://docs.ordinals.com/introduction.html",
         githubLink: "https://github.com/ordinals/ord",
     },
     {
-        title: "Runes",
-        eyebrow: "Tokens fungíveis nativos do Bitcoin.",
-        content:
-            "Runes são tokens no Bitcoin. $DOG é um Rune. O protocolo Runes foi criado para ser mais eficiente e simples que o padrão BRC-20, permitindo a criação de ativos fungíveis sem \"inchar\" a rede de forma desnecessária. É segurança Bitcoin com flexibilidade moderna.",
         videoId: null,
         icon: Cpu,
         iconBg: "#FFF7ED",
         iconColor: "#F7931A",
-        darkIconBg: "#4A2C0A",
         accentColor: "#F7931A",
         link: "https://docs.ordinals.com/introduction.html",
         githubLink: null,
     },
     {
-        title: "$DOG",
-        eyebrow: "O espírito da comunidade em código.",
-        content:
-            "$DOG não é apenas um meme; é um experimento de distribuição justa e soberania comunitária no ecossistema Ordinals/Runes. Sem pré-venda, sem investidores, apenas a comunidade construindo sobre a rede mais segura do mundo.",
         videoId: null,
         icon: ShieldCheck,
         iconBg: "#FEFCE8",
         iconColor: "#EAB308",
-        darkIconBg: "#3D3000",
         accentColor: "#EAB308",
         link: null,
         githubLink: null,
@@ -46,6 +35,12 @@ const eduSections = [
 ];
 
 export default function EducacaoPage() {
+    const { language } = useLanguage();
+    const tr = getTranslations(language);
+    const t = tr.educacao;
+
+    const eduSections = t.sections.map((s, i) => ({ ...s, ...sectionMeta[i] }));
+
     return (
         <div>
             {/* Page Header */}
@@ -57,19 +52,19 @@ export default function EducacaoPage() {
                     className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3"
                     style={{ color: "#F7931A" }}
                 >
-                    Soberania Financeira
+                    {t.eyebrow}
                 </p>
                 <h1
                     className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-3"
                     style={{ letterSpacing: "-0.022em" }}
                 >
-                    Educação.
+                    {t.title}
                 </h1>
                 <p
                     className="text-[19px] max-w-[500px] mx-auto"
                     style={{ color: "var(--apple-text-secondary)" }}
                 >
-                    Entenda as tecnologias que impulsionam o $DOG e o ecossistema Bitcoin.
+                    {t.subtitle}
                 </p>
             </div>
 
@@ -123,7 +118,7 @@ export default function EducacaoPage() {
                                         <div className="w-full aspect-video rounded-xl overflow-hidden border my-6" style={{ borderColor: "var(--apple-separator)" }}>
                                             <iframe
                                                 src={`https://www.youtube.com/embed/${section.videoId}`}
-                                                title={`Video sobre ${section.title}`}
+                                                title={`Video: ${section.title}`}
                                                 frameBorder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
@@ -142,7 +137,7 @@ export default function EducacaoPage() {
                                                     className="inline-flex items-center gap-1.5 text-[15px] font-semibold hover:underline underline-offset-2 transition-all"
                                                     style={{ color: section.accentColor }}
                                                 >
-                                                    Documentação
+                                                    {t.docLink}
                                                     <ChevronRight className="w-4 h-4" />
                                                 </a>
                                             )}
@@ -178,28 +173,22 @@ export default function EducacaoPage() {
                         className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-5"
                         style={{ color: "#F7931A" }}
                     >
-                        Filosofia
+                        {t.philosophy.eyebrow}
                     </p>
                     <h2
                         className="text-[34px] md:text-[48px] font-bold leading-[1.07] mb-4"
                         style={{ letterSpacing: "-0.022em" }}
                     >
-                        A Primeira Regra da Soberania.
+                        {t.philosophy.title}
                     </h2>
                     <p
                         className="text-[17px] md:text-[19px] mb-10 leading-[1.47]"
                         style={{ color: "var(--apple-text-secondary)" }}
                     >
-                        "Don't trust, verify." Todo o código do ecossistema Ordinals e
-                        Runes é aberto. Nunca aceite promessas; estude as regras de
-                        consenso.
+                        {t.philosophy.content}
                     </p>
                     <div className="flex flex-wrap justify-center gap-3">
-                        {[
-                            "Autocustódia é soberania",
-                            "Bitcoin é liberdade",
-                            "Longo Prazo > Hype",
-                        ].map((badge) => (
+                        {t.philosophy.badges.map((badge) => (
                             <span
                                 key={badge}
                                 className="px-4 py-2 rounded-full text-[13px] font-semibold"

@@ -1,4 +1,8 @@
+'use client';
+
 import { mockPosts } from "@/data";
+import { useLanguage } from "@/components/Providers";
+import { getTranslations } from "@/lib/translations";
 import {
     Heart,
     MessageCircle,
@@ -9,6 +13,17 @@ import {
 } from "lucide-react";
 
 export default function ComunidadePage() {
+    const { language } = useLanguage();
+    const tr = getTranslations(language);
+    const t = tr.comunidade;
+
+    const trends = [
+        { tag: "#DOGArmy", posts: "125K", labelKey: "bitcoin" as const },
+        { tag: "#Runes", posts: "85K", labelKey: "tech" as const },
+        { tag: "#Ordinals", posts: "64K", labelKey: "culture" as const },
+        { tag: "$BTC", posts: "1.2M", labelKey: "finance" as const },
+    ];
+
     return (
         <div>
             {/* Page Header */}
@@ -20,19 +35,19 @@ export default function ComunidadePage() {
                     className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3"
                     style={{ color: "#F7931A" }}
                 >
-                    Dog Army
+                    {t.eyebrow}
                 </p>
                 <h1
                     className="text-[40px] md:text-[56px] font-bold leading-[1.07] mb-3"
                     style={{ letterSpacing: "-0.022em" }}
                 >
-                    Comunidade.
+                    {t.title}
                 </h1>
                 <p
                     className="text-[19px]"
                     style={{ color: "var(--apple-text-secondary)" }}
                 >
-                    O pulso da comunidade $DOG.
+                    {t.subtitle}
                 </p>
             </div>
 
@@ -127,21 +142,16 @@ export default function ComunidadePage() {
                                 className="text-[17px] font-semibold mb-5"
                                 style={{ letterSpacing: "-0.016em" }}
                             >
-                                O que está acontecendo
+                                {t.trending.title}
                             </h3>
                             <div className="space-y-5">
-                                {[
-                                    { tag: "#DOGArmy", posts: "125K", label: "Trending no Bitcoin" },
-                                    { tag: "#Runes", posts: "85K", label: "Tecnologia" },
-                                    { tag: "#Ordinals", posts: "64K", label: "Cultura" },
-                                    { tag: "$BTC", posts: "1.2M", label: "Finanças Globais" },
-                                ].map((trend) => (
+                                {trends.map((trend) => (
                                     <div key={trend.tag} className="cursor-pointer group">
                                         <p
                                             className="text-[11px] font-medium uppercase tracking-[0.06em]"
                                             style={{ color: "var(--apple-text-tertiary)" }}
                                         >
-                                            {trend.label}
+                                            {t.trending.labels[trend.labelKey]}
                                         </p>
                                         <p
                                             className="text-[15px] font-semibold group-hover:underline underline-offset-2 mt-0.5"
@@ -165,7 +175,7 @@ export default function ComunidadePage() {
                                     color: "#F7931A",
                                 }}
                             >
-                                Mostrar mais
+                                {t.trending.showMore}
                             </button>
                         </div>
 
@@ -177,13 +187,13 @@ export default function ComunidadePage() {
                                 className="text-[13px] leading-[1.55] mb-3"
                                 style={{ color: "var(--apple-text-secondary)" }}
                             >
-                                Feed simulado para o protótipo. Em breve, integração com APIs reais.
+                                {t.sidebar.disclaimer}
                             </p>
                             <button
                                 className="text-[13px] font-semibold hover:underline underline-offset-2"
                                 style={{ color: "#F7931A" }}
                             >
-                                Políticas da Comunidade
+                                {t.sidebar.policies}
                             </button>
                         </div>
                     </div>
