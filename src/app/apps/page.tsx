@@ -5,8 +5,8 @@ import { getTranslations } from "@/lib/translations";
 import { ArrowUpRight } from "lucide-react";
 
 const appsMeta = [
-  { id: "liquidium", title: "Liquidium", eyebrow: "DeFi · Lend & Borrow", url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz", logo: "/liquidium.jpg", logoContain: true, logoBg: "#111111", xUrl: "https://x.com/LiquidiumWTF", xLabel: "@LiquidiumWTF", accentColor: "#F7931A" },
-  { id: "satsterminal", title: "Sats Terminal", eyebrow: "Swap · Aggregator", url: "https://app.satsterminal.com/", logo: "/satsterminal.png", logoContain: false, logoBg: "#000000", xUrl: "https://x.com/SatsTerminal", xLabel: "@SatsTerminal", accentColor: "#F7931A" },
+  { id: "liquidium", title: "Liquidium", eyebrow: "DeFi · Lend & Borrow", url: "https://app.liquidium.wtf/welcome?invite=vc22OOR5nEdokrB8pybz", logo: "/liquidiumpfp.jpg", logoContain: false, logoBg: "#111111", xUrl: "https://x.com/LiquidiumWTF", xLabel: "@LiquidiumWTF", accentColor: "#F7931A" },
+  { id: "satsterminal", title: "Sats Terminal", eyebrow: "Swap · Aggregator", url: "https://app.satsterminal.com/", logo: "/satsterminalpfp.jpg", logoContain: false, logoBg: "#000000", xUrl: "https://x.com/SatsTerminal", xLabel: "@SatsTerminal", accentColor: "#F7931A" },
   { id: "dogswap", title: "DOG Swap", eyebrow: "Swap · Runes", url: "https://swap.dogofbitcoin.com/", logo: "/dogswap.png", logoContain: true, logoBg: "#111111", xUrl: "https://x.com/DogOfBitcoinOG", xLabel: "@DogOfBitcoinOG", accentColor: "#F7931A" },
   { id: "satflow", title: "Satflow", eyebrow: "Marketplace · Runes & Ordinals", url: "https://www.satflow.com/runes", logo: "/satflow.png", logoContain: true, logoBg: "#0D0D0D", xUrl: "https://x.com/Satflow", xLabel: "@Satflow", accentColor: "#F7931A" },
   { id: "bitflow", title: "Bitflow Finance", eyebrow: "Finance · DCA & DEX", url: "https://app.bitflow.finance/trade?tab=dca", logo: "/bitflow.png", logoContain: false, logoBg: "#FFFFFF", xUrl: "https://x.com/Bitflow_Finance", xLabel: "@Bitflow_Finance", accentColor: "#F7931A" },
@@ -14,7 +14,6 @@ const appsMeta = [
   { id: "btcnopix", title: "BTC no Pix", eyebrow: "Finance · Sem KYC", url: "https://www.btcnopix.com/compre", logo: "/btcnopix.png", logoContain: true, logoBg: "#111111", xUrl: "https://x.com/btcnopix", xLabel: "@btcnopix", accentColor: "#F7931A" },
   { id: "b2pix", title: "B2Pix", eyebrow: "Finance · P2P", url: "https://b2pix.org/", logo: "/b2pix.png", logoContain: true, logoBg: "#0A0A1A", xUrl: "https://x.com/b2pixorg", xLabel: "@b2pixorg", accentColor: "#F7931A" },
   { id: "dogsummit", title: "DOG Summit", eyebrow: "Comunidade · Evento", url: "https://www.dogsummit.club/", logo: "/dogsummit.png", logoContain: true, logoBg: "#1D1D1F", xUrl: null, xLabel: null, accentColor: "#F7931A" },
-  { id: "runestone", title: "Runestone", eyebrow: "História · Ordinals", url: "https://doggotothemoon.io/runestone/", logo: "/runestone.png", logoContain: true, logoBg: "#F7931A", xUrl: null, xLabel: null, accentColor: "#1D1D1F" },
 ];
 
 export default function AppsPage() {

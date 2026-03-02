@@ -349,10 +349,6 @@ const translations = {
           id: 'dogsummit',
           description: 'O evento mundial da elite $DOG. Networking, educação e estratégia para quem leva Bitcoin a sério.',
         },
-        {
-          id: 'runestone',
-          description: 'O maior airdrop da história do Bitcoin. A pedra fundamental da cultura Ordinals que distribuiu $DOG para toda a comunidade.',
-        },
       ],
     },
     news: {
@@ -762,10 +758,6 @@ const translations = {
         {
           id: 'dogsummit',
           description: 'The global $DOG elite event. Networking, education and strategy for those who take Bitcoin seriously.',
-        },
-        {
-          id: 'runestone',
-          description: 'The biggest airdrop in Bitcoin history. The cornerstone of Ordinals culture that distributed $DOG to the entire community.',
         },
       ],
     },
