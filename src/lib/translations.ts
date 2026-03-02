@@ -41,6 +41,12 @@ const translations = {
           tagline: 'Supply total em circulação. Sem pré-venda, sem investidores.',
           linkLabel: '100% Descentralizado',
         },
+        stacks: {
+          eyebrow: 'Bitcoin Layer 2',
+          headline: 'Stacks L2.',
+          tagline: 'Smart contracts e apps descentralizados garantidos pelo Bitcoin.',
+          linkLabel: 'Explorar Stacks',
+        },
         dca: {
           eyebrow: 'Estratégia',
           headline: 'Acumule com\nestratégia.',
@@ -181,6 +187,13 @@ const translations = {
           title: 'Bitcoin DeFi',
           description: 'Plataformas de finanças descentralizadas (DeFi) no Bitcoin. Faça seu patrimônio render, pegue empréstimos e negocie com segurança.',
         },
+        stacks: {
+          eyebrow: 'Bitcoin Layer 2',
+          title: 'Stacks (STX)',
+          description: 'A Stacks é uma camada Bitcoin para smart contracts. Ela permite que aplicações utilizem o Bitcoin como camada de liquidação, trazendo programabilidade sem alterar a rede principal.',
+          sbtc: 'sBTC — Bitcoin programável na Stacks',
+          usdcx: 'USDCx — Bridge de USDC para Stacks',
+        },
       },
       platforms: {
         swap: [
@@ -285,7 +298,7 @@ const translations = {
       philosophy: {
         eyebrow: 'Filosofia',
         title: 'A Primeira Regra da Soberania.',
-        content: '"Don\'t trust, verify." Todo o código do ecossistema Ordinals e Runes é aberto. Nunca aceite promessas; estude as regras de consenso.',
+        content: '"Don\'t trust, verify." Todo o código do ecossistema Ordinals e Runes é aberto. Nunca aceite promessas, estude as regras de consenso.',
         badges: ['Autocustódia é soberania', 'Bitcoin é liberdade', 'Longo Prazo > Hype'],
       },
     },
@@ -295,9 +308,9 @@ const translations = {
       subtitle: 'Todos os apps e ferramentas da Dog Army em um só lugar.',
       visitPlatform: 'Visitar plataforma',
       cta: {
-        title: 'Construindo no Bitcoin?',
+        title: 'Quero ajudar.',
         description: 'Se você tem uma ferramenta que ajuda a comunidade $DOG a crescer de forma soberana, queremos conhecê-la.',
-        button: 'Sugerir no X',
+        button: 'Preencher formulário',
       },
       items: [
         {
@@ -442,6 +455,12 @@ const translations = {
           tagline: 'Total circulating supply. No pre-sale, no investors.',
           linkLabel: '100% Decentralized',
         },
+        stacks: {
+          eyebrow: 'Bitcoin Layer 2',
+          headline: 'Stacks L2.',
+          tagline: 'Smart contracts and decentralized apps secured by Bitcoin.',
+          linkLabel: 'Explore Stacks',
+        },
         dca: {
           eyebrow: 'Strategy',
           headline: 'Accumulate with\nstrategy.',
@@ -582,6 +601,13 @@ const translations = {
           title: 'Bitcoin DeFi',
           description: 'Decentralized finance (DeFi) platforms on Bitcoin. Make your assets earn, take loans and trade securely.',
         },
+        stacks: {
+          eyebrow: 'Bitcoin Layer 2',
+          title: 'Stacks (STX)',
+          description: 'Stacks is a Bitcoin layer for smart contracts. It enables applications to use Bitcoin as a settlement layer, bringing programmability without changing the main network.',
+          sbtc: 'sBTC — Programmable Bitcoin on Stacks',
+          usdcx: 'USDCx — USDC Bridge to Stacks',
+        },
       },
       platforms: {
         swap: [
@@ -686,7 +712,7 @@ const translations = {
       philosophy: {
         eyebrow: 'Philosophy',
         title: 'The First Rule of Sovereignty.',
-        content: '"Don\'t trust, verify." All Ordinals and Runes ecosystem code is open. Never accept promises; study the consensus rules.',
+        content: '"Don\'t trust, verify." All Ordinals and Runes ecosystem code is open source. Never accept promises, study the consensus rules.',
         badges: ['Self-custody is sovereignty', 'Bitcoin is freedom', 'Long Term > Hype'],
       },
     },
@@ -696,9 +722,9 @@ const translations = {
       subtitle: 'All Dog Army apps and tools in one place.',
       visitPlatform: 'Visit platform',
       cta: {
-        title: 'Building on Bitcoin?',
+        title: 'I want to help.',
         description: 'If you have a tool that helps the $DOG community grow sovereignly, we want to know about it.',
-        button: 'Suggest on X',
+        button: 'Fill the form',
       },
       items: [
         {
