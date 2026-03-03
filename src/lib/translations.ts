@@ -290,9 +290,16 @@ const translations = {
           content: 'Runes são tokens no Bitcoin. $DOG é um Rune. O protocolo Runes foi criado para ser mais eficiente e simples que o padrão BRC-20, permitindo a criação de ativos fungíveis sem "inchar" a rede de forma desnecessária. É segurança Bitcoin com flexibilidade moderna.',
         },
         {
+          id: '$DOG',
           title: '$DOG',
           eyebrow: 'O espírito da comunidade em código.',
           content: '$DOG não é apenas um meme; é um experimento de distribuição justa e soberania comunitária no ecossistema Ordinals/Runes. Sem pré-venda, sem investidores, apenas a comunidade construindo sobre a rede mais segura do mundo.',
+        },
+        {
+          id: 'bitcoin-defi',
+          title: 'DeFi no Bitcoin (Bitflow Finance)',
+          eyebrow: 'Finanças descentralizadas na camada 2.',
+          content: 'DeFi no Bitcoin é a evolução que permite que seu capital trabalhe de forma nativa e segura. Através da Bitflow, a principal DEX da Stacks, você pode fazer swaps, prover liquidez e participar de estratégias de rendimento sem abrir mão da segurança do Bitcoin. Aprenda na prática com nossos bootcamps e webinars.',
         },
       ],
       philosophy: {
@@ -704,9 +711,16 @@ const translations = {
           content: 'Runes are tokens on Bitcoin. $DOG is a Rune. The Runes protocol was designed to be more efficient and simpler than the BRC-20 standard, enabling the creation of fungible assets without unnecessarily bloating the network. Bitcoin security with modern flexibility.',
         },
         {
+          id: '$DOG',
           title: '$DOG',
           eyebrow: 'The community spirit in code.',
           content: '$DOG is not just a meme; it\'s a fair distribution experiment and community sovereignty in the Ordinals/Runes ecosystem. No pre-sale, no investors, just the community building on the world\'s most secure network.',
+        },
+        {
+          id: 'bitcoin-defi',
+          title: 'DeFi on Bitcoin (Bitflow Finance)',
+          eyebrow: 'Decentralized finance on Layer 2.',
+          content: 'DeFi on Bitcoin is the evolution that allows your capital to work natively and securely. Through Bitflow, the leading Stacks DEX, you can swap, provide liquidity and participate in yield strategies without sacrificing Bitcoin security. Learn in practice with our bootcamps and webinars.',
         },
       ],
       philosophy: {
