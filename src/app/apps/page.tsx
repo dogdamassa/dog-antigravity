@@ -13,7 +13,7 @@ const appsMeta = [
   { id: "dogdata", title: "DOG DATA", eyebrow: "Analytics · On-Chain", url: "https://www.dogdata.xyz/", logo: "/dogdata.png", logoContain: true, logoBg: "#111111", xUrl: null, xLabel: null, accentColor: "#F7931A" },
   { id: "btcnopix", title: "BTC no Pix", eyebrow: "Finance · Sem KYC", url: "https://www.btcnopix.com/compre", logo: "/btcnopix.png", logoContain: true, logoBg: "#111111", xUrl: "https://x.com/btcnopix", xLabel: "@btcnopix", accentColor: "#F7931A" },
   { id: "b2pix", title: "B2Pix", eyebrow: "Finance · P2P", url: "https://b2pix.org/", logo: "/b2pix.png", logoContain: true, logoBg: "#0A0A1A", xUrl: "https://x.com/b2pixorg", xLabel: "@b2pixorg", accentColor: "#F7931A" },
-  { id: "dogsummit", title: "DOG Summit", eyebrow: "Comunidade · Evento", url: "https://www.dogsummit.club/", logo: "/dogsummit.png", logoContain: true, logoBg: "#1D1D1F", xUrl: null, xLabel: null, accentColor: "#F7931A" },
+  { id: "stacks", title: "Stacks (Bitcoin L2)", eyebrow: "Bitcoin Layer 2 · L2", url: "https://www.stacks.co/", logo: "/stackspfp.jpg", logoContain: false, logoBg: "#ffffff", xUrl: "https://x.com/stacks", xLabel: "@Stacks", accentColor: "#F7931A" },
 ];
 
 export default function AppsPage() {

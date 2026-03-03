@@ -184,15 +184,16 @@ export default function EducacaoPage() {
                     >
                         {t.philosophy.content}
                     </p>
-                    <div className="flex flex-wrap justify-center gap-3">
+                    <div className="flex flex-wrap justify-center gap-4">
                         {t.philosophy.badges.map((badge) => (
                             <span
                                 key={badge}
-                                className="px-4 py-2 rounded-full text-[13px] font-semibold"
+                                className="px-6 py-3 rounded-2xl text-[14px] font-bold tracking-tight transition-all hover:scale-105"
                                 style={{
-                                    background: "var(--apple-card-bg)",
-                                    border: "0.5px solid var(--apple-separator)",
-                                    color: "var(--foreground)",
+                                    background: "rgba(247,147,26,0.1)",
+                                    border: "1px solid rgba(247,147,26,0.2)",
+                                    color: "#F7931A",
+                                    boxShadow: "0 4px 20px -5px rgba(247,147,26,0.1)"
                                 }}
                             >
                                 {badge}

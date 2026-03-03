@@ -43,7 +43,7 @@ const translations = {
         },
         stacks: {
           eyebrow: 'Bitcoin Layer 2',
-          headline: 'Stacks L2.',
+          headline: 'Bitcoin L2.',
           tagline: 'Smart contracts e apps descentralizados garantidos pelo Bitcoin.',
           linkLabel: 'Explorar Stacks',
         },
@@ -349,6 +349,10 @@ const translations = {
           id: 'dogsummit',
           description: 'O evento mundial da elite $DOG. Networking, educação e estratégia para quem leva Bitcoin a sério.',
         },
+        {
+          id: 'stacks',
+          description: 'Camada de smart contracts para Bitcoin. Permite DeFi nativo, sBTC e apps descentralizados com a segurança da rede principal.',
+        },
       ],
     },
     news: {
@@ -453,7 +457,7 @@ const translations = {
         },
         stacks: {
           eyebrow: 'Bitcoin Layer 2',
-          headline: 'Stacks L2.',
+          headline: 'Bitcoin L2.',
           tagline: 'Smart contracts and decentralized apps secured by Bitcoin.',
           linkLabel: 'Explore Stacks',
         },
@@ -758,6 +762,10 @@ const translations = {
         {
           id: 'dogsummit',
           description: 'The global $DOG elite event. Networking, education and strategy for those who take Bitcoin seriously.',
+        },
+        {
+          id: 'stacks',
+          description: 'Smart contract layer for Bitcoin. Enables native DeFi, sBTC and decentralized apps with the security of the main network.',
         },
       ],
     },

@@ -74,7 +74,7 @@ export default function Home() {
     fetch('/api/youtube-latest')
       .then(res => res.json())
       .then(data => { if (data.videos?.[0]) setLatestVideo(data.videos[0]); })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const bentoCards = [
@@ -211,7 +211,7 @@ export default function Home() {
       headlineClass: "text-[#1D1D1F]",
       taglineClass: "text-[#1D1D1F]/70",
       eyebrowClass: "text-[#1D1D1F]/60",
-      gridClass: "lg:col-span-2",
+      gridClass: "lg:col-span-3",
       minH: "min-h-[300px]",
       wide: false,
     },
@@ -247,6 +247,25 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[300px]",
       wide: false,
+    },
+    {
+      id: "stacks",
+      eyebrow: t.bentoCards.stacks.eyebrow,
+      headline: t.bentoCards.stacks.headline,
+      tagline: t.bentoCards.stacks.tagline,
+      url: "#",
+      linkLabel: t.bentoCards.stacks.linkLabel,
+      linkColor: "#F7931A",
+      bgStyle: { background: "#ffffff" },
+      headlineClass: "text-[#1D1D1F]",
+      taglineClass: "text-[#6E6E73]",
+      eyebrowClass: "text-[#F7931A]",
+      gridClass: "lg:col-span-3",
+      minH: "min-h-[300px]",
+      wide: false,
+      modalId: "stacks",
+      image: "/stackspfp.jpg",
+      imageClass: "w-16 h-16 md:w-20 md:h-20 object-cover rounded-2xl mx-auto mt-4 transition-transform hover:scale-110 duration-500",
     },
   ];
 
@@ -1153,6 +1172,54 @@ export default function Home() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* Stacks modal */}
+            {openModal === "stacks" && (
+              <div>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.stacks.eyebrow}</p>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-sm" style={{ border: "0.5px solid #E5E5E7" }}>
+                    <img src="/stackspfp.jpg" alt="Stacks" className="w-full h-full object-cover" />
+                  </div>
+                  <h2 className="text-[32px] font-bold leading-[1.1]" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>{t.modals.stacks.title}</h2>
+                </div>
+                <p className="text-[15px] mb-8 leading-[1.6]" style={{ color: "#6E6E73" }}>
+                  {t.modals.stacks.description}
+                </p>
+
+                <div className="space-y-3">
+                  <a
+                    href="https://www.stacks.co/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] hover:bg-[#EBEBEF] transition-colors group"
+                  >
+                    <span className="font-bold text-[16px]" style={{ color: "#1D1D1F" }}>Official Website</span>
+                    <span className="text-[#6E6E73] group-hover:text-[#1D1D1F] transition-colors">stacks.co ›</span>
+                  </a>
+
+                  <a
+                    href="https://www.stacks.co/sbtc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] hover:bg-[#EBEBEF] transition-colors group"
+                  >
+                    <span className="font-bold text-[16px]" style={{ color: "#1D1D1F" }}>{t.modals.stacks.sbtc}</span>
+                    <span className="text-[#6E6E73] group-hover:text-[#1D1D1F] transition-colors">Learn more ›</span>
+                  </a>
+
+                  <a
+                    href="https://bridge.stacks.co/usdc/eth/stx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] hover:bg-[#EBEBEF] transition-colors group"
+                  >
+                    <span className="font-bold text-[16px]" style={{ color: "#1D1D1F" }}>{t.modals.stacks.usdcx}</span>
+                    <span className="text-[#6E6E73] group-hover:text-[#1D1D1F] transition-colors">Bridge USDC ›</span>
+                  </a>
                 </div>
               </div>
             )}
