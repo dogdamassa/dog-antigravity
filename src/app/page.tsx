@@ -592,7 +592,7 @@ export default function Home() {
           </div>
 
           {/* ── Kray Space — separador visual ── */}
-          <div className="flex items-center gap-4 my-3">
+          <div className="flex items-center gap-4 mt-10 mb-3">
             <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.2)" }}>PARCEIRO</span>
             <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
@@ -623,7 +623,7 @@ export default function Home() {
               <div className="relative z-10 flex flex-col md:flex-row gap-0">
 
                 {/* Left — Identity block */}
-                <div className="flex flex-col justify-between p-8 md:p-10 md:w-[340px] shrink-0"
+                <div className="flex flex-col justify-between p-8 md:p-10 md:w-[320px] shrink-0"
                   style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}>
                   <div>
                     <div
@@ -639,7 +639,7 @@ export default function Home() {
                       Kray Space
                     </h3>
                     <p className="text-[14px] leading-[1.5]" style={{ color: "rgba(255,255,255,0.45)" }}>
-                      {language === 'pt' ? 'Self-Custodial Bitcoin Wallet' : 'Self-Custodial Bitcoin Wallet'}
+                      Self-Custodial Bitcoin Wallet
                     </p>
                   </div>
                   <div className="mt-8">
@@ -647,35 +647,35 @@ export default function Home() {
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all group-hover:scale-105"
                       style={{ background: "#FFFFFF", color: "#000000" }}
                     >
-                      {language === 'pt' ? 'Download Wallet' : 'Download Wallet'}
+                      {language === 'pt' ? 'Acessar Kray Space' : 'Visit Kray Space'}
                       <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
                   </div>
                 </div>
 
-                {/* Right — Features */}
+                {/* Right — Description + Features */}
                 <div className="flex-1 p-8 md:p-10">
-                  <p className="text-[15px] md:text-[17px] leading-[1.65] mb-8" style={{ color: "rgba(255,255,255,0.6)" }}>
+                  <p className="text-[15px] md:text-[17px] leading-[1.7] mb-8" style={{ color: "rgba(255,255,255,0.6)" }}>
                     {language === 'pt'
-                      ? 'Wallet nativa do Bitcoin com suporte completo a Taproot, Ordinals e Runes. Total controle das suas chaves. O único app que você precisa para o ecossistema Bitcoin.'
-                      : 'Native Bitcoin wallet with full support for Taproot, Ordinals and Runes. Total control of your keys. The only app you need for the Bitcoin ecosystem.'}
+                      ? 'Kray Space é a wallet self-custodial nativa do Bitcoin. Suporte completo a Taproot, Ordinals e Runes — gerencie seus sats, inscrições e tokens com total soberania. Suas chaves, seu Bitcoin. Sem intermediários.'
+                      : 'Kray Space is the native self-custodial Bitcoin wallet. Full support for Taproot, Ordinals and Runes — manage your sats, inscriptions and tokens with total sovereignty. Your keys, your Bitcoin. No intermediaries.'}
                   </p>
 
-                  {/* Feature grid */}
+                  {/* Feature chips — sem Stacks/L2 */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                     {[
                       { icon: "🔑", label: "Self-Custody" },
                       { icon: "🖼", label: "Ordinals" },
                       { icon: "⚡", label: "Runes" },
                       { icon: "🔍", label: "KrayScan" },
-                      { icon: "🔄", label: "Swap" },
-                      { icon: "⬡", label: "L2 / Stacks" },
+                      { icon: "🔄", label: "Native Swap" },
+                      { icon: "🌐", label: "Taproot" },
                     ].map(f => (
                       <div key={f.label}
                         className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
                         style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                        <span className="text-[16px]">{f.icon}</span>
-                        <span className="text-[13px] font-medium text-white/60">{f.label}</span>
+                        <span className="text-[15px]">{f.icon}</span>
+                        <span className="text-[13px] font-medium text-white/55">{f.label}</span>
                       </div>
                     ))}
                   </div>

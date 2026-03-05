@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme, useLanguage } from './Providers';
@@ -47,7 +47,7 @@ export function TopNav() {
         <>
             {/* Top Navigation Bar */}
             <nav
-                className={`fixed top-0 left-0 right-0 z-50 h-[44px] transition-all duration-200 ${
+                className={`fixed top-[28px] left-0 right-0 z-50 h-[44px] transition-all duration-200 ${
                     scrolled || isOpen ? 'apple-nav' : 'bg-transparent'
                 }`}
             >

@@ -3,6 +3,7 @@ import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { TopNav } from "@/components/TopNav";
+import { PriceTicker } from "@/components/PriceTicker";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -31,8 +32,9 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={spaceMono.variable}>
         <Providers>
+          <PriceTicker />
           <TopNav />
-          <main className="pt-[44px]">
+          <main className="pt-[72px]">
             {children}
           </main>
         </Providers>
