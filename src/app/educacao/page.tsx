@@ -87,105 +87,99 @@ export default function EducacaoPage() {
                 >
                     {t.title}
                 </h1>
-                <p
-                    className="text-[19px] max-w-[500px] mx-auto text-foreground/70"
-                >
+                <p className="text-[19px] max-w-[500px] mx-auto text-foreground/70">
                     {t.subtitle}
                 </p>
             </div>
 
             {/* Education Cards */}
             <div className="max-w-[980px] mx-auto px-4 md:px-6 py-12 md:py-16 space-y-4">
-                {eduSections.map((section) => {
-                    return (
-                        <div
-                            key={section.title}
-                            className="apple-card p-8 md:p-12 relative overflow-hidden group"
-                            style={{
-                                background: "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(20,20,22,1) 100%)",
-                                border: "1px solid rgba(255,255,255,0.08)",
-                                boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)"
-                            }}
-                        >
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                            <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start relative z-10">
-                                {/* Icon/Image */}
-                                <div
-                                    className="w-16 h-16 rounded-[18px] flex items-center justify-center shrink-0 p-1.5"
-                                    style={{ background: section.iconBg, border: "0.5px solid rgba(255,255,255,0.08)", boxShadow: "0 4px 12px rgba(0,0,0,0.5) inset" }}
-                                >
-                                    <img src={section.image} alt={section.title} className="w-full h-full object-cover rounded-xl" />
-                                </div>
+                {eduSections.map((section) => (
+                    <div
+                        key={section.title}
+                        className="apple-card p-8 md:p-12 relative overflow-hidden group"
+                        style={{
+                            background: "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(20,20,22,1) 100%)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                            boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)"
+                        }}
+                    >
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start relative z-10">
+                            {/* Icon/Image */}
+                            <div
+                                className="w-16 h-16 rounded-[18px] flex items-center justify-center shrink-0 p-1.5"
+                                style={{ background: section.iconBg, border: "0.5px solid rgba(255,255,255,0.08)", boxShadow: "0 4px 12px rgba(0,0,0,0.5) inset" }}
+                            >
+                                <img src={section.image} alt={section.title} className="w-full h-full object-cover rounded-xl" />
+                            </div>
 
-                                {/* Content */}
-                                <div className="flex-1 space-y-4">
-                                    <div>
-                                        <h3
-                                            className="text-[28px] md:text-[34px] font-bold leading-[1.07] mb-1 text-foreground"
-                                            style={{ letterSpacing: "-0.018em" }}
-                                        >
-                                            {section.title}
-                                        </h3>
-                                        <p
-                                            className="text-[15px] font-semibold tracking-wide"
-                                            style={{ color: section.accentColor }}
-                                        >
-                                            {section.eyebrow}
-                                        </p>
-                                    </div>
-
-                                    <p
-                                        className="text-[17px] leading-[1.6] text-foreground/80"
+                            {/* Content */}
+                            <div className="flex-1 space-y-4">
+                                <div>
+                                    <h3
+                                        className="text-[28px] md:text-[34px] font-bold leading-[1.07] mb-1 text-foreground"
+                                        style={{ letterSpacing: "-0.018em" }}
                                     >
-                                        {section.content}
+                                        {section.title}
+                                    </h3>
+                                    <p
+                                        className="text-[15px] font-semibold tracking-wide"
+                                        style={{ color: section.accentColor }}
+                                    >
+                                        {section.eyebrow}
                                     </p>
-
-                                    {section.videoId && (
-                                        <div className="w-full aspect-video rounded-xl overflow-hidden border my-6" style={{ borderColor: "var(--apple-separator)" }}>
-                                            <iframe
-                                                src={`https://www.youtube.com/embed/${section.videoId}`}
-                                                title={`Video: ${section.title}`}
-                                                frameBorder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                allowFullScreen
-                                                className="w-full h-full"
-                                            />
-                                        </div>
-                                    )}
-
-                                    {(section.link || section.githubLink) && (
-                                        <div className="flex flex-wrap gap-5 pt-2">
-                                            {section.link && (
-                                                <a
-                                                    href={section.link}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-1.5 text-[15px] font-semibold hover:underline underline-offset-2 transition-all"
-                                                    style={{ color: section.accentColor }}
-                                                >
-                                                    {t.docLink}
-                                                    <ChevronRight className="w-4 h-4" />
-                                                </a>
-                                            )}
-                                            {section.githubLink && (
-                                                <a
-                                                    href={section.githubLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-1.5 text-[15px] font-medium transition-colors hover:text-foreground text-foreground/60 hover:underline underline-offset-2"
-                                                >
-                                                    <Code className="w-4 h-4" />
-                                                    GitHub ordinals/ord
-                                                    <ExternalLink className="w-3.5 h-3.5" />
-                                                </a>
-                                            )}
-                                        </div>
-                                    )}
                                 </div>
+
+                                <p className="text-[17px] leading-[1.6] text-foreground/80">
+                                    {section.content}
+                                </p>
+
+                                {section.videoId && (
+                                    <div className="w-full aspect-video rounded-xl overflow-hidden border my-6" style={{ borderColor: "var(--apple-separator)" }}>
+                                        <iframe
+                                            src={`https://www.youtube.com/embed/${section.videoId}`}
+                                            title={`Video: ${section.title}`}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            className="w-full h-full"
+                                        />
+                                    </div>
+                                )}
+
+                                {(section.link || section.githubLink) && (
+                                    <div className="flex flex-wrap gap-5 pt-2">
+                                        {section.link && (
+                                            <a
+                                                href={section.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 text-[15px] font-semibold hover:underline underline-offset-2 transition-all"
+                                                style={{ color: section.accentColor }}
+                                            >
+                                                {t.docLink}
+                                                <ChevronRight className="w-4 h-4" />
+                                            </a>
+                                        )}
+                                        {section.githubLink && (
+                                            <a
+                                                href={section.githubLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 text-[15px] font-medium transition-colors hover:text-foreground text-foreground/60 hover:underline underline-offset-2"
+                                            >
+                                                <Code className="w-4 h-4" />
+                                                GitHub ordinals/ord
+                                                <ExternalLink className="w-3.5 h-3.5" />
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
 
             {/* Philosophy Section */}
@@ -206,9 +200,7 @@ export default function EducacaoPage() {
                     >
                         {t.philosophy.title}
                     </h2>
-                    <p
-                        className="text-[17px] md:text-[19px] mb-10 leading-[1.6] text-foreground/70"
-                    >
+                    <p className="text-[17px] md:text-[19px] mb-10 leading-[1.6] text-foreground/70">
                         {t.philosophy.content}
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">

@@ -305,13 +305,13 @@ const translations = {
           id: 'privacy',
           title: 'Privacidade',
           eyebrow: 'Privacidade é um direito fundamental.',
-          content: 'Privacidade protege indivíduos, negócios e comunidades contra vigilância e abuso de poder. Sem privacidade não existe verdadeira liberdade financeira. Aprender a usar ferramentas e boas práticas é essencial para manter soberania em um sistema aberto.',
+          content: 'Privacidade é um direito fundamental no Bitcoin. Ela protege indivíduos, negócios e comunidades contra vigilância e abuso de poder. Sem privacidade não existe verdadeira liberdade financeira. Aprender a usar ferramentas e boas práticas é essencial para manter soberania em um sistema aberto.',
         },
         {
           id: 'self-custody',
           title: 'Autocustódia',
           eyebrow: 'O princípio mais importante do Bitcoin.',
-          content: 'Significa controlar suas próprias chaves e não depender de intermediários. Quem possui as chaves controla o dinheiro. Entender e praticar autocustódia é o primeiro passo para verdadeira soberania financeira.',
+          content: 'Autocustódia é o princípio mais importante do Bitcoin. Significa controlar suas próprias chaves e não depender de intermediários. Quem possui as chaves controla o dinheiro. Entender e praticar autocustódia é o primeiro passo para verdadeira soberania financeira.',
         },
       ],
       philosophy: {
@@ -738,13 +738,13 @@ const translations = {
           id: 'privacy',
           title: 'Privacy',
           eyebrow: 'Privacy is a fundamental right.',
-          content: 'Privacy protects individuals, businesses and communities against surveillance and abuse of power. Without privacy there is no true financial freedom. Learning to use tools and best practices is essential to maintain sovereignty in an open system.',
+          content: 'Privacy is a fundamental right in Bitcoin. It protects individuals, businesses and communities against surveillance and abuse of power. Without privacy there is no true financial freedom. Learning to use tools and best practices is essential to maintain sovereignty in an open system.',
         },
         {
           id: 'self-custody',
           title: 'Self-Custody',
           eyebrow: 'The most important principle of Bitcoin.',
-          content: 'It means controlling your own keys and not depending on intermediaries. Whoever owns the keys controls the money. Understanding and practicing self-custody is the first step to true financial sovereignty.',
+          content: 'Self-custody is the most important principle of Bitcoin. It means controlling your own keys and not depending on intermediaries. Whoever owns the keys controls the money. Understanding and practicing self-custody is the first step to true financial sovereignty.',
         },
       ],
       philosophy: {

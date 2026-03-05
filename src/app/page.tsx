@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import Link from 'next/link';
 import { X as CloseIcon, ChevronDown, Youtube } from 'lucide-react';
 import { useLanguage } from '@/components/Providers';
@@ -59,6 +59,117 @@ const footerLinksMeta = {
     { label: "No KYC ›", href: "#" },
   ],
 };
+
+/* ─────────────────────────────────────────
+   KRAYSCAN SECTION
+───────────────────────────────────────── */
+function KrayScanSection({ language }: { language: string }) {
+  const [query, setQuery] = useState('');
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    const url = q
+      ? `https://kray.space/krayscan.html?q=${encodeURIComponent(q)}`
+      : 'https://kray.space/krayscan.html';
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    <section
+      style={{
+        background: "#000000",
+        borderTop: "0.5px solid rgba(255,255,255,0.07)",
+      }}
+    >
+      <div className="max-w-[980px] mx-auto px-4 md:px-6 py-16 md:py-24">
+
+        {/* Header row */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <img src="/kray-app.png" alt="KrayScan" className="w-7 h-7 rounded-lg" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                Powered by Kray Space
+              </span>
+            </div>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06]"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              KrayScan
+            </h2>
+            <p className="text-[15px] mt-2 leading-[1.5]" style={{ color: "#6E6E73" }}>
+              {language === 'pt'
+                ? 'Explorer do Bitcoin. Pesquise transações, endereços, Ordinals e Runes.'
+                : 'Bitcoin explorer. Search transactions, addresses, Ordinals and Runes.'}
+            </p>
+          </div>
+          <a
+            href="https://kray.space/krayscan.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] font-medium hover:underline underline-offset-2 shrink-0 mb-1"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
+            {language === 'pt' ? 'Abrir KrayScan ›' : 'Open KrayScan ›'}
+          </a>
+        </div>
+
+        {/* Search box */}
+        <form onSubmit={handleSearch}>
+          <div
+            className="flex items-center gap-0 rounded-[14px] overflow-hidden"
+            style={{
+              background: "#0A0A0A",
+              border: "1px solid rgba(255,255,255,0.12)",
+              boxShadow: "0 0 0 0 rgba(255,255,255,0)"
+            }}
+          >
+            {/* Magnifier icon */}
+            <div className="pl-5 pr-3 shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder={language === 'pt'
+                ? 'TXID (64 hex) ou endereço Bitcoin (bc1...)'
+                : 'TXID (64 hex) or Bitcoin address (bc1...)'}
+              className="flex-1 bg-transparent py-4 text-[15px] text-white placeholder:text-white/25 outline-none font-mono"
+            />
+
+            <button
+              type="submit"
+              className="shrink-0 mx-2 my-2 px-5 py-2.5 rounded-[10px] text-[13px] font-semibold text-black transition-all hover:opacity-90 active:scale-95"
+              style={{ background: "#FFFFFF" }}
+            >
+              {language === 'pt' ? 'Buscar' : 'Search'}
+            </button>
+          </div>
+        </form>
+
+        {/* Capability chips */}
+        <div className="flex flex-wrap gap-2 mt-5">
+          {['Transactions', 'Addresses', 'Ordinals', 'Runes', 'UTXOs', 'Taproot'].map(chip => (
+            <span
+              key={chip}
+              className="text-[11px] font-medium px-3 py-1.5 rounded-full"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.35)" }}
+            >
+              {chip}
+            </span>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
 
 /* ─────────────────────────────────────────
    PAGE
@@ -476,8 +587,101 @@ export default function Home() {
         <div className="max-w-[980px] mx-auto">
 
           {/* Tokenomics Bento Grid (Moved before header) */}
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-3 mb-16 md:mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
             {bentoCards.filter(c => c.id === "tokenomics").map(renderCard)}
+          </div>
+
+          {/* ── Kray Space — separador visual ── */}
+          <div className="flex items-center gap-4 my-3">
+            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(255,255,255,0.2)" }}>PARCEIRO</span>
+            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
+          </div>
+
+          {/* ── Kray Space featured card ── */}
+          <div className="mb-20 md:mb-28">
+            <a
+              href="https://kray.space/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-[18px] relative overflow-hidden group"
+              style={{
+                background: "#000000",
+                border: "1px solid rgba(255,255,255,0.14)",
+                boxShadow: "0 0 60px -20px rgba(255,255,255,0.06)",
+                textDecoration: "none"
+              }}
+            >
+              {/* Subtle top gradient line */}
+              <div className="absolute top-0 left-0 right-0 h-px"
+                style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)" }} />
+
+              {/* Glow top-right */}
+              <div className="absolute top-0 right-0 w-[480px] h-[280px] pointer-events-none"
+                style={{ background: "radial-gradient(ellipse at 80% 0%, rgba(255,255,255,0.05) 0%, transparent 70%)" }} />
+
+              <div className="relative z-10 flex flex-col md:flex-row gap-0">
+
+                {/* Left — Identity block */}
+                <div className="flex flex-col justify-between p-8 md:p-10 md:w-[340px] shrink-0"
+                  style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div>
+                    <div
+                      className="w-16 h-16 rounded-[18px] overflow-hidden mb-5"
+                      style={{ border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 8px 24px rgba(0,0,0,0.6)" }}
+                    >
+                      <img src="/kray-app.png" alt="Kray Space" className="w-full h-full object-cover" />
+                    </div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] mb-1.5" style={{ color: "rgba(255,255,255,0.3)" }}>
+                      {language === 'pt' ? 'Wallet Recomendada' : 'Recommended Wallet'}
+                    </p>
+                    <h3 className="text-[32px] md:text-[38px] font-bold text-white mb-2" style={{ letterSpacing: "-0.02em" }}>
+                      Kray Space
+                    </h3>
+                    <p className="text-[14px] leading-[1.5]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                      {language === 'pt' ? 'Self-Custodial Bitcoin Wallet' : 'Self-Custodial Bitcoin Wallet'}
+                    </p>
+                  </div>
+                  <div className="mt-8">
+                    <span
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all group-hover:scale-105"
+                      style={{ background: "#FFFFFF", color: "#000000" }}
+                    >
+                      {language === 'pt' ? 'Download Wallet' : 'Download Wallet'}
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right — Features */}
+                <div className="flex-1 p-8 md:p-10">
+                  <p className="text-[15px] md:text-[17px] leading-[1.65] mb-8" style={{ color: "rgba(255,255,255,0.6)" }}>
+                    {language === 'pt'
+                      ? 'Wallet nativa do Bitcoin com suporte completo a Taproot, Ordinals e Runes. Total controle das suas chaves. O único app que você precisa para o ecossistema Bitcoin.'
+                      : 'Native Bitcoin wallet with full support for Taproot, Ordinals and Runes. Total control of your keys. The only app you need for the Bitcoin ecosystem.'}
+                  </p>
+
+                  {/* Feature grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {[
+                      { icon: "🔑", label: "Self-Custody" },
+                      { icon: "🖼", label: "Ordinals" },
+                      { icon: "⚡", label: "Runes" },
+                      { icon: "🔍", label: "KrayScan" },
+                      { icon: "🔄", label: "Swap" },
+                      { icon: "⬡", label: "L2 / Stacks" },
+                    ].map(f => (
+                      <div key={f.label}
+                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                        <span className="text-[16px]">{f.icon}</span>
+                        <span className="text-[13px] font-medium text-white/60">{f.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
 
           {/* Apple-style two-column section header */}
@@ -502,6 +706,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: KRAYSCAN
+          Bitcoin Explorer Search
+      ══════════════════════════════════════ */}
+      <KrayScanSection language={language} />
 
       {/* ══════════════════════════════════════
           FEATURE: TRADINGVIEW

@@ -25,6 +25,8 @@ export function TopNav() {
         { name: t.nav.news, href: '/news' },
     ];
 
+    const krayNavItem = { name: 'Kray Space', href: 'https://kray.space/', external: true };
+
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 2);
         window.addEventListener('scroll', handleScroll, { passive: true });
@@ -75,6 +77,15 @@ export function TopNav() {
                                 {item.name}
                             </Link>
                         ))}
+                        <a
+                            href={krayNavItem.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[12px] font-semibold leading-none px-3 py-1 rounded-full transition-all duration-150 hover:opacity-90"
+                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", color: "#FFFFFF" }}
+                        >
+                            {krayNavItem.name}
+                        </a>
                     </div>
 
                     {/* Right actions */}
@@ -139,6 +150,15 @@ export function TopNav() {
                                 {item.name}
                             </Link>
                         ))}
+                        <a
+                            href={krayNavItem.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center py-4 text-[28px] font-semibold border-b border-foreground/10 text-white/70 hover:text-white transition-colors duration-150"
+                            style={{ letterSpacing: '-0.022em' }}
+                        >
+                            {krayNavItem.name}
+                        </a>
                     </nav>
 
                     <div className="mt-10 flex flex-col gap-4">
