@@ -714,290 +714,6 @@ export default function Home() {
       <KrayScanSection language={language} />
 
       {/* ══════════════════════════════════════
-          FEATURE: TRADINGVIEW
-          Apple-style 50/50 section
-      ══════════════════════════════════════ */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background: "#0A0A0A",
-          borderTop: "0.5px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        {/* Background video */}
-        <video
-          src="/graficos.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-          style={{ opacity: 0.25 }}
-        />
-        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Text */}
-          <div>
-            <p
-              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
-              style={{ color: "#F7931A" }}
-            >
-              {t.tradingview.eyebrow}
-            </p>
-            <h2
-              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              {t.tradingview.headline1}
-              <span style={{ color: "#F7931A" }}>{t.tradingview.headline2}</span>
-            </h2>
-            <p
-              className="text-[17px] leading-[1.6] mb-8"
-              style={{ color: "#86868B" }}
-            >
-              {t.tradingview.description}
-            </p>
-            <a
-              href="https://www.tradingview.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[17px] font-medium hover:underline underline-offset-2"
-              style={{ color: "#F7931A" }}
-            >
-              {t.tradingview.cta}
-            </a>
-          </div>
-          {/* Widget */}
-          <div className="dark-iframe-card w-full h-[420px] lg:h-[480px]">
-            <iframe
-              src="https://s.tradingview.com/widgetembed/?symbol=MEXC%3ADOGUSDT&interval=D&theme=dark"
-              width="100%"
-              height="100%"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          FEATURE: DOG SWAP
-          Reversed layout
-      ══════════════════════════════════════ */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background: "#111111",
-          borderTop: "0.5px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        {/* Background video */}
-        <video
-          src="/dogfire.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-          style={{ opacity: 0.18 }}
-        />
-        {/* Dark overlay to keep content legible */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(17,17,17,0.55)" }}
-        />
-        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Widget — left on desktop */}
-          <div className="dark-iframe-card w-full h-[500px] lg:h-[560px] order-2 lg:order-1"
-            style={{ border: "0.5px solid rgba(255,255,255,0.06)" }}
-          >
-            <iframe
-              src="https://swap.dogofbitcoin.com/"
-              width="100%"
-              height="100%"
-            />
-          </div>
-          {/* Text — right on desktop */}
-          <div className="order-1 lg:order-2">
-            <p
-              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
-              style={{ color: "#F7931A" }}
-            >
-              {t.dogswap.eyebrow}
-            </p>
-            <h2
-              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              {t.dogswap.headline1}
-              <br />
-              <span style={{ color: "#F7931A" }}>{t.dogswap.headline2}</span>
-            </h2>
-            <p
-              className="text-[17px] leading-[1.6] mb-8"
-              style={{ color: "#86868B" }}
-            >
-              {t.dogswap.description}
-            </p>
-            <a
-              href="https://swap.dogofbitcoin.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[17px] font-medium hover:underline underline-offset-2"
-              style={{ color: "#F7931A" }}
-            >
-              {t.dogswap.cta}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          FEATURE: RUNESTONE — Full-bleed with image
-          Apple "product hero" style
-      ══════════════════════════════════════ */}
-      <section
-        className="relative overflow-hidden"
-        style={{ background: "#000000", borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
-      >
-        <img
-          src="/runestone-airdrop.jpg"
-          alt="Runestone Airdrop"
-          className="absolute inset-0 w-full h-full object-cover opacity-25 select-none"
-        />
-
-        {/* Orange gradient overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)",
-          }}
-        />
-
-        {/* Content */}
-        <div className="relative z-10 max-w-[980px] mx-auto px-6 py-24 md:py-36 text-center">
-          <p
-            className="text-[12px] font-semibold uppercase tracking-[0.14em] mb-6"
-            style={{ color: "#F7931A" }}
-          >
-            {t.runestone_section.eyebrow}
-          </p>
-          <h2
-            className="text-[48px] md:text-[72px] lg:text-[88px] font-bold text-white leading-[1.02] mb-6"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            {t.runestone_section.headline1}<br />
-            <span style={{ color: "#F7931A" }}>{t.runestone_section.headline2}</span>
-          </h2>
-          <p
-            className="text-[19px] md:text-[21px] max-w-[520px] mx-auto mb-10 leading-[1.5]"
-            style={{ color: "rgba(255,255,255,0.65)" }}
-          >
-            {t.runestone_section.description}
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/runestone"
-              className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
-              style={{ background: "#F7931A", color: "#000000" }}
-            >
-              {t.runestone_section.cta_main}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          FEATURE: DOG DATA
-      ══════════════════════════════════════ */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background: "#0A0A0A",
-          borderTop: "0.5px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        {/* Background video */}
-        <video
-          src="/backgrounddogdata.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-          style={{ opacity: 0.20 }}
-        />
-        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Text */}
-          <div>
-            <p
-              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
-              style={{ color: "#F7931A" }}
-            >
-              {t.dogdata.eyebrow}
-            </p>
-            <h2
-              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
-              style={{ letterSpacing: "-0.025em" }}
-            >
-              {t.dogdata.headline1}
-              <br />
-              <span style={{ color: "#F7931A" }}>{t.dogdata.headline2}</span>
-            </h2>
-            <p
-              className="text-[17px] leading-[1.6] mb-8"
-              style={{ color: "#86868B" }}
-            >
-              {t.dogdata.description}
-            </p>
-            <a
-              href="https://www.dogdata.xyz/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[17px] font-medium hover:underline underline-offset-2"
-              style={{ color: "#F7931A" }}
-            >
-              {t.dogdata.cta}
-            </a>
-          </div>
-          {/* Widget + attribution */}
-          <div className="flex flex-col gap-0 w-full">
-            {/* iframe */}
-            <div
-              className="rounded-t-2xl overflow-hidden w-full"
-              style={{ border: "0.5px solid rgba(255,255,255,0.08)", borderBottom: "none", height: "480px" }}
-            >
-              <iframe
-                src="https://www.dogdata.xyz/"
-                width="100%"
-                height="100%"
-                title="DOG DATA Overview"
-              />
-            </div>
-
-            {/* Footer bar: attribution left, logo right */}
-            <div
-              className="rounded-b-2xl px-4 py-3 flex items-center justify-between gap-4"
-              style={{
-                border: "0.5px solid rgba(255,255,255,0.08)",
-                borderTop: "0.5px solid rgba(255,255,255,0.06)",
-                background: "#111111",
-              }}
-            >
-              <p className="text-[11px] leading-[1.5]" style={{ color: "#6E6E73" }}>
-                Made By{" "}
-                <span className="font-semibold" style={{ color: "#F7931A" }}>Bitmax</span>{" "}
-                for the Dog Community
-              </p>
-              <img
-                src="/dogdata1.png"
-                alt="DOG DATA"
-                className="h-7 w-auto object-contain shrink-0"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
           FEATURE: DOG NEWS
       ══════════════════════════════════════ */}
       <section
@@ -1122,6 +838,290 @@ export default function Home() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: DOG DATA
+      ══════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        {/* Background video */}
+        <video
+          src="/backgrounddogdata.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.20 }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Text */}
+          <div>
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              {t.dogdata.eyebrow}
+            </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              {t.dogdata.headline1}
+              <br />
+              <span style={{ color: "#F7931A" }}>{t.dogdata.headline2}</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              {t.dogdata.description}
+            </p>
+            <a
+              href="https://www.dogdata.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              {t.dogdata.cta}
+            </a>
+          </div>
+          {/* Widget + attribution */}
+          <div className="flex flex-col gap-0 w-full">
+            {/* iframe */}
+            <div
+              className="rounded-t-2xl overflow-hidden w-full"
+              style={{ border: "0.5px solid rgba(255,255,255,0.08)", borderBottom: "none", height: "480px" }}
+            >
+              <iframe
+                src="https://www.dogdata.xyz/"
+                width="100%"
+                height="100%"
+                title="DOG DATA Overview"
+              />
+            </div>
+
+            {/* Footer bar: attribution left, logo right */}
+            <div
+              className="rounded-b-2xl px-4 py-3 flex items-center justify-between gap-4"
+              style={{
+                border: "0.5px solid rgba(255,255,255,0.08)",
+                borderTop: "0.5px solid rgba(255,255,255,0.06)",
+                background: "#111111",
+              }}
+            >
+              <p className="text-[11px] leading-[1.5]" style={{ color: "#6E6E73" }}>
+                Made By{" "}
+                <span className="font-semibold" style={{ color: "#F7931A" }}>Bitmax</span>{" "}
+                for the Dog Community
+              </p>
+              <img
+                src="/dogdata1.png"
+                alt="DOG DATA"
+                className="h-7 w-auto object-contain shrink-0"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: RUNESTONE — Full-bleed with image
+          Apple "product hero" style
+      ══════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{ background: "#000000", borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
+      >
+        <img
+          src="/runestone-airdrop.jpg"
+          alt="Runestone Airdrop"
+          className="absolute inset-0 w-full h-full object-cover opacity-25 select-none"
+        />
+
+        {/* Orange gradient overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-[980px] mx-auto px-6 py-24 md:py-36 text-center">
+          <p
+            className="text-[12px] font-semibold uppercase tracking-[0.14em] mb-6"
+            style={{ color: "#F7931A" }}
+          >
+            {t.runestone_section.eyebrow}
+          </p>
+          <h2
+            className="text-[48px] md:text-[72px] lg:text-[88px] font-bold text-white leading-[1.02] mb-6"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            {t.runestone_section.headline1}<br />
+            <span style={{ color: "#F7931A" }}>{t.runestone_section.headline2}</span>
+          </h2>
+          <p
+            className="text-[19px] md:text-[21px] max-w-[520px] mx-auto mb-10 leading-[1.5]"
+            style={{ color: "rgba(255,255,255,0.65)" }}
+          >
+            {t.runestone_section.description}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/runestone"
+              className="px-7 py-3.5 rounded-full text-[17px] font-semibold transition-opacity hover:opacity-85"
+              style={{ background: "#F7931A", color: "#000000" }}
+            >
+              {t.runestone_section.cta_main}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: DOG SWAP
+          Reversed layout
+      ══════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: "#111111",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        {/* Background video */}
+        <video
+          src="/dogfire.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.18 }}
+        />
+        {/* Dark overlay to keep content legible */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "rgba(17,17,17,0.55)" }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Widget — left on desktop */}
+          <div className="dark-iframe-card w-full h-[500px] lg:h-[560px] order-2 lg:order-1"
+            style={{ border: "0.5px solid rgba(255,255,255,0.06)" }}
+          >
+            <iframe
+              src="https://swap.dogofbitcoin.com/"
+              width="100%"
+              height="100%"
+            />
+          </div>
+          {/* Text — right on desktop */}
+          <div className="order-1 lg:order-2">
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              {t.dogswap.eyebrow}
+            </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              {t.dogswap.headline1}
+              <br />
+              <span style={{ color: "#F7931A" }}>{t.dogswap.headline2}</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              {t.dogswap.description}
+            </p>
+            <a
+              href="https://swap.dogofbitcoin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              {t.dogswap.cta}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FEATURE: TRADINGVIEW
+          Apple-style 50/50 section
+      ══════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: "#0A0A0A",
+          borderTop: "0.5px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        {/* Background video */}
+        <video
+          src="/graficos.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{ opacity: 0.25 }}
+        />
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Text */}
+          <div>
+            <p
+              className="text-[12px] font-semibold uppercase tracking-[0.12em] mb-5"
+              style={{ color: "#F7931A" }}
+            >
+              {t.tradingview.eyebrow}
+            </p>
+            <h2
+              className="text-[40px] md:text-[52px] font-bold text-white leading-[1.06] mb-5"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              {t.tradingview.headline1}
+              <span style={{ color: "#F7931A" }}>{t.tradingview.headline2}</span>
+            </h2>
+            <p
+              className="text-[17px] leading-[1.6] mb-8"
+              style={{ color: "#86868B" }}
+            >
+              {t.tradingview.description}
+            </p>
+            <a
+              href="https://www.tradingview.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[17px] font-medium hover:underline underline-offset-2"
+              style={{ color: "#F7931A" }}
+            >
+              {t.tradingview.cta}
+            </a>
+          </div>
+          {/* Widget */}
+          <div className="dark-iframe-card w-full h-[420px] lg:h-[480px]">
+            <iframe
+              src="https://s.tradingview.com/widgetembed/?symbol=MEXC%3ADOGUSDT&interval=D&theme=dark"
+              width="100%"
+              height="100%"
+              allowFullScreen
+            />
+          </div>
         </div>
       </section>
 
