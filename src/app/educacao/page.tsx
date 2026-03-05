@@ -41,6 +41,24 @@ const sectionMeta = [
         link: "https://www.bff.army/bootcamp",
         githubLink: null,
     },
+    {
+        videoId: null,
+        image: "/privacy.png",
+        iconBg: "#111111",
+        iconColor: "#3B82F6",
+        accentColor: "#3B82F6",
+        link: null,
+        githubLink: null,
+    },
+    {
+        videoId: null,
+        image: "/ledger.png",
+        iconBg: "#111111",
+        iconColor: "#F7931A",
+        accentColor: "#F7931A",
+        link: null,
+        githubLink: null,
+    },
 ];
 
 export default function EducacaoPage() {

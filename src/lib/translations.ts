@@ -301,6 +301,18 @@ const translations = {
           eyebrow: 'Finanças descentralizadas na camada 2.',
           content: 'DeFi no Bitcoin é a evolução que permite que seu capital trabalhe de forma nativa e segura. Através da Bitflow, a principal DEX da Stacks, você pode fazer swaps, prover liquidez e participar de estratégias de rendimento sem abrir mão da segurança do Bitcoin. Aprenda na prática com nossos bootcamps e webinars.',
         },
+        {
+          id: 'privacy',
+          title: 'Privacidade',
+          eyebrow: 'Privacidade é um direito fundamental.',
+          content: 'Privacidade protege indivíduos, negócios e comunidades contra vigilância e abuso de poder. Sem privacidade não existe verdadeira liberdade financeira. Aprender a usar ferramentas e boas práticas é essencial para manter soberania em um sistema aberto.',
+        },
+        {
+          id: 'self-custody',
+          title: 'Autocustódia',
+          eyebrow: 'O princípio mais importante do Bitcoin.',
+          content: 'Significa controlar suas próprias chaves e não depender de intermediários. Quem possui as chaves controla o dinheiro. Entender e praticar autocustódia é o primeiro passo para verdadeira soberania financeira.',
+        },
       ],
       philosophy: {
         eyebrow: 'Filosofia',
@@ -721,6 +733,18 @@ const translations = {
           title: 'DeFi on Bitcoin (Bitflow Finance)',
           eyebrow: 'Decentralized finance on Layer 2.',
           content: 'DeFi on Bitcoin is the evolution that allows your capital to work natively and securely. Through Bitflow, the leading Stacks DEX, you can swap, provide liquidity and participate in yield strategies without sacrificing Bitcoin security. Learn in practice with our bootcamps and webinars.',
+        },
+        {
+          id: 'privacy',
+          title: 'Privacy',
+          eyebrow: 'Privacy is a fundamental right.',
+          content: 'Privacy protects individuals, businesses and communities against surveillance and abuse of power. Without privacy there is no true financial freedom. Learning to use tools and best practices is essential to maintain sovereignty in an open system.',
+        },
+        {
+          id: 'self-custody',
+          title: 'Self-Custody',
+          eyebrow: 'The most important principle of Bitcoin.',
+          content: 'It means controlling your own keys and not depending on intermediaries. Whoever owns the keys controls the money. Understanding and practicing self-custody is the first step to true financial sovereignty.',
         },
       ],
       philosophy: {
