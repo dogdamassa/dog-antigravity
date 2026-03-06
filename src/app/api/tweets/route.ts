@@ -2,34 +2,38 @@ import { NextResponse } from 'next/server';
 
 export const revalidate = 300; // 5 minutes
 
-export const TWEET_HANDLES = [
-  'BitcoinMagazine', 'WatcherGuru', 'Cointelegraph', 'coinbureau',
-  'whale_alert', 'AltcoinDailyio', 'DecryptMedia', 'TheBlock__',
-  'lookonchain', 'CoinDesk',
+// ── Sources: website RSS feeds (no API key needed) + Twitter fallback ──────
+interface Source {
+  name: string;
+  handle: string;
+  rss: string | null;
+  domain: string;
+}
+
+const SOURCES: Source[] = [
+  { name: 'Bitcoin Magazine', handle: 'BitcoinMagazine', rss: 'https://bitcoinmagazine.com/feed',                     domain: 'bitcoinmagazine.com' },
+  { name: 'Watcher Guru',    handle: 'WatcherGuru',    rss: 'https://watcherguru.com/feed/',                         domain: 'watcherguru.com' },
+  { name: 'CoinTelegraph',   handle: 'Cointelegraph',  rss: 'https://cointelegraph.com/rss',                         domain: 'cointelegraph.com' },
+  { name: 'Coin Bureau',     handle: 'coinbureau',     rss: 'https://coinbureau.com/feed/',                          domain: 'coinbureau.com' },
+  { name: 'Altcoin Daily',   handle: 'AltcoinDailyio', rss: 'https://altcoindaily.io/feed/',                         domain: 'altcoindaily.io' },
+  { name: 'Decrypt',         handle: 'DecryptMedia',   rss: 'https://decrypt.co/feed',                               domain: 'decrypt.co' },
+  { name: 'The Block',       handle: 'TheBlock__',     rss: 'https://www.theblock.co/rss.xml',                       domain: 'theblock.co' },
+  { name: 'CoinDesk',        handle: 'CoinDesk',       rss: 'https://www.coindesk.com/arc/outboundfeeds/rss/',       domain: 'coindesk.com' },
+  { name: 'Whale Alert',     handle: 'whale_alert',    rss: null,                                                    domain: 'whale-alert.io' },
+  { name: 'Lookonchain',     handle: 'lookonchain',    rss: null,                                                    domain: 'lookonchain.com' },
 ];
 
-// Public nitter instances — tried in parallel, first to respond wins
-const NITTER_INSTANCES = [
-  'https://nitter.privacydev.net',
-  'https://nitter.poast.org',
-  'https://xcancel.com',
-  'https://nitter.1d4.us',
-  'https://nitter.cz',
-];
+export const TWEET_HANDLES = SOURCES.map(s => s.handle);
 
 export interface TweetData {
   id: string;
+  url?: string;       // Article link (overrides twitter URL in the card)
   text: string;
   createdAt: string;
   authorName: string;
   authorHandle: string;
   authorAvatar: string;
-  metrics: {
-    views: number;
-    replies: number;
-    retweets: number;
-    likes: number;
-  };
+  metrics: { views: number; replies: number; retweets: number; likes: number };
 }
 
 export interface TweetFeedItem {
@@ -37,105 +41,93 @@ export interface TweetFeedItem {
   tweet: TweetData;
 }
 
-// ── RSS parsing ────────────────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────
 
-function parseNitterRSS(xml: string, handle: string): TweetData[] {
-  // Avatar: channel image → convert nitter proxy to real Twitter CDN URL
-  const imgMatch = xml.match(/<image>[\s\S]*?<url>([^<]+)<\/url>/);
-  let authorAvatar = '';
-  if (imgMatch) {
-    const picPath = imgMatch[1].trim().replace(/^https?:\/\/[^/]+\/pic\//, '');
-    authorAvatar = picPath ? 'https://' + decodeURIComponent(picPath) : '';
-  }
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
+}
 
-  // Author display name from channel title "Display / @handle"
-  const chanTitleMatch = xml.match(/<channel>[\s\S]*?<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/);
-  const authorName = chanTitleMatch ? chanTitleMatch[1].split(' / ')[0].trim() : handle;
+function stripHtml(s: string): string {
+  return s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
 
+function extractTag(xml: string, tag: string): string {
+  // Handles both CDATA and plain text versions
+  const cdataRe = new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`);
+  const plainRe  = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`);
+  const m = xml.match(cdataRe) || xml.match(plainRe);
+  return m ? m[1].trim() : '';
+}
+
+// ── RSS feed parser ────────────────────────────────────────────────────────
+
+function parseRSSFeed(xml: string, source: Source): TweetData[] {
   const items: TweetData[] = [];
   const itemRe = /<item>([\s\S]*?)<\/item>/g;
   let m;
+  const avatar = `https://www.google.com/s2/favicons?domain=${source.domain}&sz=64`;
 
   while ((m = itemRe.exec(xml)) !== null) {
     const item = m[1];
 
-    // Tweet ID from guid
-    const guidMatch = item.match(/<guid[^>]*>([^<]+)<\/guid>/);
-    const idMatch = guidMatch?.[1]?.match(/\/status\/(\d+)/);
-    if (!idMatch) continue;
+    // Title
+    const rawTitle = extractTag(item, 'title');
+    if (!rawTitle) continue;
+    const title = decodeEntities(stripHtml(rawTitle));
+    if (!title) continue;
+
+    // URL: prefer <link>, fallback to <guid>
+    const linkMatch = item.match(/<link>([^<]+)<\/link>/) ||
+                      item.match(/<guid[^>]*>([^<]+)<\/guid>/);
+    const articleUrl = linkMatch ? linkMatch[1].trim() : '';
+
+    // Stable ID: slug from URL or hash from title
+    const slug = articleUrl.split('/').filter(Boolean).pop() ??
+                 Math.abs([...title].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 0)).toString(36);
 
     // Date
-    const dateMatch = item.match(/<pubDate>([^<]+)<\/pubDate>/);
-    const createdAt = dateMatch ? new Date(dateMatch[1].trim()).toISOString() : '';
-
-    // Text: extract from description CDATA, skip retweets
-    const descMatch = item.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/);
-    if (!descMatch) continue;
-    const rawHtml = descMatch[1];
-
-    // Skip retweets
-    const hasRT = /class=["']retweet["']/.test(rawHtml);
-    if (hasRT) continue;
-
-    // Extract text from first <p> (tweet body)
-    const pMatch = rawHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/);
-    const rawText = pMatch ? pMatch[1] : rawHtml;
-
-    // Strip HTML tags and decode entities
-    const text = rawText
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;|&apos;/g, "'")
-      // Strip trailing t.co URLs (media attachment noise)
-      .replace(/(\s*https?:\/\/t\.co\/\S+)+$/, '')
-      .trim();
-
-    if (!text || text.startsWith('RT @')) continue;
+    const dateStr = extractTag(item, 'pubDate') || extractTag(item, 'dc:date');
+    const createdAt = dateStr ? new Date(dateStr).toISOString() : new Date().toISOString();
 
     items.push({
-      id: idMatch[1],
-      text,
+      id: slug,
+      url: articleUrl || undefined,
+      text: title,
       createdAt,
-      authorName,
-      authorHandle: handle,
-      authorAvatar,
+      authorName: source.name,
+      authorHandle: source.handle,
+      authorAvatar: avatar,
       metrics: { views: 0, replies: 0, retweets: 0, likes: 0 },
     });
   }
 
-  return items.slice(0, 5);
+  return items.slice(0, 3); // up to 3 latest articles per source
 }
 
-async function fetchFromInstance(instance: string, handle: string): Promise<TweetData[]> {
-  const res = await fetch(`${instance}/${handle}/rss`, {
-    signal: AbortSignal.timeout(5000),
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; crypto-news-aggregator/1.0)' },
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const xml = await res.text();
-  const tweets = parseNitterRSS(xml, handle);
-  if (!tweets.length) throw new Error('empty');
-  return tweets;
-}
-
-async function fetchHandle(handle: string): Promise<TweetData[]> {
-  // Race all instances simultaneously — take whichever responds first
+async function fetchRSS(source: Source): Promise<TweetData[]> {
+  if (!source.rss) return [];
   try {
-    return await Promise.any(NITTER_INSTANCES.map(inst => fetchFromInstance(inst, handle)));
+    const res = await fetch(source.rss, {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; feed-reader/1.0)', 'Accept': 'application/rss+xml, application/xml, text/xml, */*' },
+      cache: 'no-store',
+    });
+    if (!res.ok) return [];
+    const xml = await res.text();
+    return parseRSSFeed(xml, source);
   } catch {
     return [];
   }
 }
 
-// ── Twitter API v2 (when TWITTER_BEARER_TOKEN is set) ─────────────────────
+// ── Twitter API v2 (optional: set TWITTER_BEARER_TOKEN in Vercel) ──────────
 
 async function fetchFromTwitterAPI(token: string): Promise<TweetFeedItem[]> {
-  const query = TWEET_HANDLES.map(h => `from:${h}`).join(' OR ') + ' -is:retweet';
+  const handles = SOURCES.map(s => s.handle);
+  const query = handles.map(h => `from:${h}`).join(' OR ') + ' -is:retweet';
   const url = new URL('https://api.twitter.com/2/tweets/search/recent');
   url.searchParams.set('query', query);
   url.searchParams.set('max_results', '100');
@@ -186,23 +178,17 @@ async function fetchFromTwitterAPI(token: string): Promise<TweetFeedItem[]> {
   }
 
   const items: TweetFeedItem[] = [];
-
-  for (const handle of TWEET_HANDLES) {
+  for (const handle of handles) {
     const group = byAuthor.get(handle.toLowerCase()) ?? [];
     if (!group.length) continue;
-    const sorted = [...group].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    const sorted = [...group].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     items.push({ type: 'latest', tweet: sorted[0] });
   }
-
-  for (const handle of TWEET_HANDLES) {
+  for (const handle of handles) {
     const group = byAuthor.get(handle.toLowerCase()) ?? [];
     if (group.length < 2) continue;
-    const byDate = [...group].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    const byEng = [...group].sort((a, b) => {
+    const byDate = [...group].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const byEng  = [...group].sort((a, b) => {
       const sA = a.metrics.retweets * 3 + a.metrics.likes + a.metrics.replies * 2;
       const sB = b.metrics.retweets * 3 + b.metrics.likes + b.metrics.replies * 2;
       return sB - sA;
@@ -216,33 +202,26 @@ async function fetchFromTwitterAPI(token: string): Promise<TweetFeedItem[]> {
 // ── Main handler ───────────────────────────────────────────────────────────
 
 export async function GET() {
-  // Twitter API v2 takes priority when token is configured
+  // Twitter API v2: best quality, requires TWITTER_BEARER_TOKEN in env vars
   const token = process.env.TWITTER_BEARER_TOKEN;
   if (token) {
     try {
       const items = await fetchFromTwitterAPI(token);
-      return NextResponse.json({ items, source: 'twitter_api' });
-    } catch {
-      // Fall through to nitter
+      if (items.length > 0) return NextResponse.json({ items, source: 'twitter_api' });
+    } catch { /* fall through */ }
+  }
+
+  // RSS feeds: reliable, no API key needed, works everywhere
+  const results = await Promise.allSettled(SOURCES.map(source => fetchRSS(source)));
+
+  const items: TweetFeedItem[] = [];
+  results.forEach(result => {
+    if (result.status !== 'fulfilled') return;
+    const articles = result.value;
+    if (articles.length > 0) {
+      items.push({ type: 'latest', tweet: articles[0] });
     }
-  }
+  });
 
-  // Nitter RSS — no API key needed, all accounts fetched in parallel
-  try {
-    const results = await Promise.allSettled(
-      TWEET_HANDLES.map(handle => fetchHandle(handle))
-    );
-
-    const items: TweetFeedItem[] = [];
-    results.forEach((result, i) => {
-      const tweets = result.status === 'fulfilled' ? result.value : [];
-      if (tweets.length > 0) {
-        items.push({ type: 'latest', tweet: tweets[0] });
-      }
-    });
-
-    return NextResponse.json({ items, source: 'nitter' });
-  } catch {
-    return NextResponse.json({ items: [], source: 'error' });
-  }
+  return NextResponse.json({ items, source: items.length > 0 ? 'rss' : 'empty' });
 }

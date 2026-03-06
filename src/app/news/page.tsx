@@ -49,7 +49,7 @@ function TweetCard({ item, tAgo }: {
     const { tweet, type } = item;
     return (
         <a
-            href={`https://x.com/${tweet.authorHandle}/status/${tweet.id}`}
+            href={tweet.url ?? `https://x.com/${tweet.authorHandle}/status/${tweet.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex flex-col shrink-0"
@@ -89,11 +89,12 @@ function TweetCard({ item, tAgo }: {
                     <img
                         src={tweet.authorAvatar}
                         alt={tweet.authorHandle}
-                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                        style={{ width: '36px', height: '36px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
                 ) : (
-                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#1e1e1e', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <XIcon style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.35)' }} />
+                    <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#1e1e1e', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.5)' }}>
+                        {tweet.authorName.charAt(0)}
                     </div>
                 )}
                 <div style={{ minWidth: 0 }}>
