@@ -143,7 +143,6 @@ export default function NewsPage() {
     const [loading, setLoading] = useState(true);
     const [tweets, setTweets] = useState<TweetFeedItem[]>([]);
     const [tweetLoading, setTweetLoading] = useState(true);
-    const [hasTwitterToken, setHasTwitterToken] = useState(true);
 
     const { language } = useLanguage();
     const tr = getTranslations(language);
@@ -157,12 +156,8 @@ export default function NewsPage() {
 
         fetch('/api/tweets')
             .then((res) => res.json())
-            .then((data) => {
-                setTweets(data.items ?? []);
-                setHasTwitterToken(data.hasToken ?? false);
-                setTweetLoading(false);
-            })
-            .catch(() => { setHasTwitterToken(false); setTweetLoading(false); });
+            .then((data) => { setTweets(data.items ?? []); setTweetLoading(false); })
+            .catch(() => setTweetLoading(false));
     }, []);
 
     const featuredVideo = videos[0] ?? null;
@@ -326,29 +321,6 @@ export default function NewsPage() {
                                 style={{ width: '280px', height: '185px', borderRadius: '16px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.06)' }}
                             />
                         ))}
-                    </div>
-                ) : !hasTwitterToken ? (
-                    <div style={{ padding: '0 24px' }}>
-                        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.28)', marginBottom: '16px' }}>
-                            Configure{' '}
-                            <code style={{ background: 'rgba(255,255,255,0.07)', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>
-                                TWITTER_BEARER_TOKEN
-                            </code>
-                            {' '}no Vercel para ativar o feed em tempo real.
-                        </p>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                            {TWEET_HANDLES.map(h => (
-                                <a
-                                    key={h}
-                                    href={`https://x.com/${h}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{ padding: '6px 14px', borderRadius: '20px', background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.1)', fontSize: '12px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}
-                                >
-                                    @{h}
-                                </a>
-                            ))}
-                        </div>
                     </div>
                 ) : tweets.length > 0 ? (
                     <div style={{ position: 'relative', overflow: 'hidden' }}>
