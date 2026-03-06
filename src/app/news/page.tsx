@@ -54,14 +54,14 @@ function TweetCard({ item, tAgo }: {
             rel="noopener noreferrer"
             className="inline-flex flex-col shrink-0"
             style={{
-                width: '280px',
-                minHeight: '185px',
-                padding: '18px 20px',
-                borderRadius: '16px',
+                width: '340px',
+                minHeight: '210px',
+                padding: '22px 24px',
+                borderRadius: '18px',
                 background: 'rgba(255,255,255,0.04)',
                 border: '0.5px solid rgba(255,255,255,0.08)',
                 textDecoration: 'none',
-                gap: '12px',
+                gap: '14px',
                 cursor: 'pointer',
             }}
         >
@@ -108,7 +108,7 @@ function TweetCard({ item, tAgo }: {
             </div>
 
             {/* Tweet text */}
-            <p className="line-clamp-3" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.55, margin: 0, flex: 1 }}>
+            <p className="line-clamp-3" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: 0, flex: 1 }}>
                 {tweet.text}
             </p>
 
@@ -290,9 +290,9 @@ export default function NewsPage() {
                     .tweet-track {
                         display: inline-flex;
                         align-items: stretch;
-                        gap: 16px;
+                        gap: 20px;
                         padding: 4px 24px;
-                        animation: tweet-scroll 160s linear infinite;
+                        animation: tweet-scroll 90s linear infinite;
                     }
                     .tweet-track:hover {
                         animation-play-state: paused;
@@ -302,13 +302,13 @@ export default function NewsPage() {
                 {/* Section header */}
                 <div className="max-w-[980px] mx-auto px-4 md:px-6 mb-8">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                        <XIcon style={{ width: '20px', height: '20px', color: 'rgba(255,255,255,0.85)' }} />
+                        <span style={{ fontSize: '20px' }}>📰</span>
                         <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.018em', color: '#ffffff' }}>
-                            Crypto Twitter
+                            Crypto News
                         </h2>
                     </div>
                     <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.38)' }}>
-                        Últimos posts dos maiores nomes do mercado — passe o cursor para pausar
+                        Últimas notícias dos maiores portais do mercado — passe o cursor para pausar
                     </p>
                 </div>
 
@@ -319,7 +319,7 @@ export default function NewsPage() {
                             <div
                                 key={i}
                                 className="animate-pulse shrink-0"
-                                style={{ width: '280px', height: '185px', borderRadius: '16px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.06)' }}
+                                style={{ width: '340px', height: '210px', borderRadius: '18px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.06)' }}
                             />
                         ))}
                     </div>
