@@ -1,10 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Play, Youtube, Clock, ArrowUpRight } from "lucide-react";
+import { Play, Youtube, Clock } from "lucide-react";
 import type { VideoItem } from '../api/youtube-latest/route';
+import type { TweetFeedItem } from '../api/tweets/route';
 import { useLanguage } from '@/components/Providers';
 import { getTranslations } from '@/lib/translations';
+
+const TWEET_HANDLES = [
+    'BitcoinMagazine', 'WatcherGuru', 'Cointelegraph', 'coinbureau',
+    'whale_alert', 'AltcoinDailyio', 'DecryptMedia', 'TheBlock__',
+    'lookonchain', 'CoinDesk',
+];
 
 function timeAgo(isoDate: string, tAgo: ReturnType<typeof getTranslations>['news']['timeAgo']): string {
     if (!isoDate) return '';
@@ -21,18 +28,123 @@ function timeAgo(isoDate: string, tAgo: ReturnType<typeof getTranslations>['news
     return tAgo.months(months);
 }
 
-// X (Twitter) icon as SVG
-function XIcon({ className }: { className?: string }) {
+function fmtNum(n: number): string {
+    if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+    return String(n);
+}
+
+function XIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
     return (
-        <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+        <svg viewBox="0 0 24 24" fill="currentColor" className={className} style={style}>
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.734-8.835L1.254 2.25H8.08l4.264 5.633L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
         </svg>
+    );
+}
+
+function TweetCard({ item, tAgo }: {
+    item: TweetFeedItem;
+    tAgo: ReturnType<typeof getTranslations>['news']['timeAgo'];
+}) {
+    const { tweet, type } = item;
+    return (
+        <a
+            href={`https://x.com/${tweet.authorHandle}/status/${tweet.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-col shrink-0"
+            style={{
+                width: '280px',
+                minHeight: '185px',
+                padding: '18px 20px',
+                borderRadius: '16px',
+                background: 'rgba(255,255,255,0.04)',
+                border: '0.5px solid rgba(255,255,255,0.08)',
+                textDecoration: 'none',
+                gap: '12px',
+                cursor: 'pointer',
+            }}
+        >
+            {/* Badge + time */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    padding: '3px 7px',
+                    borderRadius: '4px',
+                    background: type === 'latest' ? 'rgba(59,130,246,0.15)' : 'rgba(247,147,26,0.15)',
+                    color: type === 'latest' ? '#60a5fa' : '#F7931A',
+                }}>
+                    {type === 'latest' ? 'LATEST' : '🔥 TOP'}
+                </span>
+                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.28)' }}>
+                    {timeAgo(tweet.createdAt, tAgo)}
+                </span>
+            </div>
+
+            {/* Author */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {tweet.authorAvatar ? (
+                    <img
+                        src={tweet.authorAvatar}
+                        alt={tweet.authorHandle}
+                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                    />
+                ) : (
+                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#1e1e1e', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <XIcon style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.35)' }} />
+                    </div>
+                )}
+                <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {tweet.authorName}
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.4 }}>
+                        @{tweet.authorHandle}
+                    </div>
+                </div>
+            </div>
+
+            {/* Tweet text */}
+            <p className="line-clamp-3" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.55, margin: 0, flex: 1 }}>
+                {tweet.text}
+            </p>
+
+            {/* Metrics */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                {tweet.metrics.views > 0 && (
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        👁 {fmtNum(tweet.metrics.views)}
+                    </span>
+                )}
+                {tweet.metrics.replies > 0 && (
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        💬 {fmtNum(tweet.metrics.replies)}
+                    </span>
+                )}
+                {tweet.metrics.retweets > 0 && (
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        🔁 {fmtNum(tweet.metrics.retweets)}
+                    </span>
+                )}
+                {tweet.metrics.likes > 0 && (
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        ♥ {fmtNum(tweet.metrics.likes)}
+                    </span>
+                )}
+            </div>
+        </a>
     );
 }
 
 export default function NewsPage() {
     const [videos, setVideos] = useState<VideoItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [tweets, setTweets] = useState<TweetFeedItem[]>([]);
+    const [tweetLoading, setTweetLoading] = useState(true);
+    const [hasTwitterToken, setHasTwitterToken] = useState(true);
+
     const { language } = useLanguage();
     const tr = getTranslations(language);
     const t = tr.news;
@@ -40,11 +152,17 @@ export default function NewsPage() {
     useEffect(() => {
         fetch('/api/youtube-latest')
             .then((res) => res.json())
-            .then((data) => {
-                setVideos(data.videos ?? []);
-                setLoading(false);
-            })
+            .then((data) => { setVideos(data.videos ?? []); setLoading(false); })
             .catch(() => setLoading(false));
+
+        fetch('/api/tweets')
+            .then((res) => res.json())
+            .then((data) => {
+                setTweets(data.items ?? []);
+                setHasTwitterToken(data.hasToken ?? false);
+                setTweetLoading(false);
+            })
+            .catch(() => { setHasTwitterToken(false); setTweetLoading(false); });
     }, []);
 
     const featuredVideo = videos[0] ?? null;
@@ -63,14 +181,12 @@ export default function NewsPage() {
                 >
                     {t.title}
                 </h1>
-                <p
-                    className="text-[19px]"
-                    style={{ color: "var(--apple-text-secondary)" }}
-                >
+                <p className="text-[19px]" style={{ color: "var(--apple-text-secondary)" }}>
                     {t.subtitle}
                 </p>
             </div>
 
+            {/* Reporter + Featured Video */}
             <div className="max-w-[980px] mx-auto px-4 md:px-6 py-12 md:py-16 space-y-12 md:space-y-16">
 
                 {/* Reporter Profile Card */}
@@ -79,47 +195,27 @@ export default function NewsPage() {
                         className="apple-card p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-center gap-6 relative overflow-hidden"
                         style={{ background: "linear-gradient(135deg, rgba(29,29,31,0.4) 0%, rgba(17,17,17,0.8) 100%)", border: "0.5px solid rgba(255,255,255,0.08)" }}
                     >
-                        {/* Decorative glow */}
                         <div
                             className="absolute top-0 left-0 w-full h-full pointer-events-none"
                             style={{ background: "radial-gradient(circle at 0% 0%, rgba(247,147,26,0.06) 0%, transparent 50%)" }}
                         />
-
-                        {/* Avatar */}
                         <div
                             className="w-24 h-24 rounded-full flex items-center justify-center shrink-0 overflow-hidden relative z-10 shadow-2xl transition-transform hover:scale-105"
                             style={{ border: "2px solid rgba(247,147,26,0.3)" }}
                         >
-                            <img
-                                src="/vincentpfp.jpg"
-                                alt="Vincent Cryptolution"
-                                className="w-full h-full object-cover"
-                            />
+                            <img src="/vincentpfp.jpg" alt="Vincent Cryptolution" className="w-full h-full object-cover" />
                         </div>
-
-                        {/* Info */}
                         <div className="flex-1 min-w-0 text-center sm:text-left relative z-10">
-                            <span
-                                className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-1.5 block"
-                                style={{ color: "#F7931A" }}
-                            >
+                            <span className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-1.5 block" style={{ color: "#F7931A" }}>
                                 {t.reporter.role}
                             </span>
-                            <h2
-                                className="text-[26px] font-bold leading-tight mb-2 text-white"
-                                style={{ letterSpacing: "-0.018em" }}
-                            >
+                            <h2 className="text-[26px] font-bold leading-tight mb-2 text-white" style={{ letterSpacing: "-0.018em" }}>
                                 Vincent (Cryptolution)
                             </h2>
-                            <p
-                                className="text-[15px] leading-[1.6]"
-                                style={{ color: "#A1A1A6" }}
-                            >
+                            <p className="text-[15px] leading-[1.6]" style={{ color: "#A1A1A6" }}>
                                 {t.reporter.bio}
                             </p>
                         </div>
-
-                        {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto">
                             <a
                                 href="https://www.youtube.com/@cryptolution"
@@ -148,10 +244,7 @@ export default function NewsPage() {
                 {/* Featured Video */}
                 <section>
                     <div className="flex items-center gap-2 mb-5">
-                        <span
-                            className="w-2 h-2 rounded-full animate-pulse"
-                            style={{ background: "#EF4444" }}
-                        />
+                        <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#EF4444" }} />
                         <span
                             className="text-[12px] font-semibold uppercase tracking-[0.08em]"
                             style={{ color: "var(--apple-text-secondary)" }}
@@ -159,11 +252,7 @@ export default function NewsPage() {
                             {t.featured.label}
                         </span>
                     </div>
-
-                    <div
-                        className="apple-card overflow-hidden"
-                        style={{ border: "0.5px solid var(--apple-separator)" }}
-                    >
+                    <div className="apple-card overflow-hidden" style={{ border: "0.5px solid var(--apple-separator)" }}>
                         <div className="aspect-video w-full relative">
                             {featuredVideo ? (
                                 <iframe
@@ -188,6 +277,109 @@ export default function NewsPage() {
                     </div>
                 </section>
 
+            </div>
+
+            {/* ── Crypto Twitter Feed ─────────────────────────────── */}
+            <section style={{
+                background: '#000000',
+                borderTop: '0.5px solid rgba(255,255,255,0.08)',
+                borderBottom: '0.5px solid rgba(255,255,255,0.08)',
+                padding: '48px 0 56px',
+            }}>
+                <style>{`
+                    @keyframes tweet-scroll {
+                        0%   { transform: translateX(0); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .tweet-track {
+                        display: inline-flex;
+                        align-items: stretch;
+                        gap: 16px;
+                        padding: 4px 24px;
+                        animation: tweet-scroll 160s linear infinite;
+                    }
+                    .tweet-track:hover {
+                        animation-play-state: paused;
+                    }
+                `}</style>
+
+                {/* Section header */}
+                <div className="max-w-[980px] mx-auto px-4 md:px-6 mb-8">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                        <XIcon style={{ width: '20px', height: '20px', color: 'rgba(255,255,255,0.85)' }} />
+                        <h2 style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.018em', color: '#ffffff' }}>
+                            Crypto Twitter
+                        </h2>
+                    </div>
+                    <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.38)' }}>
+                        Últimos posts dos maiores nomes do mercado — passe o cursor para pausar
+                    </p>
+                </div>
+
+                {/* Carousel states */}
+                {tweetLoading ? (
+                    <div style={{ display: 'flex', gap: '16px', padding: '4px 24px', overflow: 'hidden' }}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="animate-pulse shrink-0"
+                                style={{ width: '280px', height: '185px', borderRadius: '16px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.06)' }}
+                            />
+                        ))}
+                    </div>
+                ) : !hasTwitterToken ? (
+                    <div style={{ padding: '0 24px' }}>
+                        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.28)', marginBottom: '16px' }}>
+                            Configure{' '}
+                            <code style={{ background: 'rgba(255,255,255,0.07)', padding: '2px 6px', borderRadius: '4px', fontSize: '12px' }}>
+                                TWITTER_BEARER_TOKEN
+                            </code>
+                            {' '}no Vercel para ativar o feed em tempo real.
+                        </p>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                            {TWEET_HANDLES.map(h => (
+                                <a
+                                    key={h}
+                                    href={`https://x.com/${h}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ padding: '6px 14px', borderRadius: '20px', background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.1)', fontSize: '12px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}
+                                >
+                                    @{h}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                ) : tweets.length > 0 ? (
+                    <div style={{ position: 'relative', overflow: 'hidden' }}>
+                        {/* Fade edges */}
+                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '80px', zIndex: 10, pointerEvents: 'none', background: 'linear-gradient(to right, #000000, transparent)' }} />
+                        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '80px', zIndex: 10, pointerEvents: 'none', background: 'linear-gradient(to left, #000000, transparent)' }} />
+                        <div className="tweet-track">
+                            {[0, 1].map(copy => (
+                                <React.Fragment key={copy}>
+                                    {tweets.map(item => (
+                                        <TweetCard
+                                            key={`${copy}-${item.tweet.id}`}
+                                            item={item}
+                                            tAgo={t.timeAgo}
+                                        />
+                                    ))}
+                                    <div style={{ width: '40px', flexShrink: 0 }} />
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div style={{ padding: '32px 24px', fontSize: '14px', color: 'rgba(255,255,255,0.28)' }}>
+                        Não foi possível carregar os tweets no momento.
+                    </div>
+                )}
+            </section>
+
+            {/* Recent Videos + CTA */}
+            <div className="max-w-[980px] mx-auto px-4 md:px-6 py-12 md:py-16 space-y-12 md:space-y-16">
+
                 {/* Recent Videos */}
                 {(loading || recentVideos.length > 0) && (
                     <section>
@@ -197,15 +389,11 @@ export default function NewsPage() {
                         >
                             {t.recent.title}
                         </h2>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                             {loading
                                 ? Array.from({ length: 4 }).map((_, i) => (
                                     <div key={i} className="animate-pulse">
-                                        <div
-                                            className="aspect-video rounded-[12px] mb-3"
-                                            style={{ background: "#E5E5E7" }}
-                                        />
+                                        <div className="aspect-video rounded-[12px] mb-3" style={{ background: "#E5E5E7" }} />
                                         <div className="h-4 rounded mb-2" style={{ background: "#E5E5E7" }} />
                                         <div className="h-3 w-2/3 rounded" style={{ background: "#E5E5E7" }} />
                                     </div>
@@ -236,7 +424,6 @@ export default function NewsPage() {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <h3
                                             className="text-[14px] font-semibold leading-[1.35] mb-2 group-hover:text-[#F7931A] transition-colors line-clamp-2"
                                             style={{ letterSpacing: "-0.01em", color: "#1D1D1F" }}
@@ -278,14 +465,10 @@ export default function NewsPage() {
                             >
                                 @cryptolution
                             </h3>
-                            <p
-                                className="text-[14px]"
-                                style={{ color: "#6E6E73" }}
-                            >
+                            <p className="text-[14px]" style={{ color: "#6E6E73" }}>
                                 {t.cta.description}
                             </p>
                         </div>
-
                         <div className="flex items-center gap-3 shrink-0">
                             <a
                                 href="https://www.youtube.com/@cryptolution"
