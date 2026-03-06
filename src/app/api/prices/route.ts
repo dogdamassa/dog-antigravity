@@ -23,7 +23,7 @@ async function fetchYF(symbol: string): Promise<{ usd: number | null; change: nu
 
 export async function GET() {
   try {
-    const [cryptoRes, nvda, amzn, tsla, googl, msft, pltr, usdbrl, eurusd, gold] =
+    const [cryptoRes, nvda, amzn, tsla, googl, msft, pltr, usdbrl, eurusd, eurbrl, gold] =
       await Promise.all([
         fetch(
           'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,blockstack,dog-go-to-the-moon-rune&vs_currencies=usd&include_24hr_change=true',
@@ -37,6 +37,7 @@ export async function GET() {
         fetchYF('PLTR'),
         fetchYF('BRL=X'),
         fetchYF('EURUSD=X'),
+        fetchYF('EURBRL=X'),
         fetchYF('GC=F'),
       ]);
 
@@ -52,6 +53,7 @@ export async function GET() {
       // Forex
       usdbrl,
       eurusd,
+      eurbrl,
       // Gold + Stocks
       gold,
       nvda,

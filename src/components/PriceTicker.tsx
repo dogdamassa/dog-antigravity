@@ -15,6 +15,7 @@ interface Prices {
   dog: AssetPrice;
   usdbrl: AssetPrice;
   eurusd: AssetPrice;
+  eurbrl: AssetPrice;
   gold: AssetPrice;
   nvda: AssetPrice;
   amzn: AssetPrice;
@@ -44,6 +45,7 @@ const ASSETS: Asset[] = [
   // ── Forex ────────────────────────────────
   { key: 'usdbrl',   label: 'USD/BRL',  decimals: 2, type: 'forex', prefix: 'R$' },
   { key: 'eurusd',   label: 'EUR/USD',  decimals: 4, type: 'forex', prefix: '' },
+  { key: 'eurbrl',   label: 'EUR/BRL',  decimals: 2, type: 'forex', prefix: 'R$' },
   // ── Gold + Stocks ─────────────────────────
   { key: 'gold',     label: 'XAU',      decimals: 0, type: 'stock' },
   { key: 'nvda',     label: 'NVDA',     decimals: 2, type: 'stock' },
