@@ -8,7 +8,7 @@ const sectionMeta = [
     {
         videoId: "rSS0O2KQpsI",
         video: null as string | null,
-        image: "/ordinalpfp.png",
+        image: "/Ordinals.png",
         iconBg: "#111111",
         iconColor: "#3B82F6",
         accentColor: "#3B82F6",
@@ -38,7 +38,7 @@ const sectionMeta = [
     {
         videoId: null,
         video: null as string | null,
-        image: "/bitflow.png",
+        image: "/Bitflowpfp.png",
         iconBg: "#FFFFFF",
         iconColor: "#F7931A",
         accentColor: "#F7931A",
@@ -117,7 +117,7 @@ export default function EducacaoPage() {
                                 className="w-16 h-16 rounded-[18px] flex items-center justify-center shrink-0 p-1.5"
                                 style={{ background: section.iconBg, border: "0.5px solid rgba(255,255,255,0.08)", boxShadow: "0 4px 12px rgba(0,0,0,0.5) inset" }}
                             >
-                                <img src={section.image} alt={section.title} className="w-full h-full object-cover rounded-xl" />
+                                <img src={section.image} alt={section.title} className="w-full h-full object-contain rounded-xl" />
                             </div>
 
                             {/* Content */}

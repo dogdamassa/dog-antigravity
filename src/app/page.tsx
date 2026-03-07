@@ -220,8 +220,8 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[380px] lg:min-h-[420px]",
       wide: false,
-      image: "/bitflowpfp.jpg",
-      imageClass: "w-24 h-24 md:w-32 md:h-32 object-cover rounded-3xl md:rounded-[2rem] shadow-[0_12px_24px_-8px_rgba(0,0,0,0.15)] mx-auto mt-4 md:mt-8 rotate-[-2deg] transition-transform hover:rotate-0 hover:scale-105 duration-500",
+      image: "/Bitflowpfp.png",
+      imageClass: "object-contain p-6 transition-transform hover:scale-105 duration-500",
     },
     {
       id: "data",
@@ -238,8 +238,8 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[380px] lg:min-h-[420px]",
       wide: false,
-      image: "/dogdata.png",
-      imageClass: "w-24 h-24 md:w-32 md:h-32 object-cover rounded-3xl md:rounded-[2rem] shadow-[0_12px_24px_-8px_rgba(0,0,0,0.15)] mx-auto mt-4 md:mt-8 rotate-[2deg] transition-transform hover:rotate-0 hover:scale-105 duration-500",
+      image: "/dogdata2.png",
+      imageClass: "object-contain p-8 transition-transform hover:scale-105 duration-500",
     },
     {
       id: "summit",
@@ -342,7 +342,7 @@ export default function Home() {
       minH: "min-h-[300px]",
       wide: false,
       modalId: "ordinals",
-      image: "/ordinals.png",
+      image: "/Ordinals.png",
       imageClass: "object-contain p-6 mix-blend-multiply transition-transform hover:scale-105 duration-500",
     },
     {
@@ -380,7 +380,7 @@ export default function Home() {
       minH: "min-h-[300px]",
       wide: false,
       modalId: "stacks",
-      image: "/stackspfp.jpg",
+      image: "/stackspfp.png",
       imageClass: "object-contain p-6 transition-transform hover:scale-105 duration-500",
     },
   ];
