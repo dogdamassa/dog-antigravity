@@ -334,7 +334,7 @@ export default function Home() {
       url: "#",
       linkLabel: t.bentoCards.ordinals.linkLabel,
       linkColor: "#F7931A",
-      bgStyle: { background: "#000000" },
+      bgStyle: { background: "#000000", border: "1px solid rgba(247,147,26,0.2)", boxShadow: "0 0 0 1px rgba(255,255,255,0.04) inset" },
       headlineClass: "text-white",
       taglineClass: "text-white/50",
       eyebrowClass: "text-[#F7931A]",
@@ -458,11 +458,11 @@ export default function Home() {
 
         <div className={card.wide ? "shrink-0" : "mt-auto pt-6"}>
           {card.image && (
-            <div className="w-full h-40 md:h-48 mb-6 rounded-xl overflow-hidden bg-black/5 flex items-center justify-center relative">
+            <div className="w-full h-40 md:h-48 mb-6 rounded-xl overflow-hidden bg-transparent flex items-center justify-center relative">
               <img
                 src={card.image}
                 alt={card.headline}
-                className={`w-full h-full absolute inset-0 ${card.imageClass || 'object-cover mix-blend-multiply'}`}
+                className={`w-full h-full absolute inset-0 ${card.imageClass || 'object-cover'}`}
               />
             </div>
           )}
