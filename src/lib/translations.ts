@@ -98,8 +98,10 @@ const translations = {
         runes: {
           eyebrow: 'Educação',
           headline: 'Runes',
-          tagline: 'Runes são tokens no Bitcoin. Mais eficientes e simples que BRC-20.',
-          linkLabel: 'Aprenda sobre Runes',
+          tagline: 'O protocolo nativo do Bitcoin para tokens fungíveis. Simples, eficiente e construído para durar.',
+          linkLabel: 'A história de Runes ›',
+          quote: '“Runes foram feitos para degens e memecoins, mas o protocolo em si é simples, eficiente e seguro.”',
+          author: 'Casey Rodarmor',
         },
       },
       tradingview: {
@@ -194,6 +196,62 @@ const translations = {
           sbtc: 'sBTC — Bitcoin programável na Stacks',
           usdcx: 'USDCx — Bridge de USDC para Stacks',
         },
+        runes: {
+          eyebrow: 'Educação',
+          title: 'A História do Runes — Tokens Natos no Bitcoin',
+          intro: {
+            title: 'O Início',
+            content: 'O protocolo Runes foi anunciado por Casey Rodarmor em setembro de 2023. Casey, o mesmo inventor do Ordinals, queria criar uma forma mais eficiente de emitir tokens fungíveis no Bitcoin, corrigindo os problemas de lentidão e taxas altas do padrão BRC-20.'
+          },
+          philosophy: {
+            title: 'Filosofia "Degens e Memecoins"',
+            content: 'Casey foi honesto desde o dia um: "Runes foram feitos para degens e memecoins, mas o protocolo em si é simples, eficiente e seguro." Ele reconheceu que as pessoas querem negociar tokens, e que era melhor dar a elas um padrão técnico robusto do que deixar o Bitcoin sofrer com métodos ineficientes.'
+          },
+          launch: {
+            title: 'O Lançamento Épico',
+            content: 'O Runes foi ativado exatamente no bloco do Halving de 2024. Foi um dos momentos mais disputados da história do Bitcoin, com taxas de transação atingindo níveis recordes. O projeto $DOG garantiu a histórica Rune número 3 (DOG•GO•TO•THE•MOON), consolidando seu lugar na história.'
+          },
+          difference: {
+            title: 'Por que é diferente?',
+            content: 'Diferente de outros tokens, o Runes usa o modelo UTXO nativo do Bitcoin e o comando OP_RETURN. Isso significa que ele não "incha" a rede desnecessariamente e é compatível com a Lightning Network, permitindo pagamentos instantâneos com tokens no futuro.'
+          },
+          docLink: 'Ler documentação oficial →',
+          references: {
+            title: 'Referências de Estudo',
+            items: [
+              {
+                title: 'O que são Runes no Bitcoin?',
+                description: 'Guia completo na CoinGecko Learn',
+                url: 'https://www.coingecko.com/learn/what-are-bitcoin-runes',
+                logo: 'https://static.coingecko.com/s/coingecko-logo-8903d340989f0293108c105658e8749372f88f0cb59cd15b0b2e84c98a3e970a.png'
+              },
+              {
+                title: 'Guia Definitivo de Runes',
+                description: 'Aprenda com a principal wallet de Ordinals',
+                url: 'https://www.xverse.app/blog/bitcoin-runes',
+                logo: 'https://www.xverse.app/favicon.ico'
+              },
+              {
+                title: 'Explore o ecossistema Runes',
+                description: 'Tudo o que você precisa saber no Magic Eden',
+                url: 'https://community.magiceden.io/learn/runes-guide',
+                logo: 'https://community.magiceden.io/favicon.ico'
+              },
+              {
+                title: 'O que são Bitcoin Runes?',
+                description: 'Entenda os fundamentos na Binance Academy',
+                url: 'https://www.binance.com/pt-BR/academy/articles/what-are-bitcoin-runes',
+                logo: 'https://www.binance.com/favicon.ico'
+              },
+              {
+                title: 'Runes no Bitcoin: por que a euforia?',
+                description: 'Análise detalhada na Exame (Future of Money)',
+                url: 'https://exame.com/future-of-money/runes-no-bitcoin-o-que-sao-e-o-porque-da-euforia/',
+                logo: 'https://exame.com/favicon.ico'
+              }
+            ]
+          }
+        },
       },
       platforms: {
         swap: [
@@ -287,7 +345,7 @@ const translations = {
         {
           title: 'Runes',
           eyebrow: 'Tokens fungíveis nativos do Bitcoin.',
-          content: 'Runes são tokens no Bitcoin. $DOG é um Rune. O protocolo Runes foi criado para ser mais eficiente e simples que o padrão BRC-20, permitindo a criação de ativos fungíveis sem "inchar" a rede de forma desnecessária. É segurança Bitcoin com flexibilidade moderna.',
+          content: '"Runes foram feitos para degens e memecoins, mas o protocolo em si é simples, eficiente e seguro." — Casey Rodarmor',
         },
         {
           id: '$DOG',
@@ -531,8 +589,10 @@ const translations = {
         runes: {
           eyebrow: 'Education',
           headline: 'Runes',
-          tagline: 'Runes are tokens on Bitcoin. More efficient and simpler than BRC-20.',
-          linkLabel: 'Learn about Runes',
+          tagline: 'The native Bitcoin protocol for fungible tokens. Simple, efficient, and built to last.',
+          linkLabel: 'The story of Runes ›',
+          quote: '“Runes were built for degens and memecoins, but the protocol is simple, efficient, and secure.”',
+          author: 'Casey Rodarmor',
         },
       },
       tradingview: {
@@ -627,6 +687,62 @@ const translations = {
           sbtc: 'sBTC — Programmable Bitcoin on Stacks',
           usdcx: 'USDCx — USDC Bridge to Stacks',
         },
+        runes: {
+          eyebrow: 'Education',
+          title: 'The Story of Runes — Native Tokens on Bitcoin',
+          intro: {
+            title: 'The Beginning',
+            content: 'The Runes protocol was announced by Casey Rodarmor in September 2023. Casey, the same inventor of Ordinals, wanted to create a more efficient way to issue fungible tokens on Bitcoin, fixing the slowness and high fees of the BRC-20 standard.'
+          },
+          philosophy: {
+            title: '"Degens and Memecoins" Philosophy',
+            content: 'Casey was honest from day one: "Runes were built for degens and memecoins, but the protocol is simple, efficient, and secure." He acknowledged that people want to trade tokens, and that it was better to give them a robust technical standard than to let Bitcoin suffer from inefficient methods.'
+          },
+          launch: {
+            title: 'The Epic Launch',
+            content: 'Runes was activated exactly at the 2024 Halving block. It was one of the most contested moments in Bitcoin history, with transaction fees reaching record levels. The $DOG project secured the historic Rune number 3 (DOG•GO•TO•THE•MOON), consolidating its place in history.'
+          },
+          difference: {
+            title: 'Why is it different?',
+            content: 'Unlike other tokens, Runes uses the native Bitcoin UTXO model and the OP_RETURN command. This means it does not "bloat" the network unnecessarily and is compatible with the Lightning Network, allowing for instant token payments in the future.'
+          },
+          docLink: 'Read official documentation →',
+          references: {
+            title: 'Study References',
+            items: [
+              {
+                title: 'What Are Bitcoin Runes?',
+                description: 'Complete guide on CoinGecko Learn',
+                url: 'https://www.coingecko.com/learn/what-are-bitcoin-runes',
+                logo: 'https://static.coingecko.com/s/coingecko-logo-8903d340989f0293108c105658e8749372f88f0cb59cd15b0b2e84c98a3e970a.png'
+              },
+              {
+                title: 'Bitcoin Runes Ultimate Guide',
+                description: 'Learn from the leading Ordinals wallet',
+                url: 'https://www.xverse.app/blog/bitcoin-runes',
+                logo: 'https://www.xverse.app/favicon.ico'
+              },
+              {
+                title: 'Runes Launch Guide',
+                description: 'Everything you need to know on Magic Eden',
+                url: 'https://community.magiceden.io/learn/runes-guide',
+                logo: 'https://community.magiceden.io/favicon.ico'
+              },
+              {
+                title: 'What Are Bitcoin Runes?',
+                description: 'Understand the basics on Binance Academy',
+                url: 'https://www.binance.com/pt-BR/academy/articles/what-are-bitcoin-runes',
+                logo: 'https://www.binance.com/favicon.ico'
+              },
+              {
+                title: 'Bitcoin Runes: why the euphoria?',
+                description: 'Detailed analysis on Exame (Future of Money)',
+                url: 'https://exame.com/future-of-money/runes-no-bitcoin-o-que-sao-e-o-porque-da-euforia/',
+                logo: 'https://exame.com/favicon.ico'
+              }
+            ]
+          }
+        },
       },
       platforms: {
         swap: [
@@ -720,7 +836,7 @@ const translations = {
         {
           title: 'Runes',
           eyebrow: 'Bitcoin-native fungible tokens.',
-          content: 'Runes are tokens on Bitcoin. $DOG is a Rune. The Runes protocol was designed to be more efficient and simpler than the BRC-20 standard, enabling the creation of fungible assets without unnecessarily bloating the network. Bitcoin security with modern flexibility.',
+          content: '"Runes were built for degens and memecoins, but the protocol itself is simple, efficient, and secure." — Casey Rodarmor',
         },
         {
           id: '$DOG',

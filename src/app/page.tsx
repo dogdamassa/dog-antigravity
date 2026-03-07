@@ -129,7 +129,7 @@ function KrayScanSection({ language }: { language: string }) {
             {/* Magnifier icon */}
             <div className="pl-5 pr-3 shrink-0">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
             </div>
 
@@ -342,13 +342,15 @@ export default function Home() {
       minH: "min-h-[300px]",
       wide: false,
       modalId: "ordinals",
+      image: "/ordinals.png",
+      imageClass: "object-contain p-6 mix-blend-multiply transition-transform hover:scale-105 duration-500",
     },
     {
       id: "runes",
       eyebrow: t.bentoCards.runes.eyebrow,
       headline: t.bentoCards.runes.headline,
       tagline: t.bentoCards.runes.tagline,
-      url: "https://docs.ordinals.com/introduction.html",
+      url: "#",
       linkLabel: t.bentoCards.runes.linkLabel,
       linkColor: "#F7931A",
       bgStyle: { background: "#ffffff" },
@@ -358,6 +360,9 @@ export default function Home() {
       gridClass: "lg:col-span-3",
       minH: "min-h-[300px]",
       wide: false,
+      modalId: "runes",
+      quote: t.bentoCards.runes.quote,
+      author: t.bentoCards.runes.author,
     },
     {
       id: "stacks",
@@ -376,7 +381,7 @@ export default function Home() {
       wide: false,
       modalId: "stacks",
       image: "/stackspfp.jpg",
-      imageClass: "w-16 h-16 md:w-20 md:h-20 object-cover rounded-2xl mx-auto mt-4 transition-transform hover:scale-110 duration-500",
+      imageClass: "object-contain p-6 transition-transform hover:scale-105 duration-500",
     },
   ];
 
@@ -429,6 +434,25 @@ export default function Home() {
             <p className={`text-[15px] mt-3 leading-[1.45] ${card.taglineClass}`}>
               {card.tagline}
             </p>
+          )}
+          {card.quote && (
+            <div className="mt-6 p-5 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] flex flex-col gap-3 relative overflow-hidden group/quote">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-[#1D1D1F] flex items-center justify-center text-[12px] text-white font-bold shrink-0">
+                  C
+                </div>
+                <div className="flex flex-col -space-y-0.5">
+                  <span className="text-[13px] font-bold text-[#1D1D1F]">{card.author}</span>
+                  <span className="text-[11px] text-[#86868B]">@rodarmor</span>
+                </div>
+                <div className="ml-auto opacity-20 group-hover/quote:opacity-40 transition-opacity">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.734-8.835L1.254 2.25H8.08l4.264 5.633L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" /></svg>
+                </div>
+              </div>
+              <p className="text-[14px] text-[#1D1D1F] leading-[1.5] font-medium">
+                {card.quote}
+              </p>
+            </div>
           )}
         </div>
 
@@ -648,7 +672,7 @@ export default function Home() {
                       style={{ background: "#FFFFFF", color: "#000000" }}
                     >
                       {language === 'pt' ? 'Acessar Kray Space' : 'Visit Kray Space'}
-                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </span>
                   </div>
                 </div>
@@ -920,7 +944,15 @@ export default function Home() {
             >
               <p className="text-[11px] leading-[1.5]" style={{ color: "#6E6E73" }}>
                 Made By{" "}
-                <span className="font-semibold" style={{ color: "#F7931A" }}>Bitmax</span>{" "}
+                <a
+                  href="https://x.com/bitmaxdog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold hover:opacity-80 transition-opacity"
+                  style={{ color: "#F7931A" }}
+                >
+                  Bitmax
+                </a>{" "}
                 for the Dog Community
               </p>
               <img
@@ -1430,6 +1462,75 @@ export default function Home() {
                     <span className="font-bold text-[16px]" style={{ color: "#1D1D1F" }}>{t.modals.stacks.usdcx}</span>
                     <span className="text-[#6E6E73] group-hover:text-[#1D1D1F] transition-colors">Bridge USDC ›</span>
                   </a>
+                </div>
+              </div>
+            )}
+
+            {/* Runes modal */}
+            {openModal === "runes" && (
+              <div>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.09em] mb-3" style={{ color: "#F7931A" }}>{t.modals.runes.eyebrow}</p>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-sm flex items-center justify-center bg-[#F7931A]/10" style={{ border: "0.5px solid #E5E5E7" }}>
+                    <img src="/dogdata1.png" alt="Runes" className="w-10 h-auto object-contain" />
+                  </div>
+                  <h2 className="text-[32px] font-bold leading-[1.1]" style={{ color: "#1D1D1F", letterSpacing: "-0.018em" }}>{t.modals.runes.title}</h2>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-bold text-[17px] mb-2" style={{ color: "#1D1D1F" }}>{t.modals.runes.intro.title}</h3>
+                    <p className="text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>{t.modals.runes.intro.content}</p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7]">
+                    <h3 className="font-bold text-[17px] mb-2" style={{ color: "#1D1D1F" }}>{t.modals.runes.philosophy.title}</h3>
+                    <p className="text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>{t.modals.runes.philosophy.content}</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[17px] mb-2" style={{ color: "#1D1D1F" }}>{t.modals.runes.launch.title}</h3>
+                    <p className="text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>{t.modals.runes.launch.content}</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[17px] mb-2" style={{ color: "#1D1D1F" }}>{t.modals.runes.difference.title}</h3>
+                    <p className="text-[15px] leading-[1.6]" style={{ color: "#3A3A3C" }}>{t.modals.runes.difference.content}</p>
+                  </div>
+                </div>
+
+                <a
+                  href="https://docs.ordinals.com/runes.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[14px] font-semibold mt-8 hover:underline underline-offset-2"
+                  style={{ color: "#F7931A" }}
+                >
+                  {t.modals.runes.docLink}
+                </a>
+
+                <div className="mt-8 pt-8 border-t border-[#E5E5E7]">
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.08em] mb-4 text-[#86868B]">{t.modals.runes.references.title}</p>
+                  <div className="flex flex-col gap-3">
+                    {t.modals.runes.references.items.map((ref: any, idx: number) => (
+                      <a
+                        key={idx}
+                        href={ref.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] hover:bg-[#EBEBEF] transition-all group"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-white p-2 shrink-0 shadow-sm border border-[#E5E5E7] flex items-center justify-center">
+                          <img src={ref.logo} alt={ref.title} className="max-w-full max-h-full object-contain" />
+                        </div>
+                        <div>
+                          <p className="text-[15px] font-bold text-[#1D1D1F]">{ref.title}</p>
+                          <p className="text-[13px] text-[#86868B]">{ref.description}</p>
+                        </div>
+                        <span className="ml-auto text-[#F7931A] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}

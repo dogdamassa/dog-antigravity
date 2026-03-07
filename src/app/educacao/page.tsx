@@ -7,6 +7,7 @@ import { ExternalLink, ChevronRight, Code } from "lucide-react";
 const sectionMeta = [
     {
         videoId: "rSS0O2KQpsI",
+        video: null as string | null,
         image: "/ordinalpfp.png",
         iconBg: "#111111",
         iconColor: "#3B82F6",
@@ -16,6 +17,7 @@ const sectionMeta = [
     },
     {
         videoId: null,
+        video: null as string | null,
         image: "/runepfp.png",
         iconBg: "#111111",
         iconColor: "#F7931A",
@@ -25,6 +27,7 @@ const sectionMeta = [
     },
     {
         videoId: null,
+        video: null as string | null,
         image: "/dog-logo.jpg",
         iconBg: "#111111",
         iconColor: "#EAB308",
@@ -34,6 +37,7 @@ const sectionMeta = [
     },
     {
         videoId: null,
+        video: null as string | null,
         image: "/bitflow.png",
         iconBg: "#FFFFFF",
         iconColor: "#F7931A",
@@ -43,6 +47,7 @@ const sectionMeta = [
     },
     {
         videoId: null,
+        video: null as string | null,
         image: "/privacy.png",
         iconBg: "#111111",
         iconColor: "#3B82F6",
@@ -52,6 +57,7 @@ const sectionMeta = [
     },
     {
         videoId: null,
+        video: "/ledger flex.mp4",
         image: "/ledger.png",
         iconBg: "#111111",
         iconColor: "#F7931A",
@@ -140,10 +146,22 @@ export default function EducacaoPage() {
                                         <iframe
                                             src={`https://www.youtube.com/embed/${section.videoId}`}
                                             title={`Video: ${section.title}`}
-                                            frameBorder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowFullScreen
                                             className="w-full h-full"
+                                        />
+                                    </div>
+                                )}
+                                {section.video && (
+                                    <div className="w-full rounded-xl overflow-hidden my-6">
+                                        <video
+                                            src={section.video}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="w-full h-auto object-contain"
+                                            style={{ mixBlendMode: 'screen' }}
                                         />
                                     </div>
                                 )}
